@@ -12,7 +12,7 @@ function start(response, postData) {
 	'</head>'+
 	'<body>'+
 	'<form action="/check" method="post">'+
-	'<input name="text" type="text" placeholder="i.e. google.com"  />'+
+	'<input name="text" type="text" placeholder="i.e. www.google.com"  />'+
 	'<input type="submit" value="Get IP" />'+
 	'</form>'+
 	'<a href="http://www.datalove.me" target="_blank"><img src="http://datalove.me/datalove/datalove-s1.png"/></a>'+
@@ -26,27 +26,36 @@ function start(response, postData) {
 
 function check(response, postData) {
 	console.log("Request handler 'check' was called.");
-	response.writeHead(200, {"Content-Type": "text/plain"});
-	var url = querystring.parse(postData).text;
-	var ip = "none";
 
+	var url = querystring.parse(postData).text;
+	
 	dns.resolve4(url, function (err,addresses) {
 		if (err) throw err;
 
-		ip = addresses[1];
-		console.log('addresses: ' + addresses[1]);
+		var	ip = addresses;
+		response.writeHead(200, {"Content-Type": "text/html"});
+		response.write('<html>'+
+			'<head>'+
+			'<meta http-equiv="Content-Type" content="text/html; '+
+			'charset=UTF-8" />'+
+			'</head>'+
+			'<body>'+
+			'<p>'+
+			'The IP address of '+url+' is '+'<a href="http://'+ip[0]+'" target="_blank">'+ip[0]+'</a>'+ 
+			'</p>'+
+			'<a href="http://www.datalove.me" target="_blank"><img src="http://datalove.me/datalove/datalove-s1.png"/></a>'+
+			'</body>'+
+			'</html>');
+		response.end();	
+		console.log('address: ' + ip);
+	})
 
-		
-		
-	});
-
-	response.write("The IP for " + url + " is " + ip);
-	response.end();
 }
 
 function favicon(response,  postData) {
+	response.writeHead(200, {'Content-Type': 'image/x-icon'} );
+    response.end();
 	console.log("Request handler 'favicon' was called.");
-	// do nothing for the moment
 }
 	
 
