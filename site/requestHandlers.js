@@ -12,7 +12,7 @@ function start(response, postData) {
 	'</head>'+
 	'<body>'+
 	'<form action="/check" method="post">'+
-	'<input name="text" type="text" placeholder="i.e. www.google.com"  />'+
+	'<input name="text" type="text" placeholder="e.g. www.google.com"  />'+
 	'<input type="submit" value="Get IP" />'+
 	'</form>'+
 	'<a href="http://www.datalove.me" target="_blank"><img src="http://datalove.me/datalove/datalove-s1.png"/></a>'+
