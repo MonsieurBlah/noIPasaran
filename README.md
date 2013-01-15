@@ -17,3 +17,11 @@ What it does
 
 The online version is only used for testing purpose. Don't rely on anything you read there.
 For now it only does a simple resolve of the given URL. And it doesn't always do it well.
+
+To be done
+----------
+
+- Switch to Express.
+- Link a MongoDB database with the ISP DNS servers.
+- Choose whether the resolve is going to be done on the client or on the server. For now, it's on the server but the client may be a good idea.
+- Think of new ideas/

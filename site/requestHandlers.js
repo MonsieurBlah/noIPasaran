@@ -2,9 +2,9 @@ var querystring = require('querystring');
 var dns = require('dns');
 var fs = require('fs');
 /*var dns = require('native-dns');*/
+var debug = false;
 
-
-
+// The first page
 function start(response, postData) {
 	console.log("Request handler 'start' was called.");
     fs.readFile('./index.htm', function(error, content) {
@@ -20,6 +20,7 @@ function start(response, postData) {
 
 }
 
+// The page that is called when the Get IP button is clicked
 function check(response, postData) {
 	console.log("Request handler 'check' was called.");
 
