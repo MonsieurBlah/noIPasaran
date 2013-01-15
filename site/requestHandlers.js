@@ -1,27 +1,23 @@
 var querystring = require('querystring');
 var dns = require('dns');
+var fs = require('fs');
 /*var dns = require('native-dns');*/
+
+
 
 function start(response, postData) {
 	console.log("Request handler 'start' was called.");
+    fs.readFile('./index.htm', function(error, content) {
+        if (error) {
+            response.writeHead(500);
+            response.end();
+        }
+        else {
+            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.end(content, 'utf-8');
+        }
+    });
 
-	var body = '<html>'+
-	'<head>'+
-	'<meta http-equiv="Content-Type" content="text/html; '+
-	'charset=UTF-8" />'+
-	'</head>'+
-	'<body>'+
-	'<form action="/check" method="post">'+
-	'<input name="text" type="text" placeholder="e.g. www.google.com"  />'+
-	'<input type="submit" value="Get IP" />'+
-	'</form>'+
-	'<a href="http://www.datalove.me" target="_blank"><img src="http://datalove.me/datalove/datalove-s1.png"/></a>'+
-	'</body>'+
-	'</html>';
-
-	response.writeHead(200, {"Content-Type": "text/html"});
-	response.write(body);
-	response.end();
 }
 
 function check(response, postData) {
