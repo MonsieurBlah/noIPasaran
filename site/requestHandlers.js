@@ -1,6 +1,8 @@
-var querystring = require('querystring');
-var dns = require('dns');
-var fs = require('fs');
+var querystring = require('querystring')
+, dns 			= require('dns')
+, fs 			= require('fs')
+, util 			= require('util')
+, mu 			= require('mustache');
 /*var dns = require('native-dns');*/
 var debug = false;
 
@@ -26,29 +28,43 @@ function check(response, postData) {
 
 	var url = querystring.parse(postData).text;
 	
-	dns.resolve4(url, function (err,addresses) {
+	dns.resolve4(url, function (err, addresses) {
 		if (err) throw err;
 
-		var	ip = addresses;
-		response.writeHead(200, {"Content-Type": "text/html"});
-		response.write('<html>'+
-			'<head>'+
-			'<meta http-equiv="Content-Type" content="text/html; '+
-			'charset=UTF-8" />'+
-			'<link rel="stylesheet" type="text/css" media="screen" href="noipasaran.css" />'+
-			'</head>'+
-			'<body>'+
-			'<p>'+
-			'The IP address of '+url+' is '+'<a href="http://'+ip[0]+'" target="_blank">'+ip[0]+'</a>'+ 
-			'</p>'+
-			'<div class = "externals">'+
-			'<a href="http://www.datalove.me" target="_blank"><img src="http://datalove.me/datalove/datalove-s1.png"/></a>'+
-			'</div>'+
-			'</body>'+
-			'</html>');
-		response.end();	
-		console.log('address: ' + ip);
+		var	ips = addresses;
+		var jsonips = "{";
+		for (var i = ips.length - 1; i >= 0; i--) {
+			jsonips += "\"ip\": \"" + ips[i] + "\",\n";
+		};
+		jsonips += "}";
+
+		console.log('jsonips = ' + jsonips);
+
+		/*var JSONaddresses = JSON.stringify({ip : ips});*/
+		
+		var template = "{{#JSONaddresses}}<b>{{ip}}</b>{{/JSONaddresses}}";
+
+		var html = mu.to_html(template, jsonips);
+		console.log('html = ' + html);
+		/*response.writeHead(200, { 'Content-Type': 'text/html' });
+        response.end(html, 'utf-8');
+		
+		response.end();	*/
+		console.log('address: ' + ips);
 	})
+}
+
+function checkhtm(response, postData) {
+	console.log("Request handler 'css' was called.");
+    fs.readFile('./check.htm', function(error, content) {
+        if (error) {
+            response.writeHead(500);
+            response.end();
+        }
+        else {
+            response.end(content, 'utf-8');
+        }
+    });
 }
 
 function css(response, postData) {
@@ -59,7 +75,6 @@ function css(response, postData) {
             response.end();
         }
         else {
-            /*response.writeHead(200, { 'Content-Type': 'text/html' });*/
             response.end(content, 'utf-8');
         }
     });
@@ -72,9 +87,24 @@ function favicon(response,  postData) {
     response.end();
 	console.log("Request handler 'favicon' was called.");
 }
+
+function template(response, postData) {
+	console.log("Request handler 'template' was called.");
+    fs.readFile('./template.mustache', function(error, content) {
+        if (error) {
+            response.writeHead(500);
+            response.end();
+        }
+        else {
+            response.end(content, 'utf-8');
+        }
+    });
+}
 	
 
 exports.start = start;
 exports.check = check;
+exports.checkhtm = checkhtm;
 exports.css = css;
 exports.favicon = favicon;
+exports.template = template;
