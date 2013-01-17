@@ -1,0 +1,38 @@
+html, body, div {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+body {
+	font-size: 14px/20px;
+	font-family: "Arial";
+	color: #fff;
+	background-color: #000;
+	margin: 20px 6%;
+	/*background-image:url('datalove-bg.png');
+	background-repeat:no-repeat;
+	background-position:top right;*/
+}
+
+.input {
+	position: relative;
+	text-align: center;
+	top: 200px;
+}
+
+.getButton {
+	position: relative;
+	text-align: center;
+	top: 210px;
+}
+
+.externals {
+	position: fixed;
+	bottom: 20px;
+	left: 20px;
+}

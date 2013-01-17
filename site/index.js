@@ -6,6 +6,7 @@ var handle = {}
 handle['/'] = requestHandlers.start;
 handle['/start'] = requestHandlers.start;
 handle['/check'] = requestHandlers.check;
+handle['/noipasaran.css'] = requestHandlers.css;
 handle['/favicon.ico'] = requestHandlers.favicon;
 
 server.start(router.route, handle);

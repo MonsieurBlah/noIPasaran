@@ -2,13 +2,20 @@
 	<head>
 		<title>noIPasaran</title>
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<link rel="stylesheet" type="text/css" media="screen" href="noipasaran.css" />
 	</head>
 	<body>
 		<form action="/check" method="post">
-			<input name="text" type="text" placeholder="e.g. www.google.com" />
-			<input type="submit" value="Get IP" />
+			<div class ="input">
+				<input name="text" type="text" style="width:400px" placeholder="e.g. www.google.com" />
+			</div>
+			<div class ="getButton">
+				<input type="submit" value="Get IP" />
+			</div>
 		</form>
-		<a href="http://www.datalove.me" target="_blank"><img src="http://datalove.me/datalove/datalove-s1.png"/></a>
+		<div class = "externals">
+			<a href="http://www.datalove.me" target="_blank"><img src="http://datalove.me/datalove/datalove-s1.png"/></a>
+		</div>
 	</body>
 </html>
 
