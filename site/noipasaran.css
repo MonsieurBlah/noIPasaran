@@ -19,20 +19,73 @@ body {
 	background-position:top right;*/
 }
 
-.input {
+#content {
+	margin-right:330px;
+	padding-bottom:4em;
+    min-height:450px;
+}
+
+a {
+	color:#d90000;
+	text-decoration:none;
+}
+
+a:hover {
+	border-bottom:1px dotted white;
+}
+
+.header {
+	margin:auto;
+	margin-bottom:30px;
+}
+
+.image {
 	position: relative;
 	text-align: center;
 	top: 200px;
 }
 
+.input {
+	position: relative;
+	text-align: center;
+	top: 10px;
+}
+
 .getButton {
 	position: relative;
 	text-align: center;
-	top: 210px;
+	top: 30px;
 }
 
 .externals {
+	font-size: 9px;
 	position: fixed;
-	bottom: 20px;
-	left: 20px;
+	bottom: 5px;
+	left: 5px;
+}
+
+.noipasaran {
+	font-size:19px;
+	margin-bottom:6em;
+}
+
+.noipasaran p {
+	padding-bottom:4px;
+	border-left:1px solid #d90000;
+	padding-left: 10px;
+}
+
+.list {
+	font-size:25px;
+	font-weight:bold;
+	color:#d90000;
+}
+
+.menu {
+	margin-bottom:30px;
+}
+
+.menu a {
+	font-weight:bold;
+	font-size:17px;
 }
