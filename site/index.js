@@ -9,7 +9,6 @@ handle['/check'] = requestHandlers.check;
 handle['/about'] = requestHandlers.about;
 handle['/check.htm'] = requestHandlers.checkhtm
 handle['/noipasaran.css'] = requestHandlers.css;
-handle['/noipasaran.png'] = requestHandlers.png;
 handle['/favicon.ico'] = requestHandlers.favicon;
 handle['/template.mustache'] = requestHandlers.template;
 

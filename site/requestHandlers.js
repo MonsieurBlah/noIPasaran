@@ -8,7 +8,9 @@ var debug = false;
 
 // The home page
 function index(response, postData) {
-	console.log("Request handler 'start' was called.");
+    if (debug) {
+	   console.log("Request handler 'start' was called.");
+    }
     fs.readFile('./index.htm', function(error, content) {
         if (error) {
             response.writeHead(500);
@@ -24,7 +26,9 @@ function index(response, postData) {
 
 // The page that is called when the Get IP button is clicked
 function check(response, postData) {
-	console.log("Request handler 'check' was called.");
+    if (debug) {
+	   console.log("Request handler 'check' was called.");
+    }
 
 	var url = querystring.parse(postData).text;
     mu.root = __dirname + '/site';
@@ -73,7 +77,9 @@ function check(response, postData) {
 }
 
 function checkhtm(response, postData) {
-	console.log("Request handler 'css' was called.");
+    if (debug) {
+	   console.log("Request handler 'css' was called.");
+    }       
     fs.readFile('./check.htm', function(error, content) {
         if (error) {
             response.writeHead(500);
@@ -86,7 +92,9 @@ function checkhtm(response, postData) {
 }
 
 function about(response, postData) {
-    console.log("Request handler 'start' was called.");
+    if (debug) {
+        console.log("Request handler 'start' was called.");
+    }
     fs.readFile('./about.htm', function(error, content) {
         if (error) {
             response.writeHead(500);
@@ -101,7 +109,9 @@ function about(response, postData) {
 }
 
 function css(response, postData) {
-	console.log("Request handler 'css' was called.");
+    if (debug) {
+	   console.log("Request handler 'css' was called.");
+    }
     fs.readFile('./noipasaran.css', function(error, content) {
         if (error) {
             response.writeHead(500);
@@ -113,15 +123,18 @@ function css(response, postData) {
     });
 }
 
-function png(response, postData) {
-    console.log("Request handler 'png' was called.");
-    fs.stat('./noipasaran.png', function(error, stat) {
+// The function to give the favicon to the browser, not functionnal for now
+function favicon(response,  postData) {
+    if (debug) {
+        console.log("Request handler 'favicon' was called.");
+    }
+    fs.stat('./favicon.ico', function(error, stat) {
         var rs;
         response.writeHead(200, {
-            'Content-Type' : 'image/png',
+            'Content-Type' : 'x-icon',
             'Content-Length' : stat.size
         });
-        rs = fs.createReadStream('./noipasaran.png');
+        rs = fs.createReadStream('./favicon.ico');
         util.pump(rs, response, function(err) {
             if(err) {
                 throw err;
@@ -130,15 +143,10 @@ function png(response, postData) {
     });
 }
 
-// The function to give the favicon to the browser, not functionnal for now
-function favicon(response,  postData) {
-	response.writeHead(200, {'Content-Type': 'image/x-icon'} );
-    response.end();
-	console.log("Request handler 'favicon' was called.");
-}
-
 function template(response, postData) {
-	console.log("Request handler 'template' was called.");
+    if (debug) {
+	   console.log("Request handler 'template' was called.");
+    }
     fs.readFile('./template.mustache', function(error, content) {
         if (error) {
             response.writeHead(500);
@@ -156,6 +164,5 @@ exports.check = check;
 exports.checkhtm = checkhtm;
 exports.about = about;
 exports.css = css;
-exports.png = png;
 exports.favicon = favicon;
 exports.template = template;

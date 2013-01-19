@@ -9,10 +9,11 @@ html, body, div {
 }
 
 body {
-	font-size: 14px/20px;
-	font-family: "Arial";
-	color: #fff;
-	background-color: #000;
+	font-size: 8px;
+	font-family: 'Press Start 2P', cursive;
+	font-weight: 100; 
+	color: #000;
+	background-color: #fff;
 	margin: 20px 6%;
 	/*background-image:url('datalove-bg.png');
 	background-repeat:no-repeat;
@@ -26,12 +27,12 @@ body {
 }
 
 a {
-	color:#d90000;
+	color:#0000FF;
 	text-decoration:none;
 }
 
 a:hover {
-	border-bottom:1px dotted white;
+	border-bottom:1px dotted blue;
 }
 
 .header {
@@ -39,11 +40,17 @@ a:hover {
 	margin-bottom:30px;
 }
 
-.image {
+.title {
+	font-size : 42px;
 	position: relative;
 	text-align: center;
 	top: 200px;
 }
+
+.title a:hover{
+	border-bottom:1px dotted black;
+}
+
 
 .input {
 	position: relative;
@@ -54,31 +61,33 @@ a:hover {
 .getButton {
 	position: relative;
 	text-align: center;
-	top: 30px;
+	top: 20px;
 }
+
 
 .externals {
-	font-size: 9px;
+	font-size: 20px;
 	position: fixed;
-	bottom: 5px;
-	left: 5px;
+	bottom: 20px;
+	left: 20px;
 }
 
-.noipasaran {
-	font-size:19px;
-	margin-bottom:6em;
+.about {
+	font-size:16px;
+	margin-bottom:6px;
 }
 
-.noipasaran p {
+.about p {
 	padding-bottom:4px;
-	border-left:1px solid #d90000;
+	border-left:1px solid #000000;
 	padding-left: 10px;
 }
 
-.list {
+.abouttitle {
 	font-size:25px;
 	font-weight:bold;
-	color:#d90000;
+	color:#000000;
+	font-size: 24px;
 }
 
 .menu {
@@ -87,5 +96,13 @@ a:hover {
 
 .menu a {
 	font-weight:bold;
-	font-size:17px;
+	font-size:12px;
 }
+
+.mirror {
+    display:block; 
+    -moz-transform: matrix(-1, 0, 0, 1, 0, 0);
+    -webkit-transform: matrix(-1, 0, 0, 1, 0, 0);
+    -o-transform:matrix(-1, 0, 0, 1, 0, 0);
+}
+
