@@ -10,7 +10,7 @@ html, body, div {
 
 body {
 	font-size: 8px;
-	font-family: 'Press Start 2P', cursive;
+	font-family: 'Source Code Pro', sans-serif;
 	font-weight: 100; 
 	color: #000;
 	background-color: #fff;
@@ -41,14 +41,14 @@ a:hover {
 }
 
 .title {
-	font-size : 42px;
+	font-size : 70px;
 	position: relative;
 	text-align: center;
 	top: 200px;
 }
 
 .title a:hover{
-	border-bottom:1px dotted black;
+	border-bottom:1px dotted white;
 }
 
 
@@ -66,14 +66,14 @@ a:hover {
 
 
 .externals {
-	font-size: 20px;
+	font-size: 30px;
 	position: fixed;
 	bottom: 20px;
 	left: 20px;
 }
 
 .about {
-	font-size:16px;
+	font-size:30px;
 	margin-bottom:6px;
 }
 
@@ -84,10 +84,8 @@ a:hover {
 }
 
 .abouttitle {
-	font-size:25px;
-	font-weight:bold;
+	font-size:60px;
 	color:#000000;
-	font-size: 24px;
 }
 
 .menu {
@@ -95,8 +93,8 @@ a:hover {
 }
 
 .menu a {
-	font-weight:bold;
-	font-size:12px;
+	/*font-weight:bold;*/
+	font-size:20px;
 }
 
 .mirror {
