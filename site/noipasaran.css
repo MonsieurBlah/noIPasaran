@@ -9,30 +9,98 @@ html, body, div {
 }
 
 body {
-	font-size: 14px/20px;
-	font-family: "Arial";
-	color: #fff;
-	background-color: #000;
+	font-size: 8px;
+	font-family: 'Source Code Pro', sans-serif;
+	font-weight: 100; 
+	color: #000;
+	background-color: #fff;
 	margin: 20px 6%;
 	/*background-image:url('datalove-bg.png');
 	background-repeat:no-repeat;
 	background-position:top right;*/
 }
 
-.input {
+#content {
+	margin-right:330px;
+	padding-bottom:4em;
+    min-height:450px;
+}
+
+a {
+	color:#0000FF;
+	text-decoration:none;
+}
+
+a:hover {
+	border-bottom:1px dotted blue;
+}
+
+.header {
+	margin:auto;
+	margin-bottom:30px;
+}
+
+.title {
+	font-size : 70px;
 	position: relative;
 	text-align: center;
 	top: 200px;
 }
 
+.title a:hover{
+	border-bottom:1px dotted white;
+}
+
+
+.input {
+	position: relative;
+	text-align: center;
+	top: 10px;
+}
+
 .getButton {
 	position: relative;
 	text-align: center;
-	top: 210px;
+	top: 20px;
 }
 
+
 .externals {
+	font-size: 30px;
 	position: fixed;
 	bottom: 20px;
 	left: 20px;
 }
+
+.about {
+	font-size:30px;
+	margin-bottom:6px;
+}
+
+.about p {
+	padding-bottom:4px;
+	border-left:1px solid #000000;
+	padding-left: 10px;
+}
+
+.abouttitle {
+	font-size:60px;
+	color:#000000;
+}
+
+.menu {
+	margin-bottom:30px;
+}
+
+.menu a {
+	/*font-weight:bold;*/
+	font-size:20px;
+}
+
+.mirror {
+    display:block; 
+    -moz-transform: matrix(-1, 0, 0, 1, 0, 0);
+    -webkit-transform: matrix(-1, 0, 0, 1, 0, 0);
+    -o-transform:matrix(-1, 0, 0, 1, 0, 0);
+}
+
