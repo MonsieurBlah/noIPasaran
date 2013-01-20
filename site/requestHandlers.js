@@ -2,7 +2,8 @@ var querystring = require('querystring')
 , dns 			= require('dns')
 , fs 			= require('fs')
 , util          = require('util')
-, mu 			= require('mu2');
+, mu 			= require('mu2')
+, db            = require('./db');
 /*var dns = require('native-dns');*/
 var debug = false;
 
@@ -19,13 +20,14 @@ function index(response, postData) {
         else {
             response.writeHead(200, { 'Content-Type': 'text/html' });
             response.end(content, 'utf-8');
+            /*db.initDB();*/
         }
     });
 
 }
 
 // The page that is called when the Get IP button is clicked
-function check(response, postData) {
+function ip(response, postData) {
     if (debug) {
 	   console.log("Request handler 'check' was called.");
     }
@@ -76,7 +78,7 @@ function check(response, postData) {
 	})
 }
 
-function checkhtm(response, postData) {
+function iphtm(response, postData) {
     if (debug) {
 	   console.log("Request handler 'css' was called.");
     }       
@@ -96,6 +98,23 @@ function about(response, postData) {
         console.log("Request handler 'start' was called.");
     }
     fs.readFile('./about.htm', function(error, content) {
+        if (error) {
+            response.writeHead(500);
+            response.end();
+        }
+        else {
+            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.end(content, 'utf-8');
+        }
+    });
+
+}
+
+function help(response, postData) {
+    if (debug) {
+        console.log("Request handler 'help' was called.");
+    }
+    fs.readFile('./help.htm', function(error, content) {
         if (error) {
             response.writeHead(500);
             response.end();
@@ -160,9 +179,10 @@ function template(response, postData) {
 	
 
 exports.index = index;
-exports.check = check;
-exports.checkhtm = checkhtm;
+exports.ip = ip;
+exports.iphtm = iphtm;
 exports.about = about;
+exports.help = help;
 exports.css = css;
 exports.favicon = favicon;
 exports.template = template;
