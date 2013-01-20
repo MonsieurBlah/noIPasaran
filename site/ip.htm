@@ -9,11 +9,19 @@
 	</head>
 	<body>
 		<div class="menu">
-			<a href="index">Home</a> | <a href="about">About</a> | <a href="http://twitter.com/MonsieurBlah" target="_blank">Twitter</a> | <a href="https://github.com/MonsieurBlah/noIPasaran" target="_blank">GitHub</a> 
+			<a href="index">Home</a> | <a href="about">About</a> | <a href="help">Help me</a> | <a href="http://twitter.com/MonsieurBlah" target="_blank">Twitter</a> | <a href="https://github.com/MonsieurBlah/noIPasaran" target="_blank">GitHub</a> 
 		</div>
-		<p>
-			The IP address of url is <a href="http://'+ip[0]+'" target="_blank"> ip[0] </a>
-		</p>
+		<div class="answer">
+			<p>
+				The best IP address of [url] is [0.0.0.0] (make CSS button)
+			</p>
+			<div class="goToButton">
+				<input type="submit" value="Go to foo.bar" />
+				<form name="proxyform" action="">
+					<input type="checkbox" name="proxy" value="proxy"> Use proxy
+				</form>
+			</div>
+		</div>
 		<!-- {{#JSONaddresses}}<b>{{ip}}</b>{{/JSONaddresses}}"; -->
 		<div class = "externals">
 			<div class = "mirror">
