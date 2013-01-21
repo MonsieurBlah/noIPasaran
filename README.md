@@ -40,7 +40,7 @@ Once the installation complete, in the main directory, run :
 
 Or you can install [nodemon](https://github.com/remy/nodemon), a great way to run node apps without stopping and starting each time you make a modification.
 
-Fist install nodemon.
+First install nodemon.
 
 	npm install nodemon
 
