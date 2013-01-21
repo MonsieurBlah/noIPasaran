@@ -1,0 +1,10 @@
+extend layout
+
+block content
+	div.title
+		a(href="http://localhost:8888/") noIPasaran
+	form(action="/ip", method="post")
+		div.input
+			input(name="text", type="text", style="width:420px", placeholder="Type the URL here")
+		div.getButton
+			input(type="submit", value="Get IP")

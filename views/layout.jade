@@ -1,0 +1,24 @@
+!!!5
+html
+	head
+		title #{title} | noIPasaran
+		meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
+		link(link rel="stylesheet", type="text/css", media="screen", href="/stylesheets/style.css")
+	body
+		header
+			div.header
+				a(href="index") Home
+				|
+				a(href="about") About
+				|
+				a(href="help") Help me
+				|
+				a(href="http://twitter.com/MonsieurBlah", target="_blank") Twitter
+				|
+				a(href="https://github.com/MonsieurBlah/noIPasaran", target="_blank") GitHub
+
+		block content
+
+		footer
+			div.footer.mirror
+				a(href="http://www.gnu.org/copyleft/gpl.html", target="_blank") ©
