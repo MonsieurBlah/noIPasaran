@@ -37,4 +37,7 @@ app.get('/about', function (req, res) {
 app.get('/help', function (req, res) {
 	res.render('help',{title : 'Help'})
 })
+app.get('*', function (req,res) {
+  res.render('404',{title : '¿ Qué pasó ?', url : req.url})
+})
 app.listen(8888)
