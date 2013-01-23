@@ -1,0 +1,9 @@
+extend layout
+
+block content
+
+	p The best IP address of #{url} is #{ip} (make CSS button)
+	div.goToButton
+		input(type="submit", value="Go to #{url}")
+		form(name="proxyform", action="")
+			input(type="checkbox", name="proxy", value="proxy")Use proxy
