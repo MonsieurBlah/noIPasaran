@@ -28,8 +28,11 @@ app.get('/', function (req, res) {
 app.get('/index', function (req, res) {
   res.render('index',{title : 'Home'})
 })
-app.get('/ip', function (req, res) {
+app.get(/\/ip=\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/, function (req, res) {
 	res.render('ip',{title : 'IP'})
+})
+app.get(/\/url=/, function (req, res) {
+  res.render('ip',{title : 'URL'})
 })
 app.get('/about', function (req, res) {
 	res.render('about',{title : 'About'})
