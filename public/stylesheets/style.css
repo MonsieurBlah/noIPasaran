@@ -126,8 +126,6 @@ body {
   position: relative;
   text-align: center;
   top: 200px;
-}
-.title:a {
   color: #000;
 }
 .title:a:hover {
