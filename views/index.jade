@@ -1,10 +1,23 @@
 extend layout
 
 block content
+
+	script(type="text/javascript")
+		var REGEX_IP = /\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
+		function getResult() {
+			var textBox = document.getElementById('TEXTBOX_ID');
+			var hostAddress= top.location.host.toString();   
+			if (textBox.value.match(REGEX_IP) != null) {
+				window.location.href = 'http://' + hostAddress.toString() + '/ip=' + encodeURIComponent(textBox.value);
+			} else {
+				window.location.href = 'http://' + hostAddress.toString() + '/url=' + encodeURIComponent(textBox.value);
+			}
+			return false
+		}
 	div.title
-		a(href="http://noipasaran.eu01.aws.af.cm/") <font color="black">no</font><font color="red">IP<font color="black">asaran</font>
-	form(action="/ip", method="post")
+		a(href="http://noipasaran.eu01.aws.af.cm/")<font color="black">no</font><font color="red">IP<font color="black">asaran</font>
+	form(name="form", onSubmit="return getResult()")
 		div.input
-			input(name="text", type="text", style="width:420px", placeholder="Type the URL here")
+			input(name="text", type="text", id="TEXTBOX_ID", style="width:420px", placeholder="Type the URL or IP here")
 		div.getButton
-			input(type="submit", value="Get IP")
+			input(type="submit", action="JavaScript:getResult()", value="Go")

@@ -20,7 +20,7 @@ Don't rely on anything you read there.
 What it's made of
 -----------------
 
-For now, it's running on node with [Express](http://expressjs.com), [Jade](https://github.com/visionmedia/jade) and [Stylus](https://github.com/LearnBoost/stylus).
+For now, it's running on node with [Express](http://expressjs.com), [Jade](http://jade-lang.com/) and [Stylus](http://learnboost.github.com/stylus/).
 
 The app is hosted by [AppFog](https://www.appfog.com).
 
