@@ -8,9 +8,9 @@ block content
 			var textBox = document.getElementById('TEXTBOX_ID');
 			var hostAddress= top.location.host.toString();   
 			if (textBox.value.match(REGEX_IP) != null) {
-				window.location.href = 'http://' + hostAddress.toString() + '/ip=' + encodeURIComponent(textBox.value);
+				window.location.href = 'http://' + hostAddress + '/ip=' + encodeURIComponent(textBox.value);
 			} else {
-				window.location.href = 'http://' + hostAddress.toString() + '/url=' + encodeURIComponent(textBox.value);
+				window.location.href = 'http://' + hostAddress + '/url=' + encodeURIComponent(textBox.value);
 			}
 			return false
 		}

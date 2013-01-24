@@ -1,6 +1,8 @@
 var express = require('express')
   , stylus  = require('stylus')
   , nib     = require('nib')
+  , dns		= require('dns')
+  , sys 	= require('sys')
 
 var app = express()
 var REGEX_IP = /\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
@@ -29,10 +31,16 @@ app.get('/index', function (req, res) {
   	res.render('index',{title: 'Home'})
 })
 app.get(REGEX_IP_PAGE, function (req, res) {
-	res.render('result',{title: 'IP ', url: 'test.com', ip: req.url.substr(4,req.url.length)})
+	var theIP = req.url.substr(4,req.url.length);
+	var theURL = 'www.foo.bar';
+	res.render('result',{title: 'IP ' + theIP + ' ', url: theURL, ip: theIP})
 })
 app.get(REGEX_URL, function (req, res) {
-  	res.render('result',{title: 'URL', url: req.url.substr(5,req.url.length), ip: "0.0.0.0"})
+	var theURL = req.url.substr(5,req.url.length);
+	dns.resolve4(theURL, function(err, addresses){
+		if (err) throw err;
+		res.render('result',{title: 'URL' + theURL + ' ', url: theURL, ip: addresses})
+	});
 })
 app.get('/about', function (req, res) {
 	res.render('about',{title: 'About'})
