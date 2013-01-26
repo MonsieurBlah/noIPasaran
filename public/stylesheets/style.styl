@@ -1,0 +1,86 @@
+@import 'nib'
+
+global-reset()
+
+main-color = #000
+background-color = #fff
+
+html,body,div
+	margin 0
+	padding 0
+	border 0
+	outline 0
+	font-size 100%
+	vertical-align baseline
+	background transparent
+
+a
+	color #00f
+	text-decoration none
+	&:hover
+		border-bottom 1px dotted black
+	
+body
+	font-family 'Verdana'
+	background-color background-color
+	color main-color
+	font-weight 100
+	margin 20px 6%
+
+.header
+	margin-bottom 30px
+	&:a
+		font-size 40px
+
+.title
+	font-size 70px
+	position relative
+	text-align center
+	top 200px
+	color black
+	&:a
+		text-decoration none
+		&:hover
+			border-bottom 1px dotted white
+
+.title2
+	font-size 70px
+	position relative
+	text-align center
+	top 0px
+	color black
+	&:a
+		text-decoration none
+		&:hover
+			border-bottom 1px dotted white
+
+.input
+	position relative
+	text-align center
+	top 210px
+
+.getButton
+	position relative
+	text-align center
+	top 220px
+
+.fourOfour
+	font-size 40px
+	position relative
+	text-align center
+	top 200px
+	color black
+	
+.mirror
+	display block
+	-moz-transform matrix(-1, 0, 0, 1, 0, 0)
+	-webkit-transform matrix(-1, 0, 0, 1, 0, 0)
+	-o-transform matrix(-1, 0, 0, 1, 0, 0)
+
+.footer
+	font-size 30px
+	position fixed
+	bottom 20px
+	left 20px
+	&:a:hover
+		border-bottom 1px dotted white
