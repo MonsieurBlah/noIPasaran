@@ -1,3 +1,5 @@
+var dns = require('dns')
+
 var REGEX_IP = /\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
 
 exports.index = function (req, res) {
@@ -30,6 +32,6 @@ exports.test = function (req, res) {
   	res.render('test',{title: 'Test'})
 };
 
-exports.fourOfour = function (req,res) {
+exports.fourOfour = function (req, res) {
   	res.render('404',{title: '¿ Qué pasó ?', url : req.headers.host + req.url})
 };

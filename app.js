@@ -1,8 +1,6 @@
 var express = require('express')
   , stylus  = require('stylus')
   , nib     = require('nib')
-  , dns		= require('dns')
-  , sys 	= require('sys')
   , routes 	= require('./routes')
 
 var app = express()
@@ -15,6 +13,10 @@ function compile(str, path) {
 	.set('filename', path)
 	.use(nib())
 }
+
+//Mongoose setup
+require('./db');
+
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jade')
 app.use(express.logger('dev'))
