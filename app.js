@@ -3,11 +3,13 @@ var express = require('express')
   , nib     = require('nib')
   , dns		= require('dns')
   , sys 	= require('sys')
+  , routes 	= require('./routes')
 
 var app = express()
-var REGEX_IP = /\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
+
 var REGEX_IP_PAGE = /\/ip=\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
 var REGEX_URL = /\/url=/;
+
 function compile(str, path) {
 	return stylus(str)
 	.set('filename', path)
@@ -24,34 +26,20 @@ app.use(stylus.middleware(
 app.use(express.static(__dirname + '/public'))
 app.use(express.favicon(__dirname + '/public/images/favicon.ico'));
 
-app.get('/', function (req, res) {
-  	res.render('index',{title: 'Home'})
-})
-app.get('/index', function (req, res) {
-  	res.render('index',{title: 'Home'})
-})
-app.get(REGEX_IP_PAGE, function (req, res) {
-	var theIP = req.url.substr(4,req.url.length);
-	var theURL = 'www.foo.bar';
-	res.render('result',{title: 'IP ' + theIP + ' ', url: theURL, ip: theIP})
-})
-app.get(REGEX_URL, function (req, res) {
-	var theURL = req.url.substr(5,req.url.length);
-	dns.resolve4(theURL, function(err, addresses){
-		if (err) throw err;
-		res.render('result',{title: 'URL' + theURL + ' ', url: theURL, ip: addresses})
-	});
-})
-app.get('/about', function (req, res) {
-	res.render('about',{title: 'About'})
-})
-app.get('/help', function (req, res) {
-	res.render('help',{title: 'Help'})
-})
-app.get('/test', function (req, res) {
-  	res.render('test',{title: 'Test'})
-})
-app.get('*', function (req,res) {
-  	res.render('404',{title: '¿ Qué pasó ?', url : req.headers.host + req.url})
-})
+app.get('/', routes.index);
+
+app.get('/index', routes.index);
+
+app.get(REGEX_IP_PAGE, routes.ip);
+
+app.get(REGEX_URL, routes.url);
+
+app.get('/about', routes.about);
+
+app.get('/help', routes.help);
+
+app.get('/test', routes.test);
+
+app.get('*', routes.fourOfour);
+
 app.listen(8888)
