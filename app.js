@@ -21,6 +21,7 @@ function compile(str, path) {
 
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jade')
+app.use(express.bodyParser());
 app.use(express.logger('dev'))
 app.use(stylus.middleware(
 	{ src: __dirname + '/public'
@@ -46,7 +47,7 @@ app.get('/about', routes.about);
 
 app.get('/help', routes.help);
 
-app.get('/submit', routes.submit);
+app.post('/submit', routes.submit);
 
 app.get('/admin', auth, routes.admin);
 

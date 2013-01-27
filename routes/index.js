@@ -35,11 +35,22 @@ exports.help = function (req, res) {
 };
 
 exports.submit = function (req, res) {
-
+	console.log("BOUM = " + req.body.toString());
+	new dns_model({
+		dns_name 	: req.body.dnsname,
+		primary_ip 	: req.body.primaryip,
+		secondary_ip: req.body.secondaryip,
+		is_isp		: req.body.isisp,
+		updated_at	: Date.now()
+	}).save(function(err, dns, count){
+		res.redirect('/help');
+	})
 };
 
 exports.admin = function (req, res) {
-	res.render('admin',{title: 'Admin'})
+	dns_model.find( function(err, dns, count){
+		res.render('admin',{title: 'Admin', dns: dns});
+	});
 };
 
 exports.test = function (req, res) {

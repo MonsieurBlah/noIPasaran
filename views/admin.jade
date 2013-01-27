@@ -3,4 +3,5 @@ extends layout
 block content
 	p [Admin page goes here]
 
-	a(href="/logout")logout
+	each item in dns
+		li= item.dns_name
