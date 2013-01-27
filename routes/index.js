@@ -1,4 +1,6 @@
-var dns = require('dns')
+var dns 		= require('dns')
+  , mongoose 	= require('mongoose')
+  , dns_model	= mongoose.model('dns_model')
 
 var REGEX_IP = /\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
 
@@ -32,12 +34,15 @@ exports.help = function (req, res) {
 	res.render('help',{title: 'Help'})
 };
 
+exports.submit = function (req, res) {
+
+};
+
 exports.admin = function (req, res) {
 	res.render('admin',{title: 'Admin'})
 };
 
 exports.test = function (req, res) {
-  	res.render('test',{title: 'Test'})
 };
 
 exports.fourOfour = function (req, res) {

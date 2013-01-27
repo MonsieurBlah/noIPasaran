@@ -1,21 +1,23 @@
 var express = require('express')
   , stylus  = require('stylus')
   , nib     = require('nib')
+  , db		= require('./db')
   , routes 	= require('./routes')
+  
 
 var app = express()
 
 var REGEX_IP_PAGE = /\/ip=\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
 var REGEX_URL = /\/url=/;
 
+// mongoose setup
+require( './db' );
+
 function compile(str, path) {
 	return stylus(str)
 	.set('filename', path)
 	.use(nib())
 }
-
-//Mongoose setup
-//require('./db');
 
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jade')
@@ -43,6 +45,8 @@ app.get(REGEX_URL, routes.url);
 app.get('/about', routes.about);
 
 app.get('/help', routes.help);
+
+app.get('/submit', routes.submit);
 
 app.get('/admin', auth, routes.admin);
 
