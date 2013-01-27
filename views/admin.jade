@@ -3,5 +3,6 @@ extends layout
 block content
 	p [Admin page goes here]
 
-	each item in dns
-		p item.name <a href="/destroy/item._id" title="Delete this dns server">Delete</a>
+	each item in dnslist
+		li item 
+			a(href="/destroy/item._id", title="Delete this dns server") Delete

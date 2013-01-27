@@ -35,29 +35,28 @@ exports.help = function (req, res) {
 };
 
 exports.submit = function (req, res) {
-	console.log("BOUM = " + req.body.toString());
 	new dns_model({
 		name 		: req.body.dnsname,
 		primaryIP 	: req.body.primaryip,
 		secondaryIP : req.body.secondaryip,
 		isISP		: req.body.isisp,
 		updatedAt	: Date.now()
-	}).save(function(err, dns, count){
+	}).save(function(err, dnses, count){
 		res.redirect('/help');
 	})
 };
 
 exports.destroy = function (req, res) {
-	dns_model.findById( req.params.id, function (err, dns) {
-		dns.remove( function (err, todo) {
+	dns_model.findById( req.params.id, function (err, dnses) {
+		dnses.remove( function (err, dnses) {
 			res.redirect('/admin');
 		})
 	})
 };
 
 exports.admin = function (req, res) {
-	dns_model.find( function(err, dns, count){
-		res.render('admin',{title: 'Admin', dns: dns_model});
+	dns_model.find( function(err, dnses, count){
+		res.render('admin',{title: 'Admin', dnslist: dnses});
 	});
 };
 
