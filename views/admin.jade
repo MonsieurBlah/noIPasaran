@@ -4,4 +4,4 @@ block content
 	p [Admin page goes here]
 
 	each item in dns
-		li= item.dns_name
+		p item.name <a href="/destroy/item._id" title="Delete this dns server">Delete</a>

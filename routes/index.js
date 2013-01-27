@@ -1,4 +1,4 @@
-var dns 		= require('dns')
+var dnsClass	= require('dns')
   , mongoose 	= require('mongoose')
   , dns_model	= mongoose.model('dns_model')
 
@@ -20,7 +20,7 @@ exports.ip = function (req, res) {
 
 exports.url = function (req, res) {
 	var theURL = req.url.substr(5,req.url.length);
-	dns.resolve4(theURL, function(err, addresses){
+	dnsClass.resolve4(theURL, function(err, addresses){
 		if (err) throw err;
 		res.render('result',{title: 'URL' + theURL + ' ', url: theURL, ip: addresses})
 	})
@@ -37,19 +37,27 @@ exports.help = function (req, res) {
 exports.submit = function (req, res) {
 	console.log("BOUM = " + req.body.toString());
 	new dns_model({
-		dns_name 	: req.body.dnsname,
-		primary_ip 	: req.body.primaryip,
-		secondary_ip: req.body.secondaryip,
-		is_isp		: req.body.isisp,
-		updated_at	: Date.now()
+		name 		: req.body.dnsname,
+		primaryIP 	: req.body.primaryip,
+		secondaryIP : req.body.secondaryip,
+		isISP		: req.body.isisp,
+		updatedAt	: Date.now()
 	}).save(function(err, dns, count){
 		res.redirect('/help');
 	})
 };
 
+exports.destroy = function (req, res) {
+	dns_model.findById( req.params.id, function (err, dns) {
+		dns.remove( function (err, todo) {
+			res.redirect('/admin');
+		})
+	})
+};
+
 exports.admin = function (req, res) {
 	dns_model.find( function(err, dns, count){
-		res.render('admin',{title: 'Admin', dns: dns});
+		res.render('admin',{title: 'Admin', dns: dns_model});
 	});
 };
 

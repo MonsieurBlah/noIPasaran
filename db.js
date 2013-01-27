@@ -2,11 +2,11 @@ var mongoose = require( 'mongoose' );
 var Schema   = mongoose.Schema;
  
 var dns_model = new Schema({
-    dns_name        : String,
-    primary_ip      : String,
-    secondary_ip    : String,
-    isISP           : Boolean,
-    updated_at      : Date
+    name        : String,
+    primaryIP      : String,
+    secondaryIP    : String,
+    isISP          : Boolean,
+    updatedAt      : Date
 });
  
 mongoose.model('dns_model', dns_model);

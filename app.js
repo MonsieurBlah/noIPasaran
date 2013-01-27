@@ -51,6 +51,8 @@ app.post('/submit', routes.submit);
 
 app.get('/admin', auth, routes.admin);
 
+app.get('/destroy/:id', routes.destroy);
+
 app.get('/test', routes.test);
 
 app.get('*', routes.fourOfour);
