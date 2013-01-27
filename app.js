@@ -28,6 +28,10 @@ app.use(stylus.middleware(
 app.use(express.static(__dirname + '/public'))
 app.use(express.favicon(__dirname + '/public/images/favicon.ico'));
 
+var auth = express.basicAuth(function(user, pass) {
+	return user === 'admin' && pass === 'adminpwd';
+});
+
 app.get('/', routes.root);
 
 app.get('/index', routes.index);
@@ -40,7 +44,7 @@ app.get('/about', routes.about);
 
 app.get('/help', routes.help);
 
-app.get('/admin', routes.admin);
+app.get('/admin', auth, routes.admin);
 
 app.get('/test', routes.test);
 
