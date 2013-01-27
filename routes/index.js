@@ -2,9 +2,13 @@ var dns = require('dns')
 
 var REGEX_IP = /\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
 
-exports.index = function (req, res) {
+exports.root = function (req, res) {
   	res.render('index',{title: 'Home'})
 };
+
+exports.index = function (req, res) {
+	res.redirect('/');
+}
 
 exports.ip = function (req, res) {
 	var theIP = req.url.substr(4,req.url.length);
@@ -26,6 +30,10 @@ exports.about = function (req, res) {
 
 exports.help = function (req, res) {
 	res.render('help',{title: 'Help'})
+};
+
+exports.admin = function (req, res) {
+	res.render('admin',{title: 'Admin'})
 };
 
 exports.test = function (req, res) {

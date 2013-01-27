@@ -15,7 +15,7 @@ function compile(str, path) {
 }
 
 //Mongoose setup
-require('./db');
+//require('./db');
 
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jade')
@@ -28,7 +28,7 @@ app.use(stylus.middleware(
 app.use(express.static(__dirname + '/public'))
 app.use(express.favicon(__dirname + '/public/images/favicon.ico'));
 
-app.get('/', routes.index);
+app.get('/', routes.root);
 
 app.get('/index', routes.index);
 
@@ -39,6 +39,8 @@ app.get(REGEX_URL, routes.url);
 app.get('/about', routes.about);
 
 app.get('/help', routes.help);
+
+app.get('/admin', routes.admin);
 
 app.get('/test', routes.test);
 
