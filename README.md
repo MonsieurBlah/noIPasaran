@@ -16,16 +16,6 @@ What it does
 Nothing for the moment the online version is only used for testing purpose. 
 Don't rely on anything you read there. 
 
-<<<<<<< HEAD
-
-What it's made of
------------------
-
-For now, it's running on node with [Express](http://expressjs.com), [Jade](http://jade-lang.com/) and [Stylus](http://learnboost.github.com/stylus/).
-
-The app is hosted by [AppFog](https://www.appfog.com).
-=======
->>>>>>> develop
 
 What it's made of
 -----------------
@@ -41,7 +31,6 @@ What it's made of
 The app and database are hosted by [AppFog](https://www.appfog.com).
 
 A backup database will be hosted by [MongoLab](https://mongolab.com).
-
 
 
 How it works
