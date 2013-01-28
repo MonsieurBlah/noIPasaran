@@ -2,17 +2,17 @@ extend layout
 
 block content
 	div.title2
-		a(href="http://noipasaran.eu01.aws.af.cm/")<font color="black">no</font><font color="red">IP</font><font color="black">asaran</font>	
-	form(name="dnsform", onSubmit="")
-		input(name="ServerName", type="text", id="DNS_NAME_ID", style="width:420px", placeholder="Type the ISP or DNS provider here")
+		a(href="/index")<font color="black">no</font><font color="red">IP</font><font color="black">asaran</font>	
+	form(name="dnsform", action="/submit", method="post")
+		input(name="dnsname", type="text", style="width:420px", placeholder="Type the ISP or DNS provider here")
 		br/
-		input(name="primaryIP", type="text", id="PR_IP_ID", style="width:420px", placeholder="Type the primary IP here")
+		input(name="primaryip", type="text", style="width:420px", placeholder="Type the primary IP here")
 		br/
-		input(name="secondaryIP", type="text", id="SEC_IP_ID", style="width:420px", placeholder="Type the primary IP here") 
+		input(name="secondaryip", type="text", style="width:420px", placeholder="Type the primary IP here") 
 		br/
 		p Check this if this is an ISP 
-		input(name="isISP", type="checkbox", id="IS_ISP_ID")
+		input(name="isisp", type="checkbox", id="IS_ISP_ID")
 		br/
-		input(type="submit", action="", value="Submit") 
+		input(type="submit", action="/submit", method="post", value="Submit")
 
 	p TODO : make the submit to mongo + CSS

@@ -1,13 +1,23 @@
 var mongoose = require( 'mongoose' );
 var Schema   = mongoose.Schema;
-
-var DNS = Schema({
-			name		: String,
-			primaryIP	: String,
-			secondaryIP : String,
-			isISP		: Boolean
+ 
+var dns_temp = new Schema({
+	name			: String,
+	primaryIP		: String,
+	secondaryIP		: String,
+	isISP			: Boolean,
+	updatedAt		: Date
 });
 
-mongoose.model('DNS', DNS);
+var dns_final = new Schema({
+	name			: String,
+	primaryIP		: String,
+	secondaryIP		: String,
+	isISP			: Boolean,
+	updatedAt		: Date
+});
 
-mongoose.connect('mongodb://admin:noipasaranadmin@ds037847.mongolab.com:37847/noipasaran');
+mongoose.model('dns_temp', dns_temp);
+mongoose.model('dns_final', dns_final);
+ 
+mongoose.connect('mongodb://localhost/test');
