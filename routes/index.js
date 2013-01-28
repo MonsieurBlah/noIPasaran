@@ -81,6 +81,10 @@ exports.admin = function (req, res) {
 };
 
 exports.test = function (req, res) {
+	dns_final.find( function(err, dnses) {
+		if (err) {console.log("Err on find")};
+		res.render('test',{title: 'Test', dnslist: dnses});
+	});
 };
 
 exports.fourOfour = function (req, res) {

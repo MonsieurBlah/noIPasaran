@@ -20,11 +20,17 @@ Don't rely on anything you read there.
 What it's made of
 -----------------
 
-For now, it's running on node with [Express](http://expressjs.com), [Jade](http://jade-lang.com/) and [Stylus](http://learnboost.github.com/stylus/).
++ [node.js](http://nodejs.org/)
++ [Express](http://expressjs.com)
++ [Jade](http://jade-lang.com/)
++ [Stylus](http://learnboost.github.com/stylus/)
++ [Nib](http://visionmedia.github.com/nib/)
++ [MongoDB](http://www.mongodb.org/)
++ [Mongoose](http://mongoosejs.com/)
 
-The app is hosted by [AppFog](https://www.appfog.com).
+The app and database are hosted by [AppFog](https://www.appfog.com).
 
-The MongoDB database is hosted by [MongoLab](https://mongolab.com).
+A backup database will be hosted by [MongoLab](https://mongolab.com).
 
 
 How it works
