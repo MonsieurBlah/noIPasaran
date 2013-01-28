@@ -27,6 +27,7 @@ What it's made of
 + [Nib](http://visionmedia.github.com/nib/)
 + [MongoDB](http://www.mongodb.org/)
 + [Mongoose](http://mongoosejs.com/)
++ [Bootstrap](http://twitter.github.com/bootstrap/)
 
 The app and database are hosted by [AppFog](https://www.appfog.com).
 

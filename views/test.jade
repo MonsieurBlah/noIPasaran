@@ -1,15 +1,17 @@
 extends layout
 
 block content
-	div.title2
-		a(href="/index")<font color="black">no</font><font color="red">IP</font><font color="black">asaran</font>	
-	p This is a test page
-
 	p DNS list :
 
 	each item in dnslist
-		li= h1= item.name 
-			h2= item.primaryIP
-			h3= item.secondaryIP
-			h4= item.isISP
-			h5= item.updatedAt
+			li= p= item.name 
+				p= item.primaryIP
+				p= item.secondaryIP
+				p= item.isISP
+				p= item.updatedAt
+
+	//- div.title2
+	//- 	a(href="/index")<font color="black">no</font><font color="red">IP</font><font color="black">asaran</font>	
+	//- p This is a test page
+
+	
