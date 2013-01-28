@@ -1,6 +1,7 @@
 var dnsClass	= require('dns')
   , mongoose 	= require('mongoose')
-  , dns_model	= mongoose.model('dns_model')
+  , dns_temp	= mongoose.model('dns_temp')
+  , dns_final	= mongoose.model('dns_final')
 
 var REGEX_IP = /\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
 
@@ -35,28 +36,45 @@ exports.help = function (req, res) {
 };
 
 exports.submit = function (req, res) {
-	new dns_model({
+	new dns_temp({
 		name 		: req.body.dnsname,
 		primaryIP 	: req.body.primaryip,
 		secondaryIP : req.body.secondaryip,
 		isISP		: req.body.isisp,
 		updatedAt	: Date.now()
-	}).save(function(err, dns_model, count) {
+	}).save(function(err, dns_temp, count) {
 		if (err) {"Err on save"};
 		res.redirect('/help');
 	})
 };
 
 exports.destroy = function (req, res) {
-	dns_model.findById( req.params.id, function (err, dnses) {
+	dns_temp.findById(req.params.id, function (err, dnses) {
 		dnses.remove( function (err, dnses) {
 			res.redirect('/admin');
 		})
 	})
 };
 
+exports.validate = function (req, res) {
+	dns_temp.findById(req.params.id, function(err, dns) {
+		new dns_final({
+		name 		: dns.name,
+		primaryIP 	: dns.primaryIP,
+		secondaryIP : dns.secondaryIP,
+		isISP		: dns.isISP,
+		updatedAt	: Date.now()
+	}).save(function(err, dns_final, count) {
+		if (err) {"Err on save"};
+		dns.remove( function(err, dns) {
+			res.redirect('/admin');
+		})
+	})
+	})
+};
+
 exports.admin = function (req, res) {
-	dns_model.find( function(err, dnses) {
+	dns_temp.find( function(err, dnses) {
 		if (err) {console.log("Err on find")};
 		res.render('admin',{title: 'Admin', dnslist: dnses});
 	});

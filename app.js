@@ -53,8 +53,10 @@ app.get('/admin', auth, routes.admin);
 
 app.get('/destroy/:id', routes.destroy);
 
+app.get('/validate/:id', routes.validate);
+
 app.get('/test', routes.test);
 
 app.get('*', routes.fourOfour);
 
-app.listen(8888)
+app.listen(8888) 

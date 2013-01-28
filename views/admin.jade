@@ -1,7 +1,7 @@
 extends layout
 
 block content
-	p [Admin page goes here]
+	p DNS list :
 
 	each item in dnslist
 		li= h1= item.name 
@@ -10,3 +10,5 @@ block content
 			h4= item.isISP
 			h5= item.updatedAt
 			a(href="/destroy/"+item._id) Delete
+			br
+			a(href="/validate/"+item._id) Validate
