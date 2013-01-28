@@ -11,4 +11,4 @@ var dns_model = new Schema({
  
 mongoose.model('dns_model', dns_model);
  
-mongoose.connect('mongodb://localhost/dns_temp');
+mongoose.connect('mongodb://localhost/test');

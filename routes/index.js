@@ -41,7 +41,8 @@ exports.submit = function (req, res) {
 		secondaryIP : req.body.secondaryip,
 		isISP		: req.body.isisp,
 		updatedAt	: Date.now()
-	}).save(function(err, dnses, count){
+	}).save(function(err, dns_model, count) {
+		if (err) {"Err on save"};
 		res.redirect('/help');
 	})
 };
@@ -55,7 +56,8 @@ exports.destroy = function (req, res) {
 };
 
 exports.admin = function (req, res) {
-	dns_model.find( function(err, dnses, count){
+	dns_model.find( function(err, dnses) {
+		if (err) {console.log("Err on find")};
 		res.render('admin',{title: 'Admin', dnslist: dnses});
 	});
 };

@@ -4,5 +4,10 @@ block content
 	p [Admin page goes here]
 
 	each item in dnslist
-		li item 
-			a(href="/destroy/item._id", title="Delete this dns server") Delete
+		li= 
+			h1= item.name 
+			h2= item.primaryIP
+			h3= item.secondaryIP
+			h4= item.isISP
+			h5= item.updatedAt
+			a(href="/destroy/"+item._id) Delete
