@@ -4,52 +4,42 @@ html
 		title #{title} | noIPasaran
 		meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
 		link(rel="stylesheet", type="text/css", media="screen", href="/lib/bootstrap/css/bootstrap.min.css")
+		link(rel="stylesheet", type="text/css", media="screen", href="/stylesheets/style.css")
 		meta(name="viewport", content="width=device-width, initial-scale=1.0")
 		link(href="lib/bootstrap/css/bootstrap-responsive.css", rel="stylesheet")
 	body
-		div.container-fluid
-		div.row-fluid
-			div.span2
-				div.well.sidebar-nav
-					ul.nav.nav-list
-						li.nav-header noIPasaran
-						if title == "Home"
-							li.active
-								a(href="index") Home
-						else
-							li
-								a(href="index") Home
-						if title == "About"
-							li.active
+		div.navbar.navbar-fixed-top
+			div.navbar-inner
+				div.container
+					a.btn.btn-navbar(data-toggle="collapse", data-targer=".nav-collapse")
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+					a.brand(href="index") noIPasaran
+					div.nav-collapse(id="main-menu")
+						ul.nav(id="main-menu-left")
+							li 
 								a(href="about") About
-						else
 							li
-								a(href="about") About
-						if title == "Test"
-							li.active
-								a(href="test") Test
-						else
+								a(href="help") Help me
 							li
 								a(href="test") Test
-						if title == "Help"
-							li.active
-								a(href="help") Help
-						else
-							li
-								a(href="help") Help
-						if title == "Admin"
-							li.active
-								a(href="admin") Admin
-						else
-							li
-								a(href="admin") Admin
-						li 
-							a(href="http://twitter.com/MonsieurBlah", target="_blank") Twitter
-						li 
-							a(href="https://github.com/MonsieurBlah/noIPasaran", target="_blank") GitHub				
-			
-			div.span10
-				block content
+							li 
+								a(href="http://twitter.com/MonsieurBlah", target="_blank") Twitter
+							li 
+								a(href="https://github.com/MonsieurBlah/noIPasaran", target="_blank") GitHub
+		div.container
+			header.jumbotron.subhead(id="overview")
+				div.row
+					div.span6
+						h1= title
+					block content
 
-		footer
-			a(href="http://www.gnu.org/copyleft/gpl.html", target="_blank") ©
+		br
+		br
+		br
+		br
+		hr
+		footer(id="footer")
+			div.links
+					a.mirror(href="http://www.gnu.org/copyleft/gpl.html", target="_blank") ©

@@ -1,16 +1,19 @@
 extend layout
 
 block content
-	form(name="dnsform", action="/submit", method="post")
-		input(name="dnsname", type="text", style="width:420px", placeholder="Type the ISP or DNS provider here")
-		br/
-		input(name="primaryip", type="text", style="width:420px", placeholder="Type the primary IP here")
-		br/
-		input(name="secondaryip", type="text", style="width:420px", placeholder="Type the primary IP here") 
-		br/
-		p Check this if this is an ISP 
-		input(name="isisp", type="checkbox", id="IS_ISP_ID")
-		br/
-		input(type="submit", action="/submit", method="post", value="Submit")
+	section.forms
+		div.row
+			div.span10.offset1
+				form.well.form-search(name="dnsform", action="/submit", method="post")
+					input.input-small(name="dnsname", type="text", style="width:420px", placeholder="Type the ISP or DNS provider here")
+					br/
+					input.input-small(name="primaryip", type="text", style="width:420px", placeholder="Type the primary IP here")
+					br/
+					input.input-small(name="secondaryip", type="text", style="width:420px", placeholder="Type the primary IP here") 
+					br/
+					label.checkbox
+						input(name="isisp", type="checkbox", id="IS_ISP_ID") Check this if this is an ISP 
+					br/
+					input.btn(type="submit", action="/submit", method="post", value="Submit")
 
 	p TODO : make the submit to mongo + CSS

@@ -1,14 +1,28 @@
 extends layout
 
 block content
-	p DNS list :
-
-	each item in dnslist
-		li= h1= item.name 
-			h2= item.primaryIP
-			h3= item.secondaryIP
-			h4= item.isISP
-			h5= item.updatedAt
-			a(href="/destroy/"+item._id) Delete
-			br
-			a(href="/validate/"+item._id) Validate
+	section(id="tables")
+		div.page-header
+			h1 Tables
+		table.table.table-bordered.table-striped.table-hover
+			thead
+				th Name
+				th Primary IP
+				th Secondary IP
+				th ISP ?
+				th Validate
+				th Delete
+			tbody
+				each item in dnslist
+					td= item.name
+					td= item.primaryIP
+					td= item.secondaryIP
+					td 
+						if item.isISP
+							a.btn.btn-success.btn-small() Yes
+						else
+							a.btn.btn-danger.btn-small() No
+					td
+						a(href="/validate/"+item._id) Validate
+					td
+						a(href="/delete/"+item._id) Delete

@@ -1,14 +1,40 @@
 extends layout
 
 block content
-	p DNS list :
+	section(id="tables")
+		div.page-header
+			h1 Tables
+		table.table.table-bordered.table-striped.table-hover
+			thead
+				tr
+					th Name
+					th Primary IP
+					th Secondary IP
+					th ISP ?
+					th Date
+			tbody
+			each item in dnslist
+				tr
+					td= item.name
+					td= item.primaryIP
+					td= item.secondaryIP
+					td 
+						if item.isISP
+							a.btn.btn-success.btn-small() Yes
+						else
+							a.btn.btn-danger.btn-small() No
+					td= item.updatedAt
 
-	each item in dnslist
-			li= p= item.name 
-				p= item.primaryIP
-				p= item.secondaryIP
-				p= item.isISP
-				p= item.updatedAt
+
+
+	//- p DNS list :
+
+	//- each item in dnslist
+	//- 		li= p= item.name 
+	//- 			p= item.primaryIP
+	//- 			p= item.secondaryIP
+	//- 			p= item.isISP
+	//- 			p= item.updatedAt
 
 	//- div.title2
 	//- 	a(href="/index")<font color="black">no</font><font color="red">IP</font><font color="black">asaran</font>	

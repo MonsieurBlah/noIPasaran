@@ -13,6 +13,11 @@ block content
 			}
 			return false
 		}
-	form(name="form", onSubmit="return getResult()")
-		input(name="text", type="text", id="TEXTBOX_ID", style="width:420px", placeholder="Type the URL or IP here")
-		input(type="submit", action="JavaScript:getResult()", value="Go")
+
+	section.forms
+		div.row
+			div.span10.offset1
+				div.well.form-search
+					form(name="form", onSubmit="return getResult()")
+						input(name="text", type="text", id="TEXTBOX_ID", style="width:420px", placeholder="Type the URL or IP here")
+						input.btn.btn-primary(type="submit", action="JavaScript:getResult()", value="Go")
