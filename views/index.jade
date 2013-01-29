@@ -1,23 +1,22 @@
 extend layout
 
 block content
-	script(type="text/javascript")
-		var REGEX_IP = /\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
-		function getResult() {
-			var textBox = document.getElementById('TEXTBOX_ID');
-			var hostAddress= top.location.host.toString();   
-			if (textBox.value.match(REGEX_IP) != null) {
-				window.location.href = 'http://' + hostAddress + '/ip=' + encodeURIComponent(textBox.value);
-			} else {
-				window.location.href = 'http://' + hostAddress + '/url=' + encodeURIComponent(textBox.value);
-			}
-			return false
-		}
+	//- script(type="text/javascript")
+	//- 	var REGEX_IP = /\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
+	//- 	function getResult() {
+	//- 		var textBox = document.getElementById('TEXTBOX_ID');
+	//- 		var hostAddress= top.location.host.toString();   
+	//- 		if (textBox.value.match(REGEX_IP) != null) {
+	//- 			window.location.href = 'http://' + hostAddress + '/ip=' + encodeURIComponent(textBox.value);
+	//- 		} else {
+	//- 			window.location.href = 'http://' + hostAddress + '/url=' + encodeURIComponent(textBox.value);
+	//- 		}
+	//- 		return false
+	//- 	}
 
 	section.forms
 		div.row
 			div.span10.offset1
-				div.well.form-search
-					form(name="form", onSubmit="return getResult()")
-						input(name="text", type="text", id="TEXTBOX_ID", style="width:420px", placeholder="Type the URL or IP here")
-						input.btn.btn-primary(type="submit", action="JavaScript:getResult()", value="Go")
+					form.well.form-search(name="form", action="/query", method="post")
+						input.input-large(name="query", type="text", placeholder="Type the URL or IP here")
+						button.btn.btn-primary(type="submit", action="/query", method="post") Go

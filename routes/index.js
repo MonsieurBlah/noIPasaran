@@ -13,6 +13,15 @@ exports.index = function (req, res) {
 	res.redirect('/');
 }
 
+exports.query = function (req, res) {
+	var query = req.body.query;
+	if (query.match(REGEX_IP) != null) {
+		res.redirect("/ip="+query)
+	} else {
+		res.redirect("/url="+query)
+	};
+}
+
 exports.ip = function (req, res) {
 	var theIP = req.url.substr(4,req.url.length);
 	var theURL = 'www.foo.bar';

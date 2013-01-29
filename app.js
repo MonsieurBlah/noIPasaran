@@ -38,6 +38,8 @@ app.get('/', routes.root);
 
 app.get('/index', routes.index);
 
+app.post('/query', routes.query);
+
 app.get(REGEX_IP_PAGE, routes.ip);
 
 app.get(REGEX_URL, routes.url);

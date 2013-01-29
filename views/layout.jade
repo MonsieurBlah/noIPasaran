@@ -34,8 +34,9 @@ html
 				header.jumbotron.subhead(id="page_title")
 					div.row
 						div.span6
-							h1 #{title}
-							p.lead [Special text for each page]
+							unless title == "Home"
+								h1 #{title}
+								p.lead [Special text for each page]
 
 				block content
 
