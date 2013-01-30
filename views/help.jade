@@ -12,11 +12,14 @@ block content
 					input.input-small(name="primaryip", type="text", style="width:420px", placeholder="The primary IP")
 					br
 					br
-					input.input-small(name="secondaryip", type="text", style="width:420px", placeholder="The primary IP") 
+					input.input-small(name="secondaryip", type="text", style="width:420px", placeholder="The secondary IP") 
+					br
+					br
+					input.input-small(name="country", type="text", style="width:420px", placeholder="Country") 
 					br
 					br
 					label.checkbox
 						p Check if this is an ISP
-							input(name="isisp", type="checkbox", id="IS_ISP_ID") 
+							input(name="isisp", type="checkbox") 
 					br
 					input.btn.btn-primary(type="submit", action="/submit", method="post", value="Submit")

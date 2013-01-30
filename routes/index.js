@@ -50,6 +50,7 @@ exports.submit = function (req, res) {
 		name 		: req.body.dnsname,
 		primaryIP 	: req.body.primaryip,
 		secondaryIP : req.body.secondaryip,
+		country		: req.body.country,
 		isISP		: req.body.isisp,
 		updatedAt	: Date.now()
 	}).save(function(err, dns_temp, count) {
@@ -83,16 +84,37 @@ exports.validate = function (req, res) {
 	})
 };
 
+exports.edit = function (req, res) {
+	dns_temp.find( function(err, dnses) {
+		if (err) {};
+		res.render('admin_edit',{title: 'Admin', dnslist: dnses, current: req.params.id})
+	});
+};
+
+exports.update = function (req, res) {
+	dns_temp.findById(req.params.id, function(err, dns) {
+		dns.DNSname		= req.body.dnsname;
+		dns.primaryIP 	= req.body.primaryip;
+		dns.secondaryIP = req.body.secondaryip;
+		dns.country		= req.body.country;
+		dns.isISP 		= req.body.isisp;
+		dns.updatedAt	= Date.now();
+		dns.save(function(err, dns, count) {
+			res.redirect('/admin');
+		});
+	});
+};
+
 exports.admin = function (req, res) {
 	dns_temp.find( function(err, dnses) {
-		if (err) {console.log("Err on find")};
+		if (err) {};
 		res.render('admin',{title: 'Admin', dnslist: dnses});
 	});
 };
 
 exports.test = function (req, res) {
 	dns_final.find( function(err, dnses) {
-		if (err) {console.log("Err on find")};
+		if (err) {};
 		res.render('test',{title: 'Test', dnslist: dnses});
 	});
 };

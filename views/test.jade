@@ -10,34 +10,19 @@ block content
 					th Name
 					th Primary IP
 					th Secondary IP
+					th Country
 					th ISP ?
-					th Date
+					th Date [To remove after debug]
 			tbody
 			each item in dnslist
 				tr
 					td= item.name
 					td= item.primaryIP
 					td= item.secondaryIP
+					td= item.country
 					td 
 						if item.isISP
 							a.btn.btn-success.btn-small() Yes
 						else
 							a.btn.btn-danger.btn-small() No
 					td= item.updatedAt
-
-
-
-	//- p DNS list :
-
-	//- each item in dnslist
-	//- 		li= p= item.name 
-	//- 			p= item.primaryIP
-	//- 			p= item.secondaryIP
-	//- 			p= item.isISP
-	//- 			p= item.updatedAt
-
-	//- div.title2
-	//- 	a(href="/index")<font color="black">no</font><font color="red">IP</font><font color="black">asaran</font>	
-	//- p This is a test page
-
-	

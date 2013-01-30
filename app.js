@@ -56,7 +56,11 @@ app.get('/destroy/:id', routes.destroy);
 
 app.get('/validate/:id', routes.validate);
 
-app.get('/test', routes.test);
+app.get('/edit/:id', routes.edit);
+
+app.post('/update/:id', routes.update);
+
+app.get('/test', auth, routes.test);
 
 app.get('*', routes.fourOfour);
 
