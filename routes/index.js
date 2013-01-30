@@ -2,6 +2,7 @@ var dnsClass	= require('dns')
   , mongoose 	= require('mongoose')
   , dns_temp	= mongoose.model('dns_temp')
   , dns_final	= mongoose.model('dns_final')
+  , user		= mongoose.model('user')
 
 var REGEX_IP = /\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
 
@@ -117,6 +118,21 @@ exports.test = function (req, res) {
 		if (err) {};
 		res.render('test',{title: 'Test', dnslist: dnses});
 	});
+};
+
+exports.login = function (req, res) {
+	res.render('login',{title: 'Login'})
+};
+
+exports.submit_login = function(req, res) {
+	user.findOne({'username': req.body.username}, function(err, resu) {
+		if (err) {};
+		if (resu.password == req.body.password) {
+			res.redirect('/admin')
+		} else {
+			res.redirect('/login')
+		}
+	})
 };
 
 exports.fourOfour = function (req, res) {

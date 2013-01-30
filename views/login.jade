@@ -1,0 +1,9 @@
+extends layout
+
+block content
+	form.form-signin(action="/submit_login", method="post")
+		input.input-large(name="username", type="text", placeholder="Username")
+		br
+		input.input-large(name="password", type="password", placeholder="Password")
+		br
+		button.btn.btn-primary(type="submit") Ok

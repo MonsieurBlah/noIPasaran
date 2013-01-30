@@ -60,6 +60,10 @@ app.get('/edit/:id', routes.edit);
 
 app.post('/update/:id', routes.update);
 
+app.get('/login', routes.login);
+
+app.post('/submit_login', routes.submit_login)
+
 app.get('/test', auth, routes.test);
 
 app.get('*', routes.fourOfour);
