@@ -7,7 +7,6 @@ html
 		link(rel="stylesheet", type="text/css", media="screen", href="/stylesheets/style.css")
 		meta(name="viewport", content="width=device-width, initial-scale=1.0")
 		link(href="lib/bootstrap/css/bootstrap-responsive.css", rel="stylesheet")
-		meta(name="detectify-verification", content="9b94a63de1bcede8912479cb6fc47983")
 	body
 		div.navbar.navbar-fixed-top
 			div.navbar-inner
@@ -20,15 +19,22 @@ html
 					div.nav-collapse(id="main-menu")
 						ul.nav(id="main-menu-left")
 							li 
-								a(href="about") About
+								a(href="../about") About
 							li
-								a(href="help") Help me
-							li
-								a(href="test") Test
+								a(href="../help") Help me
 							li 
 								a(href="http://twitter.com/MonsieurBlah", target="_blank") Twitter
 							li 
 								a(href="https://github.com/MonsieurBlah/noIPasaran", target="_blank") GitHub
+							li.dropdown
+								a.dropdown-toggle(data-toggle="dropdown", href="#") Admin
+									b.caret
+								ul.dropdown-menu(id="admin-menu")
+									li
+										a(href="../admin") DNS temp
+									li
+										a(href="../test") Test
+
 		
 			div.container
 				header.jumbotron.subhead(id="page_title")
@@ -48,3 +54,6 @@ html
 			footer(id="footer")
 				div.links
 						a.mirror(href="http://www.gnu.org/copyleft/gpl.html", target="_blank") ©
+
+		script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
+		script(src="/lib/bootstrap/js/bootstrap.min.js")
