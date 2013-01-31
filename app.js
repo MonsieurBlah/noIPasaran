@@ -3,6 +3,9 @@ var express = require('express')
   , nib     = require('nib')
   , db		= require('./db')
   , routes 	= require('./routes')
+  , mongoose= require('mongoose')
+  , user 	= mongoose.model('user')
+  , flash = require('connect-flash')
   
 var app = express()
 
@@ -18,20 +21,26 @@ function compile(str, path) {
 	.use(nib())
 }
 
-app.set('views', __dirname + '/views')
-app.set('view engine', 'jade')
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
 app.use(express.bodyParser());
-app.use(express.logger('dev'))
+app.use(express.logger('dev'));
 app.use(stylus.middleware(
 	{ src: __dirname + '/public'
 	, compile: compile
   }
 ))
-app.use(express.static(__dirname + '/public'))
+app.use(express.cookieParser('keyboard cat'));
+app.use(express.session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
+app.use(express.static(__dirname + '/public'));
 app.use(express.favicon(__dirname + '/public/images/favicon.ico'));
 
-var auth = express.basicAuth(function(user, pass) {
-	return user === 'admin' && pass === 'adminpwd';
+var auth = express.basicAuth(function(username, password) {
+	return user.findOne({'username': username}, function(err, resu) {
+		if (err) { return false }
+		return resu.password == password
+	})
 });
 
 app.get('/', routes.root);
@@ -59,10 +68,6 @@ app.get('/validate/:id', routes.validate);
 app.get('/edit/:id', routes.edit);
 
 app.post('/update/:id', routes.update);
-
-app.get('/login', routes.login);
-
-app.post('/submit_login', routes.submit_login)
 
 app.get('/test', auth, routes.test);
 

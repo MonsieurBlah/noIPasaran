@@ -22,4 +22,15 @@ block content
 						p Check if this is an ISP
 							input(name="isisp", type="checkbox") 
 					br
-					input.btn.btn-primary(type="submit", action="/submit", method="post", value="Submit")
+					
+					if message == 'ok'
+						div.success.control-group
+							input.btn.btn-primary(type="submit", action="/submit", method="post", value="Submit")
+							span.help-inline Thanks!
+					else if message == 'notok'
+						div.error.control-group
+							input.btn.btn-primary(type="submit", action="/submit", method="post", value="Submit")
+							span.help-inline Error!
+					else
+						div.control-group
+							input.btn.btn-primary(type="submit", action="/submit", method="post", value="Submit")

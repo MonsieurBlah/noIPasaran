@@ -1,0 +1,1 @@
+/*scipts from routes must go here*/

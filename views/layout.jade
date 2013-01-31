@@ -11,12 +11,12 @@ html
 		div.navbar.navbar-fixed-top
 			div.navbar-inner
 				div.container
-					a.btn.btn-navbar(data-toggle="collapse", data-targer=".nav-collapse")
+					a.btn.btn-navbar(data-toggle="collapse", data-target=".nav-collapse")
 						span.icon-bar
 						span.icon-bar
 						span.icon-bar
 					a.brand(href="index") noIPasaran
-					div.nav-collapse(id="main-menu")
+					div.nav-collapse.collapse(id="main-menu")
 						ul.nav(id="main-menu-left")
 							li 
 								a(href="../about") About
@@ -26,6 +26,10 @@ html
 								a(href="http://twitter.com/MonsieurBlah", target="_blank") Twitter
 							li 
 								a(href="https://github.com/MonsieurBlah/noIPasaran", target="_blank") GitHub
+						form.navbar-search.pull-left(name="form", action="/query", method="post")
+							input.search-query.span4(type="test", placeholder="Go to URL or IP", name="query")
+
+						ul.nav.pull-right
 							li.dropdown
 								a.dropdown-toggle(data-toggle="dropdown", href="#") Admin
 									b.caret

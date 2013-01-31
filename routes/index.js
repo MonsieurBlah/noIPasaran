@@ -3,6 +3,7 @@ var dnsClass	= require('dns')
   , dns_temp	= mongoose.model('dns_temp')
   , dns_final	= mongoose.model('dns_final')
   , user		= mongoose.model('user')
+  , flash = require('connect-flash')
 
 var REGEX_IP = /\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/;
 
@@ -43,21 +44,29 @@ exports.about = function (req, res) {
 };
 
 exports.help = function (req, res) {
-	res.render('help',{title: 'Help'})
+	res.render('help',{title: 'Help', message: req.flash('info')})
 };
 
 exports.submit = function (req, res) {
-	new dns_temp({
-		name 		: req.body.dnsname,
-		primaryIP 	: req.body.primaryip,
-		secondaryIP : req.body.secondaryip,
-		country		: req.body.country,
-		isISP		: req.body.isisp,
-		updatedAt	: Date.now()
-	}).save(function(err, dns_temp, count) {
-		if (err) {"Err on save"};
+	var body = req.body;
+	if (body.primaryip.match(REGEX_IP)&&body.secondaryip.match(REGEX_IP)) {
+		new dns_temp({
+			name 		: req.body.dnsname,
+			primaryIP 	: req.body.primaryip,
+			secondaryIP : req.body.secondaryip,
+			country		: req.body.country,
+			isISP		: req.body.isisp,
+			updatedAt	: Date.now()
+		}).save(function(err, dns_temp, count) {
+		if (err) {console.log("Err on save")};
+			req.flash('info', 'ok')
+			res.redirect('/help');
+		})
+	} else {
+		req.flash('info', 'notok')
 		res.redirect('/help');
-	})
+	};
+	
 };
 
 exports.destroy = function (req, res) {
@@ -118,21 +127,6 @@ exports.test = function (req, res) {
 		if (err) {};
 		res.render('test',{title: 'Test', dnslist: dnses});
 	});
-};
-
-exports.login = function (req, res) {
-	res.render('login',{title: 'Login'})
-};
-
-exports.submit_login = function(req, res) {
-	user.findOne({'username': req.body.username}, function(err, resu) {
-		if (err) {};
-		if (resu.password == req.body.password) {
-			res.redirect('/admin')
-		} else {
-			res.redirect('/login')
-		}
-	})
 };
 
 exports.fourOfour = function (req, res) {
