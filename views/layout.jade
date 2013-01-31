@@ -4,6 +4,7 @@ html
 		title #{title} | noIPasaran
 		meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
 		link(rel="stylesheet", type="text/css", href="/lib/bootstrap/css/bootstrap.min.css")
+		link(rel="stylesheet", type="text/css", href="/lib/bootswatch/bootswatch.css")
 		link(rel="stylesheet", type="text/css", media="screen", href="/stylesheets/style.css")
 		meta(name="viewport", content="width=device-width, initial-scale=1.0")
 		link(href="lib/bootstrap/css/bootstrap-responsive.css", rel="stylesheet")
@@ -17,7 +18,7 @@ html
 						span.icon-bar
 						span.icon-bar
 					a.brand(href="index") noIPasaran
-					div.nav-collapse.collapse(id="main-menu")
+					div.nav-collapse(id="main-menu")
 						ul.nav(id="main-menu-left")
 							li 
 								a(href="../about") About
@@ -39,38 +40,30 @@ html
 									li
 										a(href="../test") Test
 
-		
-		div.container
-			br
-			br
-			br
-			header.jumbotron.subhead(id="page_title")
-				div.row
-					div.span6
-						unless title == "Home"
-							h1 #{title}
-							p.lead [Special text for each page]
+			
+	div.container
+		header.jumbotron.subhead(id="page_title")
+			div.row
+				div.span6
+					unless title == "Home"
+						h1 #{title}
+						p.lead [Special text for each page]
+		block content
 
-			block content
+	
+	footer(id="footer")
+		div.links
+				a(href="#", target="_blank") [Licence]
 
-		br
-		br
-		br
-		br
-		hr
-		footer(id="footer")
-			div.links
-					a(href="#", target="_blank") [Licence]
-
-		script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
-		script(src="/lib/bootstrap/js/bootstrap.min.js")
-		script(type="text/javascript")
-			if (window.addEventListener) {
-				var kkeys = [], imanok = "38,38,40,40,37,39,37,39,66,65";
-				window.addEventListener("keydown", function(e){
-					kkeys.push( e.keyCode );
-					if ( kkeys.toString().indexOf(imanok) >= 0 ){
-						alert('Konami test')
-					}
-				}, true);
-			}
+	script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
+	script(src="/lib/bootstrap/js/bootstrap.min.js")
+	script(type="text/javascript")
+		if (window.addEventListener) {
+			var kkeys = [], imanok = "38,38,40,40,37,39,37,39,66,65";
+			window.addEventListener("keydown", function(e){
+				kkeys.push( e.keyCode );
+				if ( kkeys.toString().indexOf(imanok) >= 0 ){
+					alert('Konami test')
+				}
+			}, true);
+		}
