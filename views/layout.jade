@@ -41,6 +41,9 @@ html
 
 		
 		div.container
+			br
+			br
+			br
 			header.jumbotron.subhead(id="page_title")
 				div.row
 					div.span6
@@ -61,3 +64,13 @@ html
 
 		script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
 		script(src="/lib/bootstrap/js/bootstrap.min.js")
+		script(type="text/javascript")
+			if (window.addEventListener) {
+				var kkeys = [], imanok = "38,38,40,40,37,39,37,39,66,65";
+				window.addEventListener("keydown", function(e){
+					kkeys.push( e.keyCode );
+					if ( kkeys.toString().indexOf(imanok) >= 0 ){
+						alert('Konami test')
+					}
+				}, true);
+			}

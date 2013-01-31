@@ -3,7 +3,7 @@ extends layout
 block content
 	section(id="tables")
 		div.page-header
-			h1 DNS server database
+			h2 DNS server database
 		table.table.table-bordered.table-striped.table-hover
 			thead
 				tr
@@ -16,7 +16,7 @@ block content
 			tbody
 			each item in dnslist
 				tr
-					td= item.name
+					td= item.DNSname
 					td= item.primaryIP
 					td= item.secondaryIP
 					td= item.country

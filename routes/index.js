@@ -51,7 +51,7 @@ exports.submit = function (req, res) {
 	var body = req.body;
 	if (body.primaryip.match(REGEX_IP)&&body.secondaryip.match(REGEX_IP)) {
 		new dns_temp({
-			name 		: req.body.dnsname,
+			DNSname 	: req.body.dnsname,
 			primaryIP 	: req.body.primaryip,
 			secondaryIP : req.body.secondaryip,
 			country		: req.body.country,
@@ -80,9 +80,10 @@ exports.destroy = function (req, res) {
 exports.validate = function (req, res) {
 	dns_temp.findById(req.params.id, function(err, dns) {
 		new dns_final({
-		name 		: dns.name,
+		DNSname 	: dns.DNSname,
 		primaryIP 	: dns.primaryIP,
 		secondaryIP : dns.secondaryIP,
+		country		: dns.country,
 		isISP		: dns.isISP,
 		updatedAt	: Date.now()
 	}).save(function(err, dns_final, count) {
