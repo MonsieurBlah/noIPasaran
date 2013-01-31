@@ -28,6 +28,7 @@ What it's made of
 + [MongoDB](http://www.mongodb.org/)
 + [Mongoose](http://mongoosejs.com/)
 + [Bootstrap](http://twitter.github.com/bootstrap/)
++ [Connect-flash](https://github.com/jaredhanson/connect-flash)
 
 The app and database are hosted by [AppFog](https://www.appfog.com).
 
