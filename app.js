@@ -52,10 +52,11 @@ app.get('/about', routes.about);
 app.get('/help', routes.help);
 app.post('/submit', routes.submit);
 app.get('/admin', auth, routes.admin);
-app.get('/destroy/:id', routes.destroy);
-app.get('/validate/:id', routes.validate);
-app.get('/edit/:id', routes.edit);
-app.post('/update/:id', routes.update);
+app.get('/admin/:db', auth, routes.admin);
+app.get('/admin/:db/destroy/:id', auth, routes.destroy);
+app.get('/admin/:db/validate/:id', auth, routes.validate);
+app.get('/admin/:db/edit/:id', auth, routes.edit);
+app.post('admin/:db/update/:id', auth, routes.update);
 app.get('/test', auth, routes.test);
 app.get('*', routes.fourOfour);
 

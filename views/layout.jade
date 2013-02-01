@@ -36,9 +36,9 @@ html
 									b.caret
 								ul.dropdown-menu(id="admin-menu")
 									li
-										a(href="../admin") DNS temp
+										a(href="../admin/temp") Temps
 									li
-										a(href="../test") Test
+										a(href="../admin/final") Finals
 
 			
 	div.container
@@ -47,7 +47,7 @@ html
 				div.span6
 					unless title == "Home"
 						h1 #{title}
-						p.lead [Special text for each page]
+						p.lead #{subtitle}
 		block content
 
 	

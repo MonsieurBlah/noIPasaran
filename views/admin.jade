@@ -2,8 +2,6 @@ extends layout
 
 block content
 	section(id="tables")
-		div.page-header
-			h1 Tables
 		table.table.table-bordered.table-striped.table-hover
 			thead
 				th Name
@@ -11,7 +9,8 @@ block content
 				th Secondary IP
 				th Country
 				th ISP ?
-				th Validate
+				unless type == 'final'
+					th Validate
 				th Edit
 				th Delete
 			tbody
@@ -33,11 +32,11 @@ block content
 									else
 										input(name="isisp", type="checkbox", checked)
 								td
-									a(href="/validate/"+item._id) Validate
+									a(href="/admin/#{type}/validate/"+item._id) Validate
 								td
-									input.btn(type="submit", action="/update/"+item._id, method="post", value="Update")
+									input.btn(type="submit", action="/admin/#{type}/update/"+item._id, method="post", value="Update")
 								td
-									a(href="/destroy/"+item._id) Delete
+									a(href="/admin/#{type}/destroy/"+item._id) Delete
 					else
 						tr
 							td= item.DNSname
@@ -49,9 +48,10 @@ block content
 									a.btn.btn-success.btn-small() Yes
 								else
 									a.btn.btn-danger.btn-small() No
+							unless type == 'final'
+								td
+									a(href="/admin/#{type}/validate/"+item._id) Validate
 							td
-								a(href="/validate/"+item._id) Validate
+								a(href="/admin/#{type}/edit/"+item._id) Edit
 							td
-								a(href="/edit/"+item._id) Edit
-							td
-								a(href="/destroy/"+item._id) Delete
+								a(href="/admin/#{type}/destroy/"+item._id) Delete

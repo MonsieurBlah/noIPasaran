@@ -46,7 +46,7 @@ exports.about = function (req, res) {
 };
 
 exports.help = function (req, res) {
-	res.render('help',{title: 'Help', 
+	res.render('help',{title: 'Help', subtitle: 'I need somebody...',
 		message: req.flash('info')})
 };
 
@@ -75,59 +75,99 @@ exports.submit = function (req, res) {
 };
 
 exports.destroy = function (req, res) {
-	dns_temp.findById(req.params.id, function (err, dnses) {
-		dnses.remove( function (err, dnses) {
-			res.redirect('/admin');
+	if (req.params.db == 'temp') {
+		dns_temp.findById(req.params.id, function (err, dnses) {
+			dnses.remove( function (err, dnses) {
+				res.redirect('/admin/temp');
+			})
 		})
-	})
+	} else {
+		dns_final.findById(req.params.id, function (err, dnses) {
+			dnses.remove( function (err, dnses) {
+				res.redirect('/admin/final');
+			})
+		})
+	}
 };
 
 exports.validate = function (req, res) {
-	dns_temp.findById(req.params.id, function(err, dns) {
-		new dns_final({
-		DNSname 	: dns.DNSname,
-		primaryIP 	: dns.primaryIP,
-		secondaryIP : dns.secondaryIP,
-		country		: dns.country,
-		isISP		: dns.isISP,
-		updatedAt	: Date.now()
-	}).save(function(err, dns_final, count) {
-		if (err) {"Err on save"};
-		dns.remove( function(err, dns) {
-			res.redirect('/admin');
+	if (req.params.db == 'temp') {
+		dns_temp.findById(req.params.id, function(err, dns) {
+			new dns_final({
+			DNSname 	: dns.DNSname,
+			primaryIP 	: dns.primaryIP,
+			secondaryIP : dns.secondaryIP,
+			country		: dns.country,
+			isISP		: dns.isISP,
+			updatedAt	: Date.now()
+		}).save(function(err, dns_final, count) {
+			if (err) {"Err on save"};
+			dns.remove( function(err, dns) {
+				res.redirect('/admin/temp');
+			})
 		})
-	})
-	})
+		})
+	};
 };
 
 exports.edit = function (req, res) {
-	dns_temp.find( function(err, dnses) {
-		if (err) {};
-		res.render('admin',{title: 'Admin', dnslist: dnses,
-		 current: req.params.id})
-	});
+	if (req.params.db == 'temp') {
+		dns_temp.find( function(err, dnses) {
+			if (err) {};
+			res.render('admin',{title: 'Admin', subtitle: 'Edit',
+			 dnslist: dnses, current: req.params.id})
+		});
+	} else {
+		dns_final.find( function(err, dnses) {
+			if (err) {};
+			res.render('admin',{title: 'Admin', subtitle: 'Edit',
+			 dnslist: dnses, current: req.params.id})
+		});
+	}
 };
 
 exports.update = function (req, res) {
-	dns_temp.findById(req.params.id, function(err, dns) {
-		dns.DNSname		= req.body.dnsname;
-		dns.primaryIP 	= req.body.primaryip;
-		dns.secondaryIP = req.body.secondaryip;
-		dns.country		= req.body.country;
-		dns.isISP 		= req.body.isisp;
-		dns.updatedAt	= Date.now();
-		dns.save(function(err, dns, count) {
-			res.redirect('/admin');
+	if (req.params.db == 'temp') {
+		dns_temp.findById(req.params.id, function(err, dns) {
+			dns.DNSname		= req.body.dnsname;
+			dns.primaryIP 	= req.body.primaryip;
+			dns.secondaryIP = req.body.secondaryip;
+			dns.country		= req.body.country;
+			dns.isISP 		= req.body.isisp;
+			dns.updatedAt	= Date.now();
+			dns.save(function(err, dns, count) {
+				res.redirect('/admin/temp');
+			});
 		});
-	});
+	} else {
+		dns_final.findById(req.params.id, function(err, dns) {
+			dns.DNSname		= req.body.dnsname;
+			dns.primaryIP 	= req.body.primaryip;
+			dns.secondaryIP = req.body.secondaryip;
+			dns.country		= req.body.country;
+			dns.isISP 		= req.body.isisp;
+			dns.updatedAt	= Date.now();
+			dns.save(function(err, dns, count) {
+				res.redirect('/admin/final');
+			});
+		});
+	}
 };
 
 exports.admin = function (req, res) {
-	dns_temp.find( function(err, dnses) {
-		if (err) {};
-		res.render('admin',{title: 'Admin', dnslist: dnses,
-		 current: '1'});
-	});
+	if (req.params.db == 'temp') {
+		dns_temp.find( function(err, dnses) {
+			if (err) {};
+			res.render('admin',{title: 'Admin', subtitle: 'DNS Temp',
+			 dnslist: dnses, current: '1', type: 'temp'});
+		});
+	} else {
+		dns_final.find( function(err, dnses) {
+			if (err) {};
+			res.render('admin',{title: 'Admin', subtitle: 'DNS Finals',
+			 dnslist: dnses, current: '1', type: 'final'});
+		});
+	}
 };
 
 exports.test = function (req, res) {
@@ -138,6 +178,6 @@ exports.test = function (req, res) {
 };
 
 exports.fourOfour = function (req, res) {
-  	res.render('404',{title: '¿ Qué pasó ?', 
+  	res.render('404',{title: '¿ Qué pasó ?', subtitle: 'Es un cuatrocientos cuatro !', 
   		url : req.headers.host + req.url})
 };
