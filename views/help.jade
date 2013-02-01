@@ -4,32 +4,54 @@ block content
 	section.forms(id="form")
 		div.row
 			div.span6.offset3
-				form.well.form-search(name="dnsform", action="/submit", method="post")
-					input.input-small(name="dnsname", type="text", style="width:420px", placeholder="Name of the ISP or DNS provider")
-					br
-					br
-					input.input-small(name="primaryip", type="text", style="width:420px", placeholder="The primary IP")
-					br
-					br
-					input.input-small(name="secondaryip", type="text", style="width:420px", placeholder="The secondary IP") 
-					br
-					br
-					include countries
-					br
-					label.checkbox
-						p Check if this is an ISP
-							input(name="isisp", type="checkbox") 
-					br
-					br
-					
-					if message == 'ok'
-						div.success.control-group
-							input.btn.btn-primary(type="submit", action="/submit", method="post", value="Submit")
-							span.help-inline Thanks!
-					else if message == 'notok'
-						div.error.control-group
-							input.btn.btn-primary(type="submit", action="/submit", method="post", value="Submit")
-							span.help-inline Error!
-					else
-						div.control-group
-							input.btn.btn-primary(type="submit", action="/submit", method="post", value="Submit")
+				form.well.form-horizontal(name="dnsform", action="/submit", method="post")
+					fieldset
+						legend ... to help me get more DNS servers !
+						if message == 'firstwrong' || message == 'secondwrong'
+							div.control-group
+								input.input-large(name="dnsname", type="text", style="width:515px", value="#{name}", placeholder="Name of the ISP or DNS provider")
+								br
+						else
+							div.control-group
+								input.input-large(name="dnsname", type="text", style="width:515px", value="#{name}", placeholder="Name of the ISP or DNS provider")
+								br
+						if message == 'firstwrong'
+							div.control-group.error
+								input.input-large(name="primaryip", type="text", style="width:515px", value="#{prip}", placeholder="The primary IP")
+								span.help-inline Oops, something looks wrong with this IP.
+								br
+						else
+							div.control-group
+								input.input-large(name="primaryip", type="text", style="width:515px", value="#{prip}", placeholder="The primary IP")
+								br
+						if message == 'secondwrong'
+							div.control-group.error
+								input.input-large(name="secondaryip", type="text", style="width:515px", value="#{seip}", placeholder="The primary IP")
+								span.help-inline Oops, something looks wrong with this IP.
+								br
+						else
+							div.control-group
+								input.input-large(name="secondaryip", type="text", style="width:515px", value="#{seip}", placeholder="The secondary IP") 
+								br
+						if message == 'countrywrong'
+							div.control-group.error
+								include includes/countries
+								span.help-inline At least select "Global".
+						else 
+							div.control-group
+								include includes/countries
+						label.checkbox
+							p Check if this is an ISP
+								input(name="isisp", type="checkbox") 
+						br
+						if message == 'exists'
+							div.success.control-group
+								input.btn.btn-primary(type="submit", action="/submit", method="post", value="Submit")
+								span.help-inline Thanks, but I already had this one!
+						else if message == 'ok'
+							div.success.control-group
+								input.btn.btn-primary(type="submit", action="/submit", method="post", value="Submit")
+								span.help-inline Thanks!
+						else
+							div.control-group
+								input.btn.btn-primary(type="submit", action="/submit", method="post", value="Submit")

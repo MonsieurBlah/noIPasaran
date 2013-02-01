@@ -56,7 +56,7 @@ app.get('/admin/:db', auth, routes.admin);
 app.get('/admin/:db/destroy/:id', auth, routes.destroy);
 app.get('/admin/:db/validate/:id', auth, routes.validate);
 app.get('/admin/:db/edit/:id', auth, routes.edit);
-app.post('admin/:db/update/:id', auth, routes.update);
+app.post('/admin/:db/update/:id', auth, routes.update);
 app.get('/test', auth, routes.test);
 app.get('*', routes.fourOfour);
 

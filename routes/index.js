@@ -47,14 +47,28 @@ exports.about = function (req, res) {
 
 exports.help = function (req, res) {
 	res.render('help',{title: 'Help', subtitle: 'I need somebody...',
-		message: req.flash('info')})
+		message: req.flash('info'), name: req.flash('name'), 
+		prip: req.flash('prip'),seip: req.flash('seip')});
 };
 
 exports.submit = function (req, res) {
 	var body = req.body;
-	if (body.primaryip.match(REGEX_IP)
-		&&body.secondaryip.match(REGEX_IP)
-		&&body.country != "") {
+	if (!body.primaryip.match(REGEX_IP)) {
+		req.flash('info', 'firstwrong');
+		req.flash('name', body.dnsname);
+		req.flash('prip', body.primaryip);
+		req.flash('seip', body.secondaryip);
+	} else if (!body.secondaryip.match(REGEX_IP)) {
+		req.flash('info', 'secondwrong')
+		req.flash('name', body.dnsname);
+		req.flash('prip', body.primaryip);
+		req.flash('seip', body.secondaryip);
+	} else if (body.country == "") {
+		req.flash('name', body.dnsname);
+		req.flash('prip', body.primaryip);
+		req.flash('seip', body.secondaryip);
+		req.flash('info', 'countrywrong')
+	} else {
 		new dns_temp({
 			DNSname 	: req.body.dnsname,
 			primaryIP 	: req.body.primaryip,
@@ -64,14 +78,10 @@ exports.submit = function (req, res) {
 			updatedAt	: Date.now()
 		}).save(function(err, dns_temp, count) {
 		if (err) {console.log("Err on save")};
-			req.flash('info', 'ok')
-			res.redirect('/help');
 		})
-	} else {
-		req.flash('info', 'notok')
-		res.redirect('/help');
-	};
-	
+		req.flash('info', 'ok');
+	} 
+	res.redirect('/help');
 };
 
 exports.destroy = function (req, res) {
@@ -115,13 +125,13 @@ exports.edit = function (req, res) {
 		dns_temp.find( function(err, dnses) {
 			if (err) {};
 			res.render('admin',{title: 'Admin', subtitle: 'Edit',
-			 dnslist: dnses, current: req.params.id})
+			 dnslist: dnses, current: req.params.id, type: 'temp'})
 		});
 	} else {
 		dns_final.find( function(err, dnses) {
 			if (err) {};
 			res.render('admin',{title: 'Admin', subtitle: 'Edit',
-			 dnslist: dnses, current: req.params.id})
+			 dnslist: dnses, current: req.params.id, type: 'final'})
 		});
 	}
 };
