@@ -53,7 +53,8 @@ exports.help = function (req, res) {
 exports.submit = function (req, res) {
 	var body = req.body;
 	if (body.primaryip.match(REGEX_IP)
-		&&body.secondaryip.match(REGEX_IP)) {
+		&&body.secondaryip.match(REGEX_IP)
+		&&body.country != "") {
 		new dns_temp({
 			DNSname 	: req.body.dnsname,
 			primaryIP 	: req.body.primaryip,

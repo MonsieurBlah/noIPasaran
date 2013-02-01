@@ -14,12 +14,12 @@ block content
 					input.input-small(name="secondaryip", type="text", style="width:420px", placeholder="The secondary IP") 
 					br
 					br
-					input.input-small(name="country", type="text", style="width:420px", placeholder="Country") 
-					br
+					include countries
 					br
 					label.checkbox
 						p Check if this is an ISP
 							input(name="isisp", type="checkbox") 
+					br
 					br
 					
 					if message == 'ok'
