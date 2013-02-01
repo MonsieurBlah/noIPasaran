@@ -30,7 +30,7 @@ app.use(stylus.middleware(
 	, compile: compile
   }
 ))
-app.use(express.cookieParser('keyboard cat'));
+app.use(express.cookieParser('unicorn lolcat nyan nyan'));
 app.use(express.session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 app.use(express.static(__dirname + '/public'));
@@ -44,33 +44,19 @@ var auth = express.basicAuth(function(username, password) {
 });
 
 app.get('/', routes.root);
-
 app.get('/index', routes.index);
-
 app.post('/query', routes.query);
-
 app.get(REGEX_IP_PAGE, routes.ip);
-
 app.get(REGEX_URL, routes.url);
-
 app.get('/about', routes.about);
-
 app.get('/help', routes.help);
-
 app.post('/submit', routes.submit);
-
 app.get('/admin', auth, routes.admin);
-
 app.get('/destroy/:id', routes.destroy);
-
 app.get('/validate/:id', routes.validate);
-
 app.get('/edit/:id', routes.edit);
-
 app.post('/update/:id', routes.update);
-
 app.get('/test', auth, routes.test);
-
 app.get('*', routes.fourOfour);
 
 app.listen(8888)

@@ -27,7 +27,8 @@ exports.query = function (req, res) {
 exports.ip = function (req, res) {
 	var theIP = req.url.substr(4,req.url.length);
 	var theURL = 'www.foo.bar';
-	res.render('result',{title: 'IP ' + theIP + ' ', url: theURL, ip: theIP})
+	res.render('result',{title: 'IP ' + theIP + ' ',
+	 url: theURL, ip: theIP})
 };
 
 exports.url = function (req, res) {
@@ -35,7 +36,8 @@ exports.url = function (req, res) {
 
 	dnsClass.resolve4(theURL, function(err, addresses){
 		if (err) throw err;
-		res.render('result',{title: 'URL' + theURL + ' ', url: theURL, ip: addresses})
+		res.render('result',{title: 'URL' + theURL + ' ',
+		 url: theURL, ip: addresses})
 	})
 };
 
@@ -44,12 +46,14 @@ exports.about = function (req, res) {
 };
 
 exports.help = function (req, res) {
-	res.render('help',{title: 'Help', message: req.flash('info')})
+	res.render('help',{title: 'Help', 
+		message: req.flash('info')})
 };
 
 exports.submit = function (req, res) {
 	var body = req.body;
-	if (body.primaryip.match(REGEX_IP)&&body.secondaryip.match(REGEX_IP)) {
+	if (body.primaryip.match(REGEX_IP)
+		&&body.secondaryip.match(REGEX_IP)) {
 		new dns_temp({
 			DNSname 	: req.body.dnsname,
 			primaryIP 	: req.body.primaryip,
@@ -98,7 +102,8 @@ exports.validate = function (req, res) {
 exports.edit = function (req, res) {
 	dns_temp.find( function(err, dnses) {
 		if (err) {};
-		res.render('admin_edit',{title: 'Admin', dnslist: dnses, current: req.params.id})
+		res.render('admin',{title: 'Admin', dnslist: dnses,
+		 current: req.params.id})
 	});
 };
 
@@ -119,7 +124,8 @@ exports.update = function (req, res) {
 exports.admin = function (req, res) {
 	dns_temp.find( function(err, dnses) {
 		if (err) {};
-		res.render('admin',{title: 'Admin', dnslist: dnses});
+		res.render('admin',{title: 'Admin', dnslist: dnses,
+		 current: '1'});
 	});
 };
 
@@ -131,5 +137,6 @@ exports.test = function (req, res) {
 };
 
 exports.fourOfour = function (req, res) {
-  	res.render('404',{title: '¿ Qué pasó ?', url : req.headers.host + req.url})
+  	res.render('404',{title: '¿ Qué pasó ?', 
+  		url : req.headers.host + req.url})
 };

@@ -16,19 +16,42 @@ block content
 				th Delete
 			tbody
 				each item in dnslist
-					tr
-						td= item.DNSname
-						td= item.primaryIP
-						td= item.secondaryIP
-						td= item.country
-						td 
-							if item.isISP
-								a.btn.btn-success.btn-small() Yes
-							else
-								a.btn.btn-danger.btn-small() No
-						td
-							a(href="/validate/"+item._id) Validate
-						td
-							a(href="/edit/"+item._id) Edit
-						td
-							a(href="/destroy/"+item._id) Delete
+					if item._id == current
+						form(name="admin-edit", action="/update/"+item._id, method="post")
+							tr
+								td 
+									input.input-medium(name="dnsname", type="text", value=item.DNSname)
+								td 
+									input.input-medium(name="primaryip", type="text", value=item.primaryIP)
+								td 
+									input.input-medium(name="secondaryip", type="text", value=item.secondaryIP)
+								td 
+									input.input-medium(name="country", type="text", value=item.country)
+								td 
+									if item.isISP
+										input(name="isisp", type="checkbox", checked)
+									else
+										input(name="isisp", type="checkbox", checked)
+								td
+									a(href="/validate/"+item._id) Validate
+								td
+									input.btn(type="submit", action="/update/"+item._id, method="post", value="Update")
+								td
+									a(href="/destroy/"+item._id) Delete
+					else
+						tr
+							td= item.DNSname
+							td= item.primaryIP
+							td= item.secondaryIP
+							td= item.country
+							td 
+								if item.isISP
+									a.btn.btn-success.btn-small() Yes
+								else
+									a.btn.btn-danger.btn-small() No
+							td
+								a(href="/validate/"+item._id) Validate
+							td
+								a(href="/edit/"+item._id) Edit
+							td
+								a(href="/destroy/"+item._id) Delete
