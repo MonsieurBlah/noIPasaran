@@ -41,10 +41,6 @@ exports.url = function (req, res) {
 	})
 };
 
-exports.about = function (req, res) {
-	res.render('about',{title: 'About'})
-};
-
 exports.help = function (req, res) {
 	res.render('help',{title: 'Help', subtitle: 'I need somebody...',
 		message: req.flash('info'), name: req.flash('name'), 

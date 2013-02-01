@@ -48,7 +48,6 @@ app.get('/index', routes.index);
 app.post('/query', routes.query);
 app.get(REGEX_IP_PAGE, routes.ip);
 app.get(REGEX_URL, routes.url);
-app.get('/about', routes.about);
 app.get('/help', routes.help);
 app.post('/submit', routes.submit);
 app.get('/admin', auth, routes.admin);
