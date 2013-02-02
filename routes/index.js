@@ -26,9 +26,8 @@ exports.query = function (req, res) {
 
 exports.ip = function (req, res) {
 	var theIP = req.url.substr(4,req.url.length);
-	var theURL = 'www.foo.bar';
-	res.render('result',{title: 'IP ' + theIP + ' ',
-	 url: theURL, ip: theIP})
+	res.render('resultip',{title: 'IP ' + theIP + ' ', subtitle: theIP,
+	 ip: theIP, message: ''})
 };
 
 exports.url = function (req, res) {
@@ -36,7 +35,7 @@ exports.url = function (req, res) {
 
 	dnsClass.resolve4(theURL, function(err, addresses){
 		if (err) throw err;
-		res.render('result',{title: 'URL' + theURL + ' ',
+		res.render('resulturl',{title: 'URL' + theURL + ' ',
 		 url: theURL, ip: addresses})
 	})
 };
@@ -48,6 +47,11 @@ exports.help = function (req, res) {
 		name: req.flash('name'), prip: req.flash('prip'),
 		seip: req.flash('seip')});
 };
+
+exports.helpip = function (req, res) {
+	req.flash('prip', req.params.ip);
+	res.redirect('help');
+}
 
 exports.submit = function (req, res) {
 	var body = req.body;

@@ -1,0 +1,9 @@
+extend layout
+
+block content
+	if message == 'exists'
+		p [IP exists in db]
+	else 
+		p If you have info about this IP (#{ip}), please submit it to the Help section !
+		form(action="/help/#{ip}", method="post")
+			input.btn.btn-primary(type="submit", value="Submit this IP to Help", action="/help/#{ip}", method="post")

@@ -49,6 +49,7 @@ app.post('/query', routes.query);
 app.get(REGEX_IP_PAGE, routes.ip);
 app.get(REGEX_URL, routes.url);
 app.get('/help', routes.help);
+app.post('/help/:ip', routes.helpip);
 app.post('/submit', routes.submit);
 app.get('/admin', auth, routes.admin);
 app.get('/admin/:db', auth, routes.admin);
