@@ -7,9 +7,10 @@ block content
 				form.well.form-horizontal(name="dnsform", action="/submit", method="post")
 					fieldset
 						legend ... to help me get more DNS servers !
-						if message1 == 'firstwrong' || message2 == 'secondwrong'
-							div.control-group
+						if message0 == 'namewrong'
+							div.control-group.error
 								input.input-xlarge(name="dnsname", type="text", value="#{name}", placeholder="Name of the DNS provider")
+								span.help-inline Oops, looks like the name is missing.
 								br
 						else
 							div.control-group
@@ -36,7 +37,7 @@ block content
 						if message3 == 'countrywrong'
 							div.control-group.error
 								include includes/countries
-								span.help-inline At least select "Global".
+								span.help-inline Oops, at least select "Global".
 						else 
 							div.control-group
 								include includes/countries
