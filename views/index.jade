@@ -1,4 +1,8 @@
 extend layout
 
 block content
-	p [Insert home/about here]
+	div.row
+		div.span6.offset3
+			form.well.form-horizontal(name="form", action="/query", method="post")
+				input.input-xlarge(type="text", placeholder="Go to URL or IP", name="query")
+				input.btn.btn-primary(type="submit", action="/query", method="post", value="Go")

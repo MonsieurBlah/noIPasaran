@@ -42,14 +42,17 @@ html
 			
 	div.container
 		header.jumbotron.subhead(id="page_title")
-			div.row
-				div.span6
-					unless title == "Home"
-						h1 #{title}
-						p.lead #{subtitle}
+			div.span6
+				unless title == "Home"
+					h1 #{title}
+					p.lead #{subtitle}
 		block content
 
-	
+	br
+	br
+	br
+	br
+	hr
 	footer(id="footer")
 		div.links
 				a(href="#", target="_blank") [Licence]

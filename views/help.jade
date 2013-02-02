@@ -7,33 +7,33 @@ block content
 				form.well.form-horizontal(name="dnsform", action="/submit", method="post")
 					fieldset
 						legend ... to help me get more DNS servers !
-						if message == 'firstwrong' || message == 'secondwrong'
+						if message1 == 'firstwrong' || message2 == 'secondwrong'
 							div.control-group
-								input.input-large(name="dnsname", type="text", style="width:515px", value="#{name}", placeholder="Name of the ISP or DNS provider")
+								input.input-xlarge(name="dnsname", type="text", value="#{name}", placeholder="Name of the DNS provider")
 								br
 						else
 							div.control-group
-								input.input-large(name="dnsname", type="text", style="width:515px", value="#{name}", placeholder="Name of the ISP or DNS provider")
+								input.input-xlarge(name="dnsname", type="text", value="#{name}", placeholder="Name of the DNS provider")
 								br
-						if message == 'firstwrong'
+						if message1 == 'firstwrong'
 							div.control-group.error
-								input.input-large(name="primaryip", type="text", style="width:515px", value="#{prip}", placeholder="The primary IP")
+								input.input-xlarge(name="primaryip", type="text", value="#{prip}", placeholder="The primary IP")
 								span.help-inline Oops, something looks wrong with this IP.
 								br
 						else
 							div.control-group
-								input.input-large(name="primaryip", type="text", style="width:515px", value="#{prip}", placeholder="The primary IP")
+								input.input-xlarge(name="primaryip", type="text", value="#{prip}", placeholder="The primary IP")
 								br
-						if message == 'secondwrong'
+						if message2 == 'secondwrong'
 							div.control-group.error
-								input.input-large(name="secondaryip", type="text", style="width:515px", value="#{seip}", placeholder="The primary IP")
+								input.input-xlarge(name="secondaryip", type="text", value="#{seip}", placeholder="The primary IP")
 								span.help-inline Oops, something looks wrong with this IP.
 								br
 						else
 							div.control-group
-								input.input-large(name="secondaryip", type="text", style="width:515px", value="#{seip}", placeholder="The secondary IP") 
+								input.input-xlarge(name="secondaryip", type="text", value="#{seip}", placeholder="The secondary IP") 
 								br
-						if message == 'countrywrong'
+						if message3 == 'countrywrong'
 							div.control-group.error
 								include includes/countries
 								span.help-inline At least select "Global".

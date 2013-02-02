@@ -43,28 +43,24 @@ exports.url = function (req, res) {
 
 exports.help = function (req, res) {
 	res.render('help',{title: 'Help', subtitle: 'I need somebody...',
-		message: req.flash('info'), name: req.flash('name'), 
-		prip: req.flash('prip'),seip: req.flash('seip')});
+		message: req.flash('info'), message1: req.flash('info1'),
+		message2: req.flash('info2'),message3: req.flash('info3'),
+		name: req.flash('name'), prip: req.flash('prip'),
+		seip: req.flash('seip')});
 };
 
 exports.submit = function (req, res) {
 	var body = req.body;
 	if (!body.primaryip.match(REGEX_IP)) {
-		req.flash('info', 'firstwrong');
-		req.flash('name', body.dnsname);
-		req.flash('prip', body.primaryip);
-		req.flash('seip', body.secondaryip);
-	} else if (!body.secondaryip.match(REGEX_IP)) {
-		req.flash('info', 'secondwrong')
-		req.flash('name', body.dnsname);
-		req.flash('prip', body.primaryip);
-		req.flash('seip', body.secondaryip);
-	} else if (body.country == "") {
-		req.flash('name', body.dnsname);
-		req.flash('prip', body.primaryip);
-		req.flash('seip', body.secondaryip);
-		req.flash('info', 'countrywrong')
-	} else {
+		req.flash('info1', 'firstwrong');
+	}
+	if (!body.secondaryip.match(REGEX_IP)) {
+		req.flash('info2', 'secondwrong');
+	}
+	if (body.country == "") {
+		req.flash('info3', 'countrywrong');
+	} 
+	if (body.primaryip.match(REGEX_IP) && body.secondaryip.match(REGEX_IP) && body.country != "") {
 		new dns_temp({
 			DNSname 	: req.body.dnsname,
 			primaryIP 	: req.body.primaryip,
@@ -77,6 +73,13 @@ exports.submit = function (req, res) {
 		})
 		req.flash('info', 'ok');
 	} 
+	if (req.flash('info') != 'ok') {
+		req.flash('name', body.dnsname);
+		req.flash('prip', body.primaryip);
+		req.flash('seip', body.secondaryip);
+	} else {
+		req.flash('info', 'ok');
+	}
 	res.redirect('/help');
 };
 
