@@ -18,9 +18,9 @@ exports.index = function (req, res) {
 exports.query = function (req, res) {
 	var query = req.body.query;
 	if (query.match(REGEX_IP) != null) {
-		res.redirect("/ip="+query)
+		res.redirect("/ip/"+query)
 	} else {
-		res.redirect("/url="+query)
+		res.redirect("/url/"+query)
 	};
 }
 
@@ -33,7 +33,7 @@ exports.ip = function (req, res) {
 exports.url = function (req, res) {
 	var theURL = req.url.substr(5,req.url.length);
 
-	dnsClass.resolve4(theURL, function(err, addresses){
+	dnsClass.resolve4(theURL, function(err, addresses) {
 		if (err) throw err;
 		res.render('resulturl',{title: 'URL', subtitle: theURL,
 		 url: theURL, ip: addresses})
