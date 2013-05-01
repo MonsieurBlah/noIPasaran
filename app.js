@@ -33,8 +33,8 @@ app.use(stylus.middleware(
 app.use(express.cookieParser('unicorn lolcat nyan nyan'));
 app.use(express.session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
-app.use(express.static(__dirname + '/public'));
-app.use(express.favicon(__dirname + '/public/images/favicon.ico'));
+app.use(express.static(__dirname + '/public/lib'));
+app.use(express.favicon(__dirname + '/public/lib/images/favicon.ico'));
 
 var auth = express.basicAuth(function(username, password) {
 	return user.findOne({'username': username}, function(err, resu) {
@@ -49,8 +49,7 @@ app.post('/query', routes.query);
 app.get(REGEX_IP_PAGE, routes.ip);
 app.get(REGEX_URL, routes.url);
 app.get('/help', routes.help);
-app.post('/help/:ip', routes.helpip);
-app.post('/submit', routes.submit);
+app.post('/help', routes.help_post);
 app.get('/admin', auth, routes.admin);
 app.get('/admin/:db', auth, routes.admin);
 app.get('/admin/:db/destroy/:id', auth, routes.destroy);

@@ -28,4 +28,4 @@ mongoose.model('dns_temp', dns_temp);
 mongoose.model('dns_final', dns_final);
 mongoose.model('user', user);
  
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://localhost/notPHP');

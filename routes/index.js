@@ -41,53 +41,22 @@ exports.url = function (req, res) {
 };
 
 exports.help = function (req, res) {
-	res.render('help',{title: 'Help', subtitle: 'I need somebody...',
-		message: req.flash('info'), message0: req.flash('info0'),
-		message1: req.flash('info1'), message2: req.flash('info2'),
-		message3: req.flash('info3'), name: req.flash('name'), 
-		prip: req.flash('prip'), seip: req.flash('seip')});
+	res.render('help',{title: 'Help', subtitle: 'I need somebody...'});
 };
 
-exports.helpip = function (req, res) {
-	req.flash('prip', req.params.ip);
-	res.redirect('help');
-}
-
-exports.submit = function (req, res) {
+exports.help_post = function (req, res) {
 	var body = req.body;
-	if (body.dnsname == "") {
-		req.flash('info0', 'namewrong');
-	}
-	if (!body.primaryip.match(REGEX_IP)) {
-		req.flash('info1', 'firstwrong');
-	}
-	if (!body.secondaryip.match(REGEX_IP)) {
-		req.flash('info2', 'secondwrong');
-	}
-	if (body.country == "") {
-		req.flash('info3', 'countrywrong');
-	} 
-	if (body.primaryip.match(REGEX_IP) && body.secondaryip.match(REGEX_IP) && body.country != "") {
-		new dns_temp({
-			DNSname 	: req.body.dnsname,
-			primaryIP 	: req.body.primaryip,
-			secondaryIP : req.body.secondaryip,
-			country		: req.body.country,
-			isISP		: req.body.isisp,
-			updatedAt	: Date.now()
-		}).save(function(err, dns_temp, count) {
+	new dns_temp({
+		DNSname 	: body.dnsname,
+		primaryIP 	: body.primaryip,
+		secondaryIP : body.secondaryip,
+		country		: body.country,
+		isISP		: body.isisp,
+		updatedAt	: Date.now()
+	}).save(function(err, dns_temp, count) {
 		if (err) {console.log("Err on save")};
-		})
-		req.flash('info', 'ok');
-	} 
-	if (req.flash('info') != 'ok') {
-		req.flash('name', body.dnsname);
-		req.flash('prip', body.primaryip);
-		req.flash('seip', body.secondaryip);
-	} else {
-		req.flash('info', 'ok');
-	}
-	res.redirect('/help');
+	})
+	res.redirect('/dns/' + body.dnsname);
 };
 
 exports.destroy = function (req, res) {

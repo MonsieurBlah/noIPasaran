@@ -4,55 +4,14 @@ block content
 	section.forms(id="form")
 		div.row
 			div.span6.offset3
-				form.well.form-horizontal(name="dnsform", action="/submit", method="post")
+				form.well.form-horizontal(id="help-form", action="/help", method="post")
 					fieldset
 						legend ... to help me get more DNS servers !
-						if message0 == 'namewrong'
-							div.control-group.error
-								input.input-xlarge(name="dnsname", type="text", value="#{name}", placeholder="Name of the DNS provider")
-								span.help-inline Oops, looks like the name is missing.
-								br
-						else
-							div.control-group
-								input.input-xlarge(name="dnsname", type="text", value="#{name}", placeholder="Name of the DNS provider")
-								br
-						if message1 == 'firstwrong'
-							div.control-group.error
-								input.input-xlarge(name="primaryip", type="text", value="#{prip}", placeholder="The primary IP")
-								span.help-inline Oops, something looks wrong with this IP.
-								br
-						else
-							div.control-group
-								input.input-xlarge(name="primaryip", type="text", value="#{prip}", placeholder="The primary IP")
-								br
-						if message2 == 'secondwrong'
-							div.control-group.error
-								input.input-xlarge(name="secondaryip", type="text", value="#{seip}", placeholder="The primary IP")
-								span.help-inline Oops, something looks wrong with this IP.
-								br
-						else
-							div.control-group
-								input.input-xlarge(name="secondaryip", type="text", value="#{seip}", placeholder="The secondary IP") 
-								br
-						if message3 == 'countrywrong'
-							div.control-group.error
-								include includes/countries
-								span.help-inline Oops, at least select "Global".
-						else 
-							div.control-group
-								include includes/countries
-						label.checkbox
-							p Check if this is an ISP
-								input(name="isisp", type="checkbox") 
-						br
-						if message == 'exists'
-							div.success.control-group
-								input.btn.btn-primary(type="submit", action="/submit", method="post", value="Submit")
-								span.help-inline Thanks, but I already had this one!
-						else if message == 'ok'
-							div.success.control-group
-								input.btn.btn-primary(type="submit", action="/submit", method="post", value="Submit")
-								span.help-inline Thanks!
-						else
-							div.control-group
-								input.btn.btn-primary(type="submit", action="/submit", method="post", value="Submit")
+							input.input-xlarge(id="dnsname", name="dnsname", type="text", placeholder="Name of the DNS provider", required)
+							input.input-xlarge(id="primaryip", name="primaryip", type="text", placeholder="The primary IP", required)
+							input.input-xlarge(id="secondaryip", name="secondaryip", type="text", placeholder="The secondary IP", required) 
+							include includes/countries
+							label.checkbox
+								p Check if this is an ISP
+									input(name="isisp", id="isisp", type="checkbox") 
+							input.btn.btn-primary(type="submit", id="submit-help", value="Submit")
