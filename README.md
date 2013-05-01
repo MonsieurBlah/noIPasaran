@@ -1,8 +1,9 @@
-noIPasaran
-==========
 
-[noIPasaran](http://noipasaran.eu01.aws.af.cm/) will be a web service that give you the most probable IP for the website you want to visit.
-It will also check if your ISP is blocking the IP. If so, it will gives you the opportunity to overpass this censorship.
+# noIPasaran
+
+
+noIPasaran will be a web service that give you the most probable IP for the website you want to visit.
+It will also check if your ISP is blocking the IP, based on a DNS server check. If so, it will gives you the opportunity to overpass this censorship.
 Some additional features will be added along the way.
 
 This is my final project in my bachelor degree. 
@@ -10,50 +11,49 @@ This is my final project in my bachelor degree.
 Since this project is due for June '13, it's still a work in progress.
 
 
-What it does
-------------
+## What it does
 
-Nothing for the moment the online version is only used for testing purpose. 
-Don't rely on anything you read there. 
+Not much for the moment. Be patient dear.
 
 
-What it's made of
------------------
+### What it's made of
 
-+ [node.js](http://nodejs.org/)
-+ [Express](http://expressjs.com)
-+ [Jade](http://jade-lang.com/)
-+ [Stylus](http://learnboost.github.com/stylus/)
-+ [Nib](http://visionmedia.github.com/nib/)
-+ [MongoDB](http://www.mongodb.org/)
-+ [Mongoose](http://mongoosejs.com/)
-+ [Bootstrap](http://twitter.github.com/bootstrap/)
-+ [Connect-flash](https://github.com/jaredhanson/connect-flash)
++ [node.js][1]
++ [Express][2]
++ [Jade][3]
++ [Stylus][9]
++ [node-mysql][5]
++ [Bootstrap][4]
++ [Skeleton][6]
 
-The app and database are hosted by [AppFog](https://www.appfog.com).
+The database is hosted by [AlwaysData][7]
 
-A backup database will be hosted by [MongoLab](https://mongolab.com).
+### How it works
 
+If you clone the project, just don't yet.
 
-How it works
-------------
+Still, to run it, you must have [Node.js][1] installed.
 
-If you clone the project and you wish to use this pre-alpha version, you must be insane.
-
-Still, to run it, you must have [Node.js](http://nodejs.org/) installed.
-
-Once the installation complete, in the main directory, run :
-
-	node app.js
-
-Or you can install [nodemon](https://github.com/remy/nodemon), a great way to run node apps without stopping and starting each time you make a modification.
+You can install [nodemon][8], a great way to run node apps without stopping and starting each time you make a modification.
 
 First install nodemon.
 
 	npm install nodemon
 
-Then run the app.
+Then run the app. Nodemon will know witch file to run based on the package.json
 
-	nodemon app.js
+	nodemon
 
 And off you go !
+
+## Licence
+
+[1]:http://nodejs.org/
+[2]:http://expressjs.com
+[3]:http://jade-lang.com/
+[4]:http://twitter.github.io/bootstrap/
+[5]:https://github.com/felixge/node-mysql
+[6]:https://github.com/EtienneLem/skeleton
+[7]:https://www.alwaysdata.com/
+[8]:https://github.com/remy/nodemon
+[9]:http://learnboost.github.io/stylus/
