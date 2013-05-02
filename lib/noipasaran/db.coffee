@@ -6,11 +6,36 @@ connection = mysql.createConnection({
   password : 'test',
   database : 'brnrd_noipasaran'})
 
-exports.insert_dns_temp = (data, id) ->
-  connection.query('INSERT INTO dns_servers_temp SET ?', data, (err, result) ->
+insert_temp = 'INSERT INTO dns_servers_temp SET ?'
+insert_final = 'INSERT INTO dns_servers_final SET ?'
+get_temps = 'SELECT * FROM dns_servers_temp'
+get_finals = 'SELECT * FROP dns_servers_final'
+
+
+exports.insert_server = (data, isTemp, id) ->
+  query = null
+  if isTemp
+    query = insert_temp
+  else
+    query = insert_final
+  if data.is_isp == 'on'
+    data.is_isp = 1
+  else 
+    data.is_isp = 0
+  connection.query(query, data, (err, result) ->
     if err 
       throw err
 
-    console.log result
-    result.insertId
-  )
+    id(result.insertId))
+
+exports.get_servers = (isTemp, data) ->
+  query = null
+  if isTemp
+    query = get_temps
+  else
+    query = get_finals
+  connection.query(query, (err, rows, fields) ->
+    if err 
+      throw err
+
+    data(rows))

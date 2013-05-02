@@ -1,5 +1,7 @@
 extend layout
 
+block specific-css
+
 block content
 	section.forms(id="form")
 		div.row
@@ -15,3 +17,11 @@ block content
 								p Check if this is an ISP
 									input(name="is_isp", id="isisp", type="checkbox") 
 							input.btn.btn-primary(type="submit", id="submit-help", value="Submit")
+		div.span4
+			div.alert.alert-success
+				a.close x
+				strong Thanks !
+				|  Your help is appreciated.
+
+block specific-js
+	!= js('help')

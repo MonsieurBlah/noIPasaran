@@ -1,61 +1,51 @@
 extends layout
 
+block specific-css
+
 block content
 	div.container
 		div.row
 			div.span12
-				section(id="tables")
-					table.table.table-bordered.table-striped.table-hover
-						thead
-							th Name
-							th Primary IP
-							th Secondary IP
-							th Country
-							th ISP ?
-							unless type == 'final'
-								th Validate
-							th Edit
-							th Delete
-						tbody
-							each item in dnslist
-								if item._id == current
-									form(name="admin-edit", action="/admin/#{type}/update/"+item._id, method="post")
-										tr
-											td 
-												input.input-medium(name="dnsname", type="text", value=item.DNSname)
-											td 
-												input.input-medium(name="primaryip", type="text", value=item.primaryIP)
-											td 
-												input.input-medium(name="secondaryip", type="text", value=item.secondaryIP)
-											td 
-												input.input-medium(name="country", type="text", value=item.country)
-											td 
-												if item.isISP
-													input(name="isisp", type="checkbox", checked)
-												else
-													input(name="isisp", type="checkbox")
-											unless type == 'final'
-												td
-													a(href="/admin/#{type}/validate/"+item._id) Validate
-											td
-												input.btn.btn-link(type="submit", action="/admin/#{type}/update/"+item._id, method="post", value="Update")
-											td
-												a(href="/admin/#{type}/destroy/"+item._id) Delete
+				table.table.table-bordered.table-striped.table-hover
+					thead
+						th Id
+						th Name
+						th Primary IP
+						th Secondary IP
+						th Country
+						th ISP ?
+						unless !isTemp
+							th Validate
+						th Edit
+						th Delete
+					tbody
+						each item in servers
+							tr
+								if isTemp
+									td= item.dns_server_temp_id
 								else
-									tr
-										td= item.DNSname
-										td= item.primaryIP
-										td= item.secondaryIP
-										td= item.country
-										td 
-											if item.isISP
-												a.btn.btn-success.btn-small() Yes
-											else
-												a.btn.btn-danger.btn-small() No
-										unless type == 'final'
-											td
-												a(href="/admin/#{type}/validate/"+item._id) Validate
-										td
-											a(href="/admin/#{type}/edit/"+item._id) Edit
-										td
-											a(href="/admin/#{type}/destroy/"+item._id) Delete
+									td= item.dns_server_final_id
+								td= item.name
+								td= item.primary_ip
+								td= item.secondary_ip
+								td= item.location
+								td 
+									if item.is_isp == 1
+										i.icon-ok
+									else
+										i.icon-remove
+								unless !isTemp
+									td
+										a.btn.btn-success(href="#"+item._id) 
+											i.icon-ok-sign.icon-white
+											| Add
+								td
+									a.btn.btn-warning(href="#"+item._id)
+										i.icon-plus-sign.icon-white 
+										| Edit
+								td
+									a.btn.btn-danger(href="#"+item._id)
+										i.icon-remove-sign.icon-white
+										| Delete
+
+			block specific-js

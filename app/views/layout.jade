@@ -3,10 +3,13 @@ html
 	head
 		title #{title} | noIPasaran
 		meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
+		meta(name="keywors", content="noipasaran dns")
+		meta(name="authors", content="brnrd")
 		link(rel="stylesheet", type="text/css", href="/css/bootstrap/bootstrap.min.css")
 		link(rel="stylesheet", type="text/css", href="/css/bootswatch/bootswatch.css")
 		meta(name="viewport", content="width=device-width, initial-scale=1.0")
 		link(href="/css/bootstrap/bootstrap-responsive.css", rel="stylesheet")
+		block specific-css
 
 	body
 		div.navbar.navbar-fixed-top
@@ -23,9 +26,6 @@ html
 								a(href="/help") Help me
 							li 
 								a(href="https://bitbucket.org/brnrd/noipasaran", target="_blank") Code
-						unless title == "Home"
-							form.navbar-search.pull-left(name="form", action="/query", method="post")
-								input.search-query.span4(type="text", placeholder="Go to URL or IP", name="query")
 						ul.nav.pull-right
 							li.dropdown
 								a.dropdown-toggle(data-toggle="dropdown", href="#") Admin
@@ -38,10 +38,6 @@ html
 
 			
 	div.container
-		header.jumbotron.subhead(id="page_title")
-			div.span6
-				unless title == "Home"
-					h1 #{title}
 		block content
 
 	br
@@ -55,3 +51,4 @@ html
 
 	script(src="/js/jquery/jquery-2.0.0.min.js")
 	script(src="/js/bootstrap/bootstrap.min.js")
+	block specific-js
