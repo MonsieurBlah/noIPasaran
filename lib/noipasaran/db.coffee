@@ -9,7 +9,7 @@ connection = mysql.createConnection({
 insert_temp = 'INSERT INTO dns_servers_temp SET ?'
 insert_final = 'INSERT INTO dns_servers_final SET ?'
 get_temps = 'SELECT * FROM dns_servers_temp'
-get_finals = 'SELECT * FROP dns_servers_final'
+get_finals = 'SELECT * FROM dns_servers_final'
 
 
 exports.insert_server = (data, isTemp, id) ->

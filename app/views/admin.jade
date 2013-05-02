@@ -1,14 +1,12 @@
 extends layout
 
-block specific-css
-
 block content
 	div.container
 		div.row
 			div.span12
 				table.table.table-bordered.table-striped.table-hover
 					thead
-						th Id
+						th ID
 						th Name
 						th Primary IP
 						th Secondary IP
@@ -36,16 +34,15 @@ block content
 										i.icon-remove
 								unless !isTemp
 									td
-										a.btn.btn-success(href="#"+item._id) 
+										a.btn.btn-success(href="#") 
 											i.icon-ok-sign.icon-white
 											| Add
 								td
-									a.btn.btn-warning(href="#"+item._id)
+									a.btn.btn-warning(href="#")
 										i.icon-plus-sign.icon-white 
 										| Edit
 								td
-									a.btn.btn-danger(href="#"+item._id)
+									a.btn.btn-danger(href="#")
 										i.icon-remove-sign.icon-white
 										| Delete
 
-			block specific-js

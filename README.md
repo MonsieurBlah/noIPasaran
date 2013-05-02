@@ -1,7 +1,6 @@
 
 # noIPasaran
 
-
 noIPasaran will be a web service that give you the most probable IP for the website you want to visit.
 It will also check if your ISP is blocking the IP, based on a DNS server check. If so, it will gives you the opportunity to overpass this censorship.
 Some additional features will be added along the way.
@@ -19,6 +18,7 @@ Not much for the moment. Be patient dear.
 ### What it's made of
 
 + [node.js][1]
++ [coffeescript][10]
 + [Express][2]
 + [Jade][3]
 + [Stylus][9]
@@ -27,6 +27,7 @@ Not much for the moment. Be patient dear.
 + [Skeleton][6]
 
 The database is hosted by [AlwaysData][7]
+
 
 ### How it works
 
@@ -45,6 +46,7 @@ Then run the app. Nodemon will know witch file to run based on the package.json
 	nodemon
 
 And off you go !
+
 
 ## Licence
 
@@ -80,3 +82,4 @@ OTHER DEALINGS IN THE SOFTWARE.
 [7]:https://www.alwaysdata.com/
 [8]:https://github.com/remy/nodemon
 [9]:http://learnboost.github.io/stylus/
+[10]:http://coffeescript.org/
