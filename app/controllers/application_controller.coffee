@@ -11,18 +11,23 @@ module.exports = (app) ->
 		@help = (req, res) ->
 			res.render 'help', view: 'help', title: 'Help'
 
-		@help_post = (req, res) ->
+		@helpPost = (req, res) ->
 			console.log req.body
-			newId = db.insert_server(req.body, true, (newId) ->
+			newId = db.insertServer(req.body, true, (newId) ->
 				console.log 'id= ' + newId
 				res.redirect '/dns' + newId)
 
 		@admin = (req, res) ->
 			isTemp = true
 			isTemp = req.params.db == 'temp'
-			db.get_servers(isTemp, (data) ->
+			db.getServers(isTemp, (data) ->
 				console.log data
 				res.render 'admin', view: 'admin', title: 'Admin', servers: data, isTemp: isTemp)
+
+		@valServer = (req, res) ->
+			isTemp = true
+			isTemp = req.params.db == 'temp'
+
 
 
 

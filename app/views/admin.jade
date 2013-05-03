@@ -32,17 +32,17 @@ block content
 										i.icon-ok
 									else
 										i.icon-remove
-								unless !isTemp
+								if isTemp
 									td
-										a.btn.btn-success(href="#") 
+										button.btn.btn-success(href="#", data=item.dns_server_temp_id) 
 											i.icon-ok-sign.icon-white
 											| Add
 								td
-									a.btn.btn-warning(href="#")
+									button.btn.btn-warning(href="#")
 										i.icon-plus-sign.icon-white 
 										| Edit
 								td
-									a.btn.btn-danger(href="#")
+									button.btn.btn-danger(href="#")
 										i.icon-remove-sign.icon-white
 										| Delete
 
