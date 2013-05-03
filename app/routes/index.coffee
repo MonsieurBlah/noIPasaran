@@ -10,6 +10,7 @@ module.exports = (app) ->
 	app.get '/help', app.ApplicationController.help
 	app.post '/help', app.ApplicationController.helpPost
 
+	# Admin DON'T FORGET TO RUN AUTH LATER !!!
 	app.get '/admin', app.ApplicationController.admin
 	app.get '/admin/:db', app.ApplicationController.admin
 

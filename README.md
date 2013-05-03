@@ -18,8 +18,10 @@ Not much for the moment. Be patient dear.
 ### What it's made of
 
 + [node.js][1]
-+ [coffeescript][10]
++ [CoffeeScript][10]
 + [Express][2]
++ [connect-assets][14]
++ [jQuery][13]
 + [Jade][3]
 + [Stylus][9]
 + [node-mysql][5]
@@ -27,6 +29,13 @@ Not much for the moment. Be patient dear.
 + [Skeleton][6]
 
 The database is hosted by [AlwaysData][7]
+
+It uses also : 
+
++ [jsonip][11]
++ [freegeoip][12]
+
+Made with love under [Ubuntu][15] using [Sublime Text][16] with lots of cool packages
 
 
 ### How it works
@@ -37,15 +46,16 @@ Still, to run it, you must have [Node.js][1] installed.
 
 You can install [nodemon][8], a great way to run node apps without stopping and starting each time you make a modification.
 
-First install nodemon.
+First install nodemon (with a -g for global)
 
-	npm install nodemon
+	npm install -g nodemon
 
-Then run the app. Nodemon will know witch file to run based on the package.json
+Then run the app. Nodemon will know witch file to run based on the package.json file.
 
 	nodemon
 
 And off you go !
+The app is currently set on developpement mode and listens on the port 3000 (or up if busy)
 
 
 ## Licence
@@ -83,3 +93,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 [8]:https://github.com/remy/nodemon
 [9]:http://learnboost.github.io/stylus/
 [10]:http://coffeescript.org/
+[11]:http://jsonip.com
+[12]:http://jsonip.com
+[13]:http://jquery.com/
+[14]:https://github.com/adunkman/connect-assets
+[15]:http://www.ubuntu.com/
+[16]:http://www.sublimetext.com/
