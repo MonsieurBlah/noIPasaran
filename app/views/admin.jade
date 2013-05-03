@@ -34,16 +34,27 @@ block content
 										i.icon-remove
 								if isTemp
 									td
-										button.btn.btn-success.validate(href="#", server-id=item.dns_server_temp_id) 
+										button.btn.btn-success.validate(href="#", data-server-id=item.dns_server_temp_id) 
 											i.icon-ok-sign.icon-white
 											| Add
+
 								td
-									button.btn.btn-warning(href="#")
-										i.icon-plus-sign.icon-white 
-										| Edit
+									if isTemp
+										button.btn.btn-warning.edit(href="#", data-server-id=item.dns_server_temp_id)
+											i.icon-plus-sign.icon-white 
+											| Edit
+									else
+										button.btn.btn-warning.edit(href="#", data-server-id=item.dns_server_final_id)
+											i.icon-plus-sign.icon-white 
+											| Edit
 								td
-									button.btn.btn-danger(href="#")
-										i.icon-remove-sign.icon-white
-										| Delete
+									if isTemp
+										button.btn.btn-danger.delete(href="#", data-server-id=item.dns_server_temp_id)
+											i.icon-remove-sign.icon-white
+											| Delete
+									else
+										button.btn.btn-danger.delete(href="#", data-server-id=item.dns_server_final_id)
+											i.icon-remove-sign.icon-white
+											| Delete
 block specific-js
 	!= js('admin')
