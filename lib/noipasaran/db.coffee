@@ -42,6 +42,7 @@ exports.getServers = (isTemp, data) ->
 		data(rows))
 
 exports.valServer = (id, res) ->
+	console.log id
 	connection.query(queryGetServerFromTemp, id, (err, result) ->
 		if err
 			throw err 

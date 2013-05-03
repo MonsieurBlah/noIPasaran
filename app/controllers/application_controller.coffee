@@ -27,6 +27,8 @@ module.exports = (app) ->
 		@valServer = (req, res) ->
 			isTemp = true
 			isTemp = req.params.db == 'temp'
+			db.valServer(req.params.id, (data) ->
+				res.redirect '/admin/temp')
 
 
 
