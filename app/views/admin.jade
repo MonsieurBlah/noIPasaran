@@ -56,5 +56,15 @@ block content
 										button.btn.btn-danger.delete-final(href="#", data-server-id=item.dns_server_final_id)
 											i.icon-remove-sign.icon-white
 											| Delete
+
+	// Modal
+	div.modal.hide.fade(id="edit-modal", tabindex="-1", role="dialog", aria-labelledby="editModal", aria-hidden="true")
+		div.modal-header
+			button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+			h3 Modify servers
+		div.modal-body
+		div.modal-footer
+			button.btn(type="submit", id="submit") Save
+			button.btn(data-dismiss="modal", aria-hidden="true") Cancel
 block specific-js
 	!= js('admin')

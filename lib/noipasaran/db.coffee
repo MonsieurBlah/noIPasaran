@@ -51,7 +51,6 @@ module.exports = (app) ->
 				if err
 					throw err 
 
-				console.log result
 				server = result[0]
 				delete server.date
 				delete server.dns_server_temp_id
