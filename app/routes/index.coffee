@@ -10,6 +10,9 @@ module.exports = (app) ->
 	app.get '/help', app.ApplicationController.help
 	app.post '/help', app.ApplicationController.helpPost
 
+	# About
+	app.get '/about', app.ApplicationController.about
+
 	# Admin DON'T FORGET TO RUN AUTH LATER !!!
 	app.get '/admin', app.ApplicationController.admin
 	app.get '/admin/:db', app.ApplicationController.admin
@@ -17,6 +20,8 @@ module.exports = (app) ->
 	app.post '/admin/:db/validate/:id', app.ApplicationController.valServer
 	# app.post '/admin/:db/edit/:id', app.ApplicationController.editServer
 	app.post '/admin/:db/delete/:id', app.ApplicationController.delServer
+
+
 
 	# Error handling (No previous route found. Assuming it’s a 404)
 	app.get '/*', (req, res) ->

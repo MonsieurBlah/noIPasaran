@@ -2,8 +2,8 @@ extend layout
 
 block content
 	section#form.forms
-		div.row
-			div.span6.offset3
+		.row
+			.span6.offset3
 				form#help-form.well.form-horizontal(action="/help", method="post")
 					fieldset
 						legend ... to help me get more DNS servers !
@@ -14,7 +14,7 @@ block content
 							label.checkbox
 								p Check if this is an ISP
 									input#isisp(name="is_isp", type="checkbox") 
-							button#submit-help.btn-primary(type="submit",value="Submit") Submit
+							submit#submit-help.btn.btn-primary(type="submit",value="Submit") Submit
 
 block specific-js
 	!= js('help')

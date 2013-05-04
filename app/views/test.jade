@@ -1,28 +1,4 @@
 extends layout
 
 block content
-	section(id="tables")
-		div.page-header
-			h2 DNS server database
-		table.table.table-bordered.table-striped.table-hover
-			thead
-				tr
-					th Name
-					th Primary IP
-					th Secondary IP
-					th Country
-					th ISP ?
-					th Date [To remove after debug]
-			tbody
-			each item in dnslist
-				tr
-					td= item.DNSname
-					td= item.primaryIP
-					td= item.secondaryIP
-					td= item.country
-					td 
-						if item.isISP
-							a.btn.btn-success.btn-small() Yes
-						else
-							a.btn.btn-danger.btn-small() No
-					td= item.updatedAt
+	p TEST !

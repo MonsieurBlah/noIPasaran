@@ -5,22 +5,22 @@ html
 		meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
 		meta(name="keywors", content="noipasaran dns")
 		meta(name="authors", content="brnrd")
+		!= css('layout')
 		link(rel="stylesheet", type="text/css", href="/css/bootstrap/bootstrap.min.css")
-		link(rel="stylesheet", type="text/css", href="/css/bootswatch/bootswatch.css")
 		meta(name="viewport", content="width=device-width, initial-scale=1.0")
-		link(href="/css/bootstrap/bootstrap-responsive.css", rel="stylesheet")
+		link(href="/css/bootstrap/bootstrap-responsive.min.css", rel="stylesheet")
 		block specific-css
 
 	body
-		div.navbar.navbar-fixed-top
-			div.navbar-inner
-				div.container
+		.navbar.navbar-fixed-top.navbar-inverse
+			.navbar-inner
+				.container
 					a.btn.btn-navbar(data-toggle="collapse", data-target=".nav-collapse")
 						span.icon-bar
 						span.icon-bar
 						span.icon-bar
 					a.brand(href="/") noIPasaran
-					div#main-menu.nav-collapse
+					#main-menu.nav-collapse
 						ul#main-menu-left.nav
 							if title == 'Home'
 								li.active 
@@ -34,6 +34,12 @@ html
 							else
 								li	
 									a(href="/help") Help me
+							if title == 'About'
+								li.active 
+									a(href="/about") About
+							else
+								li	
+									a(href="/about") About
 							li 
 								a(href="https://bitbucket.org/brnrd/noipasaran", target="_blank") Code
 						ul.nav.pull-right
@@ -45,10 +51,8 @@ html
 										a(href="/admin/temp") Temps
 									li
 										a(href="/admin/final") Finals
-
-			
-	div.container
-		block content
+		.container
+			block content
 
 	br
 	br
@@ -56,8 +60,8 @@ html
 	br
 	hr
 	footer#footer
-		div.links
-				a(href="#", target="_blank") [Licence]
+		.links
+			a(href="#", target="_blank") [Licence]
 
 	script(src="/js/jquery/jquery-2.0.0.min.js")
 	script(src="/js/bootstrap/bootstrap.min.js")

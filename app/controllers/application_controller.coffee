@@ -12,9 +12,11 @@ module.exports = (app) ->
 			res.render 'help', view: 'help', title: 'Help'
 
 		@helpPost = (req, res) ->
-			console.log req.body
 			newId = app.dao.insertServer(req.body, true, (newId) ->
 				res.redirect '/dns' + newId)
+
+		@about = (req, res) ->
+			res.render 'about', view: 'about', title: 'About'
 
 		@admin = (req, res) ->
 			isTemp = true
