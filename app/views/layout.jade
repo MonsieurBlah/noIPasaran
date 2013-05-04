@@ -20,8 +20,8 @@ html
 						span.icon-bar
 						span.icon-bar
 					a.brand(href="/") noIPasaran
-					div.nav-collapse(id="main-menu")
-						ul.nav(id="main-menu-left")
+					div#main-menu.nav-collapse
+						ul#main-menu-left.nav
 							if title == 'Home'
 								li.active 
 									a(href="/") Home
@@ -40,7 +40,7 @@ html
 							li.dropdown
 								a.dropdown-toggle(data-toggle="dropdown", href="#") Admin
 									b.caret
-								ul.dropdown-menu(id="admin-menu")
+								ul#admin-menu.dropdown-menu
 									li
 										a(href="/admin/temp") Temps
 									li
@@ -55,7 +55,7 @@ html
 	br
 	br
 	hr
-	footer(id="footer")
+	footer#footer
 		div.links
 				a(href="#", target="_blank") [Licence]
 

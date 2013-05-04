@@ -1,20 +1,20 @@
 extend layout
 
 block content
-	section.forms(id="form")
+	section#form.forms
 		div.row
 			div.span6.offset3
-				form.well.form-horizontal(id="help-form", action="/help", method="post")
+				form#help-form.well.form-horizontal(action="/help", method="post")
 					fieldset
 						legend ... to help me get more DNS servers !
-							input.input-xlarge(id="dnsname", name="name", type="text", placeholder="Name of the DNS provider", required)
-							input.input-xlarge(id="primaryip", name="primary_ip", type="text", placeholder="The primary IP", required)
-							input.input-xlarge(id="secondaryip", name="secondary_ip", type="text", placeholder="The secondary IP", required) 
+							input#dnsname.input-xlarge(name="name", type="text", placeholder="Name of the DNS provider", required)
+							input#primaryip.input-xlarge(name="primary_ip", type="text", placeholder="The primary IP", required)
+							input#secondaryip.input-xlarge(name="secondary_ip", type="text", placeholder="The secondary IP", required) 
 							include includes/countries
 							label.checkbox
 								p Check if this is an ISP
-									input(name="is_isp", id="isisp", type="checkbox") 
-							button.btn-primary(type="submit", id="submit-help", value="Submit") Submit
+									input#isisp(name="is_isp", type="checkbox") 
+							button#submit-help.btn-primary(type="submit",value="Submit") Submit
 
 block specific-js
 	!= js('help')

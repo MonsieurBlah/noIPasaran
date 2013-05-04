@@ -2,12 +2,12 @@
 html
 	head
 	body
-		form(id="modify-form", action="/admin/edit", method="post")
+		form#modify-form(action="/admin/edit", method="post")
 			fieldset
-				input.input-xlarge(id="dnsname", name="name", type="text", placeholder="Name of the DNS provider", required)
-				input.input-xlarge(id="primaryip", name="primary_ip", type="text", placeholder="The primary IP", required)
-				input.input-xlarge(id="secondaryip", name="secondary_ip", type="text", placeholder="The secondary IP", required) 
+				input#dnsname.input-xlarge(name="name", type="text", placeholder="Name of the DNS provider", required)
+				input#primaryip.input-xlarge( name="primary_ip", type="text", placeholder="The primary IP", required)
+				input#secondaryip.input-xlarge(name="secondary_ip", type="text", placeholder="The secondary IP", required) 
 				include includes/countries
 				label.checkbox
 					p Check if this is an ISP
-						input(name="is_isp", id="isisp", type="checkbox")
+						input#isisp(name="is_isp", type="checkbox")
