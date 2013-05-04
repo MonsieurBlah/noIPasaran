@@ -14,14 +14,12 @@ module.exports = (app) ->
 		@helpPost = (req, res) ->
 			console.log req.body
 			newId = app.dao.insertServer(req.body, true, (newId) ->
-				console.log 'id= ' + newId
 				res.redirect '/dns' + newId)
 
 		@admin = (req, res) ->
 			isTemp = true
 			isTemp = req.params.db == 'temp'
 			app.dao.getServers(isTemp, (data) ->
-				console.log data
 				res.render 'admin', view: 'admin', title: 'Admin', servers: data, isTemp: isTemp)
 
 		@valServer = (req, res) ->

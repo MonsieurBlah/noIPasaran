@@ -40,20 +40,20 @@ block content
 
 								td
 									if isTemp
-										button.btn.btn-warning.edit(href="#", data-server-id=item.dns_server_temp_id)
+										button.btn.btn-warning.edit-temp(href="#", data-server-id=item.dns_server_temp_id)
 											i.icon-plus-sign.icon-white 
 											| Edit
 									else
-										button.btn.btn-warning.edit(href="#", data-server-id=item.dns_server_final_id)
+										button.btn.btn-warning.edit-final(href="#", data-server-id=item.dns_server_final_id)
 											i.icon-plus-sign.icon-white 
 											| Edit
 								td
 									if isTemp
-										button.btn.btn-danger.delete(href="#", data-server-id=item.dns_server_temp_id)
+										button.btn.btn-danger.delete-temp(href="#", data-server-id=item.dns_server_temp_id)
 											i.icon-remove-sign.icon-white
 											| Delete
 									else
-										button.btn.btn-danger.delete(href="#", data-server-id=item.dns_server_final_id)
+										button.btn.btn-danger.delete-final(href="#", data-server-id=item.dns_server_final_id)
 											i.icon-remove-sign.icon-white
 											| Delete
 block specific-js

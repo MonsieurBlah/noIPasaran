@@ -15,7 +15,7 @@ module.exports = (app) ->
 		queryGetFinals = 'SELECT * FROM dns_servers_final'
 		queryGetServerFromTemp = 'SELECT * FROM dns_servers_temp WHERE dns_server_temp_id = ?'
 		queryDeleteServerFromTemp = 'DELETE FROM dns_servers_temp WHERE dns_server_temp_id = ?'
-		queryDeleteServerFromFinal = 'DELETE FROM dns_servers_final WHERE dns_server_temp_id = ?'
+		queryDeleteServerFromFinal = 'DELETE FROM dns_servers_final WHERE dns_server_final_id = ?'
 
 
 		@insertServer = (data, isTemp, id) ->
