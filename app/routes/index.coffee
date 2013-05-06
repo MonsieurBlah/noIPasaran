@@ -15,11 +15,11 @@ module.exports = (app) ->
 
 	# Admin DON'T FORGET TO RUN AUTH LATER !!!
 	app.get '/admin', app.ApplicationController.admin
-	app.get '/admin/:db', app.ApplicationController.admin
+	app.get '/admin/servers', app.ApplicationController.adminservers
 
-	app.post '/admin/:db/validate/:id', app.ApplicationController.valServer
+	app.post '/admin/servers/validate/:id', app.ApplicationController.valServer
 	# app.post '/admin/:db/edit/:id', app.ApplicationController.editServer
-	app.post '/admin/:db/delete/:id', app.ApplicationController.delServer
+	app.post '/admin/servers/delete/:id', app.ApplicationController.delServer
 
 
 

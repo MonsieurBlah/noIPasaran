@@ -11,17 +11,13 @@ block content
 						th Secondary IP
 						th Country
 						th ISP ?
-						unless !isTemp
-							th Validate
+						th Validate
 						th Edit
 						th Delete
 					tbody
 						each item in servers
 							tr
-								if isTemp
-									td= item.dns_server_temp_id
-								else
-									td= item.dns_server_final_id
+								td= item.dns_server_id
 								td= item.name
 								td= item.primary_ip
 								td= item.secondary_ip
@@ -31,31 +27,24 @@ block content
 										i.icon-ok
 									else
 										i.icon-remove
-								if isTemp
+								if item.valid == 0
 									td
-										button.btn.btn-success.validate(href="#", data-server-id=item.dns_server_temp_id) 
+										button.btn.btn-success.validate(href="#", data-server-id=item.dns_server_id) 
 											i.icon-ok-sign.icon-white
 											|  Add
-
+								else
+									td
+										button.btn.btn-success.validate(href="#", data-server-id=item.dns_server_id, disabled) 
+											i.icon-ok-sign.icon-white
+											|  Add
 								td
-									if isTemp
-										button.btn.btn-warning.edit-temp(href="#", data-server-id=item.dns_server_temp_id)
-											i.icon-plus-sign.icon-white 
-											|  Edit
-									else
-										button.btn.btn-warning.edit-final(href="#", data-server-id=item.dns_server_final_id)
-											i.icon-plus-sign.icon-white 
-											|  Edit
+									button.btn.btn-warning.edit(href="#", data-server-id=item.dns_server_id)
+										i.icon-plus-sign.icon-white 
+										|  Edit
 								td
-									if isTemp
-										button.btn.btn-danger.delete-temp(href="#", data-server-id=item.dns_server_temp_id)
-											i.icon-remove-sign.icon-white
-											|  Delete
-									else
-										button.btn.btn-danger.delete-final(href="#", data-server-id=item.dns_server_final_id)
-											i.icon-remove-sign.icon-white
-											|  Delete
-
+									button.btn.btn-danger.delete(href="#", data-server-id=item.dns_server_id)
+										i.icon-remove-sign.icon-white
+										|  Delete
 	// Modal
 	#edit-modal.modal.hide.fade(tabindex="-1", role="dialog", aria-labelledby="editModal", aria-hidden="true")
 		.modal-header
