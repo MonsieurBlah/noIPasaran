@@ -15,6 +15,7 @@ module.exports = (app) ->
 
 	# Admin DON'T FORGET TO RUN AUTH LATER !!!
 	app.get '/admin', app.ApplicationController.admin
+	app.get '/admin/sites', app.ApplicationController.adminsites
 	app.get '/admin/servers', app.ApplicationController.adminservers
 
 	app.post '/admin/servers/validate/:id', app.ApplicationController.valServer

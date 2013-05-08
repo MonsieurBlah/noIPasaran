@@ -16,6 +16,7 @@ module.exports = (app) ->
 		queryDeleteServer = 'DELETE FROM dns_servers WHERE dns_server_id = ?'
 		queryGetServersWhereLocation = 'SELECT * FROM dns_servers WHERE location = ?'
 		queryGetValidServers = 'SELECT * FROM dns_servers WHERE valid = 1'
+		queryGetSites = 'SELECT * FROM sites'
 
 
 		@insertServer = (data, id) ->
@@ -65,3 +66,10 @@ module.exports = (app) ->
 
 				console.log data
 				data)
+
+		@getSites = (data) ->
+			connection.query(queryGetSites, (err, rows, fields) ->
+				if err 
+					throw err 
+
+				data(rows))

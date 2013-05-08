@@ -18,7 +18,6 @@ module.exports = (app) ->
 		@about = (req, res) ->
 			res.render 'about', view: 'about', title: 'About'
 
-		# TO CREATE !!
 		@admin = (req, res) ->
 			res.render 'admin', view: 'admin', title: 'Admin'
 
@@ -34,6 +33,8 @@ module.exports = (app) ->
 			app.dao.delServer(req.params.id, (data) ->
 				res.redirect '/admin/servers')
 				
-
+		@adminsites = (req, res) ->
+			app.dao.getSites((data) ->
+				res.render 'adminsites', view: 'adminsites', title: 'Sites', sites: data)
 
 

@@ -1,0 +1,29 @@
+extends layout
+
+block content
+		.row
+			.span12
+				table#sites-table.table.table-bordered.table-stripred.table-hover
+					thead
+						th ID
+						th URL
+						th Problem ?
+						th Validate
+						th Edit
+						th Delete
+					tbody
+						each item in sites
+							tr 
+								td= item.site_id
+								td= item.url
+								td
+									if item.haz_problem == 1
+										i.icon-ok
+									else
+										i.icon-remove
+								td 
+									button
+								td 
+									button
+								td
+									button
