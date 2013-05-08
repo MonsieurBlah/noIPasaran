@@ -48,6 +48,9 @@ html
 									b.caret
 								ul#admin-menu.dropdown-menu
 									li
+										a(href="/admin") Admin
+									li.divider
+									li
 										a(href="/admin/servers") DNS Servers
 									li
 										a(href="/admin/urls") URLs
@@ -64,5 +67,6 @@ html
 			a(href="#", target="_blank") [Licence]
 
 	script(src="/js/jquery/jquery-2.0.0.min.js")
+	script(src="/js/jquery/jquery.dataTables.min.js")
 	script(src="/js/bootstrap/bootstrap.min.js")
 	block specific-js

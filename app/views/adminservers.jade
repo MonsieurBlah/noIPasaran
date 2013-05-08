@@ -1,9 +1,12 @@
 extends layout
 
+block specific-css
+	!= css('adminservers')
+
 block content
 		.row
 			.span12
-				table.table.table-bordered.table-striped.table-hover
+				table#servers-table.table.table-bordered.table-striped.table-hover
 					thead
 						th ID
 						th Name
@@ -36,7 +39,7 @@ block content
 									td
 										button.btn.btn-success.validate(href="#", data-server-id=item.dns_server_id, disabled) 
 											i.icon-ok-sign.icon-white
-											|  Add
+											|  Added
 								td
 									button.btn.btn-warning.edit(href="#", data-server-id=item.dns_server_id)
 										i.icon-plus-sign.icon-white 
@@ -55,4 +58,4 @@ block content
 			button#submit.btn(type="submit") Save
 			button.btn(data-dismiss="modal", aria-hidden="true") Cancel
 block specific-js
-	!= js('admin')
+	!= js('adminservers')

@@ -20,7 +20,7 @@ module.exports = (app) ->
 
 		# TO CREATE !!
 		@admin = (req, res) ->
-			res.render 'admin', view: 'admin', title: 'Admin')
+			res.render 'admin', view: 'admin', title: 'Admin'
 
 		@adminservers = (req, res) ->
 			app.dao.getServers((data) ->
