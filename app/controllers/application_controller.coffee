@@ -6,7 +6,7 @@ module.exports = (app) ->
 	# NAVBAR CONTENT
 		# INDEX
 		@index = (req, res) ->
-			console.log 'connection address = ' + req.connection.remoteAddress
+			console.log 'connection address = ' + req
 			res.render 'index', view: 'index', title: 'Home'
 
 		# HELP
