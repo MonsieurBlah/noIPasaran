@@ -18,7 +18,9 @@ module.exports = (app) ->
 		queryGetValidServers = 'SELECT * FROM dns_servers WHERE valid = 1'
 		queryGetSites = 'SELECT * FROM sites'
 
-
+		###########
+		# Servers #
+		###########
 		@insertServer = (data, id) ->
 			if data.is_isp == 'on'
 				data.is_isp = 1
@@ -67,6 +69,9 @@ module.exports = (app) ->
 				console.log data
 				data)
 
+		#########
+		# Sites #
+		#########
 		@getSites = (data) ->
 			connection.query(queryGetSites, (err, rows, fields) ->
 				if err 

@@ -3,11 +3,13 @@ db = require '../../lib/noipasaran/db'
 module.exports = (app) ->
 	class app.ApplicationController
 
-		# GET /
+	# NAVBAR CONTENT
+		# INDEX
 		@index = (req, res) ->
+			console.log 'connection address = ' + req.connection.remoteAddress
 			res.render 'index', view: 'index', title: 'Home'
 
-		# GET & POST help
+		# HELP
 		@help = (req, res) ->
 			res.render 'help', view: 'help', title: 'Help'
 
@@ -15,12 +17,14 @@ module.exports = (app) ->
 			newId = app.dao.insertServer(req.body, (newId) ->
 				res.redirect '/dns/' + newId)
 
+		# ABOUT
 		@about = (req, res) ->
 			res.render 'about', view: 'about', title: 'About'
 
+		#ADMIN
 		@admin = (req, res) ->
 			res.render 'admin', view: 'admin', title: 'Admin'
-
+		# Admin servers
 		@adminservers = (req, res) ->
 			app.dao.getServers((data) ->
 				res.render 'adminservers', view: 'adminservers', title: 'Servers', servers: data)
@@ -32,7 +36,8 @@ module.exports = (app) ->
 		@delServer = (req, res) ->
 			app.dao.delServer(req.params.id, (data) ->
 				res.redirect '/admin/servers')
-				
+
+		# Admin sites	
 		@adminsites = (req, res) ->
 			app.dao.getSites((data) ->
 				res.render 'adminsites', view: 'adminsites', title: 'Sites', sites: data)
