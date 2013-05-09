@@ -39,7 +39,7 @@ module.exports = (app) ->
 
 				data(rows))
 
-		@queryGetServersWhereLocation = (location, data) ->
+		@getServersWhereLocation = (location, data) ->
 			connection.query(queryGetServersWhereLocation, location, (err, rows, fields) ->
 				if err 
 					throw err

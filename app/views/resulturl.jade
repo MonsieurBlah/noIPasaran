@@ -4,3 +4,14 @@ block content
 	p The url is #{url}
 	p The client IP is #{clientip}
 	p The client country is #{country}
+	table#servers-table.table.table-bordered.table-striped.table-hover
+		thead
+			th Name
+			th Primary IP
+			th Secondary IP
+		tbody
+			each item in servers
+				tr
+					td= item.name 
+					td= item.primary_ip
+					td= item.secondary_ip

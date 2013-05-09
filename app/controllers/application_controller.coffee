@@ -16,23 +16,15 @@ module.exports = (app) ->
 				else
 					console.log 'Not an ip'
 				app.ipmanip.getClientIP(req, (ip) ->
-					console.log 
-					url = 'http://freegeoip.net/json/' + ip
-					console.log 'URL: ' + url
-					request.get(url, (error, response, body) ->
-						if error 
-							console.log error
-						console.log body.country_name
-						res.render 'resulturl', view: 'resulturl', title: 'Result', url: queryStr, clientip: ip, country: body.country_name
+					ip = '81.247.34.211'
+					app.ipmanip.getIpInfos(ip, (data) ->
+						country = data.country_name
+						app.dao.getServersWhereLocation(country, (servers) ->
+							res.render 'resulturl', view: 'resulturl', title: 'Result', url: queryStr, clientip: ip, country: country, servers: servers
+						)
 					)
 				)
 			)
-
-			# app.ipmanip.getClientIP(req, (ip) ->
-			# 	app.get('http://freegeoip.net/json/' + ip, (fulldata) ->
-			# 		console.log 'FULL DATA'
-			# 		console.log fulldata
-			# 	)
 
 		# HELP
 		@help = (req, res) ->
