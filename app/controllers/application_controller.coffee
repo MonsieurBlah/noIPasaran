@@ -16,12 +16,13 @@ module.exports = (app) ->
 				else
 					console.log 'Not an ip'
 				app.ipmanip.getClientIP(req, (ip) ->
+					console.log 
 					url = 'http://freegeoip.net/json/' + ip
 					console.log 'URL: ' + url
 					request.get(url, (error, response, body) ->
 						if error 
 							console.log error
-						console.log body
+						console.log body.country_name
 						res.render 'resulturl', view: 'resulturl', title: 'Result', url: queryStr, clientip: ip, country: body.country_name
 					)
 				)
