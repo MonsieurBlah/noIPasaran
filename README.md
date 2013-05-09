@@ -27,6 +27,7 @@ Not much for the moment. Be patient dear.
 + [node-mysql][5]
 + [Bootstrap][4]
 + [Skeleton][6]
++ [Request][17]
 
 The database is hosted by [AlwaysData][7]
 
@@ -99,3 +100,4 @@ OTHER DEALINGS IN THE SOFTWARE.
 [14]:https://github.com/adunkman/connect-assets
 [15]:http://www.ubuntu.com/
 [16]:http://www.sublimetext.com/
+[17]:https://github.com/mikeal/request

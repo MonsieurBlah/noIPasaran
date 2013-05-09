@@ -6,8 +6,6 @@ module.exports = (app) ->
 	# NAVBAR CONTENT
 		# INDEX
 		@index = (req, res) ->
-			console.log 'IP UNDER'
-			console.log req.ip
 			res.render 'index', view: 'index', title: 'Home'
 
 		@query = (req, res) ->
@@ -17,14 +15,16 @@ module.exports = (app) ->
 					console.log 'Is an ip'
 				else
 					console.log 'Not an ip'
-				url = 'http://freegeoip.net/json/' + req.ip
-				console.log 'URL: ' + url
-				request.get(url, (error, response, body) ->
-					if error 
-						console.log error
-					console.log body
+				app.ipmanip.getClientIP(req, (ip) ->
+					url = 'http://freegeoip.net/json/' + ip
+					console.log 'URL: ' + url
+					request.get(url, (error, response, body) ->
+						if error 
+							console.log error
+						console.log body
+						res.render 'resulturl', view: 'resulturl', title: 'Result', url: queryStr, clientip: ip, country: body.country_name
+					)
 				)
-				res.render 'resulturl', view: 'resulturl', title: 'Result', url: queryStr, clientip: req.ip
 			)
 
 			# app.ipmanip.getClientIP(req, (ip) ->
