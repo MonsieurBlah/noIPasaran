@@ -29,35 +29,41 @@ module.exports = (app) ->
 			connection.query(queryInsertServer, data, (err, result) ->
 				if err 
 					throw err
-
-				id(result.insertId))
+				id(result.insertId)
+			)
 
 		@getServers = (data) ->
 			connection.query(queryGetServers, (err, rows, fields) ->
 				if err 
 					throw err
+				data(rows)
+			)
 
-				data(rows))
+		@getServer = (id, data) ->
+			connection.query(queryGetServer, id, (err, rows, fields) ->
+				if err 
+					throw err
+				data(rows)
+			)
 
 		@getServersWhereLocation = (location, data) ->
 			connection.query(queryGetServersWhereLocation, location, (err, rows, fields) ->
 				if err 
 					throw err
-
-				data(rows))
+				data(rows)
+			)
 
 		@getValidServers = (data) ->
 			connection.query(queryValServer, (err, rows, fields) -> 
 				if err
 					throw err
-
-				data(rows))
+				data(rows)
+			)
 
 		@valServer = (id, res) ->
 			connection.query(queryValServer, id, (err, result) ->
 				if err
 					throw err 
-
 				console.log result
 				result)
 
@@ -65,7 +71,6 @@ module.exports = (app) ->
 			connection.query(queryDeleteServer, id, (err, data) ->
 				if err 
 					throw err
-
 				console.log data
 				data)
 
@@ -76,5 +81,5 @@ module.exports = (app) ->
 			connection.query(queryGetSites, (err, rows, fields) ->
 				if err 
 					throw err 
-
-				data(rows))
+				data(rows)
+			)

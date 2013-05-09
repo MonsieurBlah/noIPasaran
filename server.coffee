@@ -1,2 +1,2 @@
-require 'coffee-script'
-require './app/app.coffee'
+require('coffee-script')
+require('./app/app.coffee')

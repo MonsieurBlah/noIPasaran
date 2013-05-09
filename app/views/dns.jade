@@ -1,0 +1,23 @@
+extends layout
+
+block content
+		.row
+			.span12
+				h3= server.name
+				ul.unstyled
+					li= server.primary_ip
+					li= server.secondary_ip
+					li 
+						i.icon-map-marker
+						|  #{server.location}
+					li
+						if server.is_isp == 1
+							i.icon-ok
+							|  Is an ISP.
+						else
+							i.icon-remove
+							|  Isn't an ISP.
+				button.btn.btn-primary(href="#")
+					i.icon-refresh.icon-white
+					|  Test this server now
+

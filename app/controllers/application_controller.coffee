@@ -31,12 +31,19 @@ module.exports = (app) ->
 			res.render 'help', view: 'help', title: 'Help'
 
 		@helpPost = (req, res) ->
-			newId = app.dao.insertServer(req.body, (newId) ->
+			app.dao.insertServer(req.body, (newId) ->
 				res.redirect '/dns/' + newId)
 
 		# ABOUT
 		@about = (req, res) ->
 			res.render 'about', view: 'about', title: 'About'
+
+		# DNS
+		@dns = (req, res) ->
+			app.dao.getServer(req.params.id, (data) ->
+				console.log data
+				res.render 'dns', view: 'dns', title: data[0].name, server: data[0]
+			)
 
 		#ADMIN
 		@admin = (req, res) ->

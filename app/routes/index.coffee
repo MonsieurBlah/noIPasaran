@@ -16,6 +16,9 @@ module.exports = (app) ->
 	# About
 	app.get '/about', app.ApplicationController.about
 
+	# Dns
+	app.get '/dns/:id', app.ApplicationController.dns
+
 	# Admin DON'T FORGET TO RUN AUTH LATER !!!
 	app.get '/admin', app.ApplicationController.admin
 	app.get '/admin/sites', app.ApplicationController.adminsites
