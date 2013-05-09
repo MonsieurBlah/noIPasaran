@@ -8,6 +8,7 @@
       , "stylus": "*"
       , "coffee-script": "*"
       , "mysql" : "*"
+      , "request" : "*"
     }
   , "scripts": {
       "start": "server.js"

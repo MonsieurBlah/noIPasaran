@@ -1,12 +1,5 @@
 extend layout
 
 block content
-	iframe(width="800", height="700", src="http://#{ip[0]}", sandbox="")
-	iframe(width="800", height="700", src="http://#{url}", sandbox="")
-	p The IP address(es) for #{url} is(are) : [Check what''s wrong]
-	ul 
-		each item in ip
-			li #{ip}
-	input(type="submit", value="Go to #{url}", onClick="location='http://#{ip[0]}'")
-	form(name="proxyform", action="")
-		input(type="checkbox", name="proxy", value="proxy")Use proxy
+	p The url is #{url}
+	p The client IP is #{clientip}

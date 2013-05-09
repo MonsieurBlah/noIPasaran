@@ -1,13 +1,37 @@
+request = require 'request'
+
 module.exports = (app) ->
 	class app.ApplicationController
 
 	# NAVBAR CONTENT
 		# INDEX
 		@index = (req, res) ->
-			console.log 'REQ UNDER'
-			app.ipmanip.getClientIP(req, (ip) ->
-				console.log ip)
+			console.log 'IP UNDER'
+			console.log req.ip
 			res.render 'index', view: 'index', title: 'Home'
+
+		@query = (req, res) ->
+			queryStr = req.body.query
+			app.ipmanip.isIp(queryStr, (isIp) ->
+				if isIp
+					console.log 'Is an ip'
+				else
+					console.log 'Not an ip'
+				url = 'http://freegeoip.net/json/' + req.ip
+				console.log 'URL: ' + url
+				request.get(url, (error, response, body) ->
+					if error 
+						console.log error
+					console.log body
+				)
+				res.render 'resulturl', view: 'resulturl', title: 'Result', url: queryStr, clientip: req.ip
+			)
+
+			# app.ipmanip.getClientIP(req, (ip) ->
+			# 	app.get('http://freegeoip.net/json/' + ip, (fulldata) ->
+			# 		console.log 'FULL DATA'
+			# 		console.log fulldata
+			# 	)
 
 		# HELP
 		@help = (req, res) ->

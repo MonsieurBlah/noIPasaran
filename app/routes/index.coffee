@@ -6,6 +6,9 @@ module.exports = (app) ->
 	# Index
 	app.get '/', app.ApplicationController.index
 
+	# Query
+	app.post '/query', app.ApplicationController.query
+
 	# Help
 	app.get '/help', app.ApplicationController.help
 	app.post '/help', app.ApplicationController.helpPost
