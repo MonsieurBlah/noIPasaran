@@ -1,12 +1,12 @@
-db = require '../../lib/noipasaran/db'
-
 module.exports = (app) ->
 	class app.ApplicationController
 
 	# NAVBAR CONTENT
 		# INDEX
 		@index = (req, res) ->
-			console.log 'connection address = ' + req.connection
+			console.log 'REQ UNDER'
+			app.ipmanip.getClientIP(req, (ip) ->
+				console.log ip)
 			res.render 'index', view: 'index', title: 'Home'
 
 		# HELP
