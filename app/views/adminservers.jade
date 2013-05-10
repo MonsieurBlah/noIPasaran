@@ -48,14 +48,14 @@ block content
 									button.btn.btn-danger.delete(href="#", data-server-id=item.dns_server_id)
 										i.icon-remove-sign.icon-white
 										|  Delete
-	// Modal
-	#edit-modal.modal.hide.fade(tabindex="-1", role="dialog", aria-labelledby="editModal", aria-hidden="true")
-		.modal-header
-			button.close(type="button", data-dismiss="modal", aria-hidden="true") x
-			h3 Modify servers
-		.modal-body
-		.modal-footer
-			button#submit.btn(type="submit") Save
-			button.btn(data-dismiss="modal", aria-hidden="true") Cancel
+		// Modal
+		#edit-modal.modal.hide.fade(tabindex="-1", role="dialog", aria-labelledby="editModal", aria-hidden="true")
+			.modal-header
+				button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+				h3 Modify servers
+			.modal-body
+			.modal-footer
+				button#submit.btn.btn-primary(type="submit") Save
+				button.btn(data-dismiss="modal", aria-hidden="true") Cancel
 block specific-js
 	!= js('adminservers')

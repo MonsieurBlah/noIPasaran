@@ -25,8 +25,10 @@ module.exports = (app) ->
 	app.get '/admin/servers', app.ApplicationController.adminservers
 
 	app.post '/admin/servers/validate/:id', app.ApplicationController.valServer
-	# app.post '/admin/:db/edit/:id', app.ApplicationController.editServer
+	app.post '/admin/servers/edit', app.ApplicationController.editServer
 	app.post '/admin/servers/delete/:id', app.ApplicationController.delServer
+
+	app.get '/admin/servers/modal/:id', app.ApplicationController.editServerModal
 
 
 

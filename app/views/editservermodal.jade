@@ -1,0 +1,17 @@
+!!! 5
+html
+	head
+	body
+		form#edit-form(action="/admin/servers/edit", method="post")
+			fieldset
+				input#id(name="id", type="hidden", value=server.dns_servers_id)
+				input#dnsname.input-xlarge(name="name", type="text", placeholder="Name of the DNS provider", required, value=server.name)
+				input#primaryip.input-xlarge( name="primary_ip", type="text", placeholder="The primary IP", required, value=server.primary_ip)
+				input#secondaryip.input-xlarge(name="secondary_ip", type="text", placeholder="The secondary IP", required, value=server.secondary_ip) 
+				include includes/countries
+				label.checkbox
+					p Check if this is an ISP
+						if server.is_isp == 1
+							input#isisp(name="is_isp", type="checkbox", checked)
+						else
+							input#isisp(name="is_isp", type="checkbox")

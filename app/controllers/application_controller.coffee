@@ -57,9 +57,18 @@ module.exports = (app) ->
 			app.dao.valServer(req.params.id, (data) ->
 				res.redirect '/admin/temp')
 
+		@editServer = (req, res) ->
+			app.dao.editServer(req.body, (data) ->
+				)
+
 		@delServer = (req, res) ->
 			app.dao.delServer(req.params.id, (data) ->
 				res.redirect '/admin/servers')
+
+		@editServerModal = (req, res) ->
+			app.dao.getServer(req.params.id, (data) ->
+				res.render 'editservermodal', view: 'editservermodal', server: data[0]
+			)
 
 		# Admin sites	
 		@adminsites = (req, res) ->
