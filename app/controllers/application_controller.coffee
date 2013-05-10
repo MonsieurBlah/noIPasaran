@@ -32,7 +32,8 @@ module.exports = (app) ->
 
 		@helpPost = (req, res) ->
 			app.dao.insertServer(req.body, (newId) ->
-				res.redirect '/dns/' + newId)
+				res.end(JSON.stringify(newId))
+			)
 
 		# ABOUT
 		@about = (req, res) ->
@@ -59,7 +60,8 @@ module.exports = (app) ->
 
 		@editServer = (req, res) ->
 			app.dao.editServer(req.body, (data) ->
-				)
+				res.end(JSON.stringify(data))
+			)
 
 		@delServer = (req, res) ->
 			app.dao.delServer(req.params.id, (data) ->

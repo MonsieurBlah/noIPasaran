@@ -2,9 +2,9 @@
 html
 	head
 	body
-		form#edit-form(action="/admin/servers/edit", method="post")
+		form#editform(action="/admin/servers/edit", method="post")
 			fieldset
-				input#id(name="id", type="hidden", value=server.dns_servers_id)
+				input#id(name="dns_server_id", type="hidden", value=server.dns_server_id)
 				input#dnsname.input-xlarge(name="name", type="text", placeholder="Name of the DNS provider", required, value=server.name)
 				input#primaryip.input-xlarge( name="primary_ip", type="text", placeholder="The primary IP", required, value=server.primary_ip)
 				input#secondaryip.input-xlarge(name="secondary_ip", type="text", placeholder="The secondary IP", required, value=server.secondary_ip) 

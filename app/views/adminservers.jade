@@ -52,10 +52,10 @@ block content
 		#edit-modal.modal.hide.fade(tabindex="-1", role="dialog", aria-labelledby="editModal", aria-hidden="true")
 			.modal-header
 				button.close(type="button", data-dismiss="modal", aria-hidden="true") x
-				h3 Modify servers
+				h3 Modify server
 			.modal-body
 			.modal-footer
-				button#submit.btn.btn-primary(type="submit") Save
+				button#submitform.btn.btn-primary(form="editform", type="submit") Save
 				button.btn(data-dismiss="modal", aria-hidden="true") Cancel
 block specific-js
 	!= js('adminservers')

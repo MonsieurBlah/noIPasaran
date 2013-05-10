@@ -68,16 +68,18 @@ module.exports = (app) ->
 				console.log result
 				result)
 
-		@editServer = (data, id, res) ->
+		@editServer = (data, resData) ->
 			if data.is_isp == 'on'
 				data.is_isp = 1
 			else 
 				data.is_isp = 0
+			id = data.dns_server_id
+			delete data.dns_server_id
 			connection.query(queryEditServer, [data, id], (err, result) ->
 				if err 
 					throw err 
-				console.log result
-				) 
+				resData(result.affectedRows)
+				)
 
 		@delServer = (id, data) ->
 			connection.query(queryDeleteServer, id, (err, data) ->

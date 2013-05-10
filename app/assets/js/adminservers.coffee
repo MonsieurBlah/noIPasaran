@@ -5,8 +5,19 @@ $('.validate').on 'click', (event) ->
 
 $('.edit').on 'click', (event) ->
 	$('#edit-modal .modal-body').load('/admin/servers/modal/' + $(this).data('server-id'))
-	$('#edit-modal .modal-footer #submit').attr('form','edit-form')
 	$('#edit-modal').modal('show')
+
+submitEdit = (dataToSend) ->
+	console.log dataToSend
+	$.post '/admin/servers/edit', dataToSend, 
+	(data) ->
+		console.log data
+		$('#edit-modal').modal('hide')
+
+$('#editform').on "submit", (event) ->
+	event.preventDefault()
+	console.log 'SUBMIT'
+	submitEdit($(this).serialize())
 
 $('.delete').on 'click', (event) ->
 	serverId = $(this).data("server-id")
@@ -19,14 +30,3 @@ $(document).ready ->
   	"bLengthChange": false,
   	"bInfo": false
   	})
-
-submitEdit = (dataToSend) ->
-	console.log dataToSend
-	$.post '/admin/servers/edit', dataToSend
-	(data) ->
-		console.log data
-		$('#edit-modal').modal('hide')
-
-$('#edit-form').on 'submit', (event) ->
-	event.preventDefault()
-	submitEdit($(this).serialize())
