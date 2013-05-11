@@ -17,8 +17,7 @@ module.exports = (app) ->
 		queryDeleteServer = 'DELETE FROM dns_servers WHERE dns_server_id = ?'
 		queryGetServersWhereLocation = 'SELECT * FROM dns_servers WHERE location = ?'
 		queryGetValidServers = 'SELECT * FROM dns_servers WHERE valid = 1'
-		queryGetSites = 'SELECT * FROM sites'
-
+		
 		###########
 		# Servers #
 		###########
@@ -86,14 +85,40 @@ module.exports = (app) ->
 				if err 
 					throw err
 				console.log data
-				data)
+				data
+			)
 
 		#########
 		# Sites #
 		#########
+		queryGetSites = 'SELECT * FROM sites'
+		queryInserSite = 'INSERT INTO sites SET ?'
+		queryGetSite = 'SELECT * FROM sites WHERE url = ? OR ip = ?'
+
 		@getSites = (data) ->
 			connection.query(queryGetSites, (err, rows, fields) ->
 				if err 
 					throw err 
 				data(rows)
+			)
+
+		@insertSite = (url, ip, id) ->
+			checkIfSiteExists(url, ip, (exists) ->
+				if !exists
+					data = {
+						'url': url,
+						'ip': ip
+					}
+					connection.query(queryInserSite, data, (err, result) ->
+						if err 
+							throw err 
+						id(result.insertId)
+					)
+			)	
+
+		checkIfSiteExists = (url, ip, exists) ->
+			connection.query(queryGetSite, [url,ip], (err, rows, fields) ->
+				if err 
+					throw err
+				exists(rows.length > 0)
 			)

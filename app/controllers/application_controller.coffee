@@ -10,20 +10,34 @@ module.exports = (app) ->
 
 		@query = (req, res) ->
 			queryStr = req.body.query
+			console.log 'QUERY:' + queryStr
+			# Check if the query is an IP or an URL
 			app.ipmanip.isIp(queryStr, (isIp) ->
 				if isIp
 					console.log 'Is an ip'
 				else
 					console.log 'Not an ip'
-				app.ipmanip.getClientIP(req, (ip) ->
-					ip = '81.247.34.211'
-					app.ipmanip.getIpInfos(ip, (data) ->
-						country = data.country_name
-						app.dao.getServersWhereLocation(country, (servers) ->
-							res.render 'resulturl', view: 'resulturl', title: 'Result', url: queryStr, clientip: ip, country: country, servers: servers
+					# Resolve the url
+					app.ipmanip.resolve(queryStr, '8.8.8.8', (resip) ->
+						# Insert the url into the db with his IP
+						app.dao.insertSite(queryStr, resip, (id) ->
+							console.log 'Site ' + id + ' inserted'
+						)
+						# Get the client IP
+						app.ipmanip.getClientIP(req, (ip) ->
+							# To remove before prod
+							ip = '81.247.34.211'
+							# ip = '8.8.8.8'
+							# Get the client IP informations
+							app.ipmanip.getIpInfos(ip, (data) ->
+								country = data.country_name
+								# Get the servers from the client country
+								app.dao.getServersWhereLocation(country, (servers) ->
+									res.render 'resulturl', view: 'resulturl', title: 'Result', url: queryStr, urlip: resip, clientip: ip, country: country, servers: servers
+								)
+							)
 						)
 					)
-				)
 			)
 
 		# HELP

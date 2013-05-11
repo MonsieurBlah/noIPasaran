@@ -9,6 +9,7 @@
       , "coffee-script": "*"
       , "mysql" : "*"
       , "request" : "*"
+      , "native-dns" : "*"
     }
   , "scripts": {
       "start": "server.coffee"
