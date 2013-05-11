@@ -1,7 +1,6 @@
 request = require 'request'
 dns = require 'dns'
-# dns = require 'native-dns'
-# util = require 'util'
+util = require 'util'
 
 
 module.exports = (app) ->
@@ -29,11 +28,11 @@ module.exports = (app) ->
 			)
 
 		@resolve = (url, server, ip) ->
-			dns.resolve4(url, (err, address) ->
+			dns.resolve4(url, (err, addresses) ->
 				if err 
 					throw err
-				console.log address
-				ip(address[0])
+				console.log addresses
+				ip(addresses[0])
 			)
 			# question = dns.Question({
 			# 	name: url,
