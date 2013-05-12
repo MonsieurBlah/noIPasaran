@@ -1,4 +1,5 @@
 request = require 'request'
+marked = require 'marked'
 
 module.exports = (app) ->
 	class app.ApplicationController

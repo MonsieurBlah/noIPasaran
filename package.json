@@ -10,6 +10,7 @@
       , "mysql" : "*"
       , "request" : "*"
       , "native-dns" : "*"
+      , "marked" :  "*"
     }
   , "scripts": {
       "start": "server.coffee"
