@@ -9,7 +9,6 @@ This is my final project in my bachelor degree.
 
 Since this project is due for June '13, it's still a work in progress.
 
-![Test image](t9_node.PNG)
 
 
 ## What it does
