@@ -1,2 +1,2 @@
-$.getJSON('http://restdns.net/google.com', (data) ->
+$.getJSON('http://restdns.net/www.google.com', (data) ->
 	console.log data)

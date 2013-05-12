@@ -14,8 +14,9 @@ module.exports = (app) ->
 			# Check if the query is an IP or an URL
 			app.ipmanip.isIp(queryStr, (isIp) ->
 				if isIp
-					console.log 'Is an ip'
+					res.redirect '/ip/' + queryStr
 				else
+					res.redirect '/url/' + queryStr
 					console.log 'Not an ip'
 					# Resolve the url
 					app.ipmanip.resolve(queryStr, '8.8.8.8', (resip) ->
@@ -39,6 +40,38 @@ module.exports = (app) ->
 						)
 					)
 			)
+
+		@url = (req, res) ->
+			console.log 'Not an ip'
+			url = req.params.url
+			# Resolve the url
+			app.ipmanip.resolve(url, '8.8.8.8', (resip) ->
+				if resip != '0.0.0.0'
+					# Insert the url into the db with his IP
+					app.dao.insertSite(url, resip, (id) ->
+						console.log 'Site ' + id + ' inserted'
+					)
+				else
+					res.redirect '/google/' + url
+				# Get the client IP
+				app.ipmanip.getClientIP(req, (ip) ->
+					# To remove before prod
+					ip = '81.247.34.211'
+					# ip = '8.8.8.8'
+					# Get the client IP informations
+					app.ipmanip.getIpInfos(ip, (data) ->
+						country = data.country_name
+						# Get the servers from the client country
+						app.dao.getServersWhereLocation(country, (servers) ->
+							res.render 'url', view: 'url', title: 'Result', url: url, urlip: resip, clientip: ip, country: country, servers: servers
+						)
+					)
+				)
+			)
+
+		@ip = (req, res) ->
+			console.log 'Is an ip'
+			res.render 'ip', view 'ip'
 
 		# HELP
 		@help = (req, res) ->
@@ -90,5 +123,8 @@ module.exports = (app) ->
 		@adminsites = (req, res) ->
 			app.dao.getSites((data) ->
 				res.render 'adminsites', view: 'adminsites', title: 'Sites', sites: data)
+
+		@google = (req, res) ->
+			res.render 'google', view: 'google', title: '!Google', query: req.params.query
 
 

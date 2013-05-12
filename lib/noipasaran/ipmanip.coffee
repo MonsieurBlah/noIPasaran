@@ -30,7 +30,8 @@ module.exports = (app) ->
 		@resolve = (url, server, ip) ->
 			dns.resolve4(url, (err, addresses) ->
 				if err 
-					throw err
+					console.log err
+					addresses = ['0.0.0.0']
 				console.log addresses
 				ip(addresses[0])
 			)

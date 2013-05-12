@@ -15,6 +15,7 @@ app.configure ->
   app.set 'port', port
   app.set 'views', "#{__dirname}/views"
   app.set 'view engine', 'jade'
+  app.locals.pretty = true
   app.use express.static("#{__dirname}/../public/lib")
   app.use express.favicon()
   app.use express.logger('dev')

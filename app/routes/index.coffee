@@ -8,6 +8,8 @@ module.exports = (app) ->
 
 	# Query
 	app.post '/query', app.ApplicationController.query
+	app.get '/url/:url', app.ApplicationController.url
+	app.get '/ip/:ip', app.ApplicationController.ip
 
 	# Help
 	app.get '/help', app.ApplicationController.help
@@ -31,7 +33,7 @@ module.exports = (app) ->
 	app.get '/admin/servers/modal/:id', app.ApplicationController.editServerModal
 
 
-
+	app.get '/google/:query', app.ApplicationController.google
 	# Error handling (No previous route found. Assuming it’s a 404)
 	app.get '/*', (req, res) ->
 		NotFound res
