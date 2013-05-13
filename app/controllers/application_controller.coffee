@@ -18,28 +18,6 @@ module.exports = (app) ->
 					res.redirect '/ip/' + queryStr
 				else
 					res.redirect '/url/' + queryStr
-					console.log 'Not an ip'
-					# Resolve the url
-					app.ipmanip.resolve(queryStr, '8.8.8.8', (resip) ->
-						# Insert the url into the db with his IP
-						app.dao.insertSite(queryStr, resip, (id) ->
-							console.log 'Site ' + id + ' inserted'
-						)
-						# Get the client IP
-						app.ipmanip.getClientIP(req, (ip) ->
-							# To remove before prod
-							ip = '81.247.34.211'
-							# ip = '8.8.8.8'
-							# Get the client IP informations
-							app.ipmanip.getIpInfos(ip, (data) ->
-								country = data.country_name
-								# Get the servers from the client country
-								app.dao.getServersWhereLocation(country, (servers) ->
-									res.render 'resulturl', view: 'resulturl', title: 'Result', url: queryStr, urlip: resip, clientip: ip, country: country, servers: servers
-								)
-							)
-						)
-					)
 			)
 
 		@url = (req, res) ->
