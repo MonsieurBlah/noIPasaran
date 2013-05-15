@@ -27,22 +27,20 @@ module.exports = (app) ->
 				ip = '81.247.34.211'
 				app.ipmanip.getIpCountry(ip, (country) ->
 					console.log 'country: ' + country
-					app.dao.getServersWhereLocation(country, (serversres) ->
-						console.log serversres
-						servers = []
-						servers.push(server.primary_ip) for server in serversres
-						servers.push(server.secondary_ip) for server in serversres
-						servers.push('8.8.8.8')
+					app.dao.getServersWhereLocation(country, (servers) ->
 						console.log servers
-						app.ipmanip.getProbableIP(url, servers, (resip) ->
-							if resip != '0.0.0.0'
+						app.ipmanip.resolveServers(url, servers, (resolved) ->
+							console.log 'RESOLVED :'
+							console.log resolved
+							if resolved
 								# Insert the url into the db with his IP
+								resip = '0.0.0.0'
 								app.dao.insertSite(url, resip, (id) ->
 									console.log 'Site ' + id + ' inserted'
 								)
 							else
 								res.redirect '/google/' + url
-							res.render 'url', view: 'url', title: 'Result', url: url, urlip: resip, clientip: ip, country: country, servers: servers
+							res.render 'url', view: 'url', title: 'Result', url: url, clientip: ip, country: country, result: resolved
 						)
 					)
 				)

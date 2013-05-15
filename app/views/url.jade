@@ -2,17 +2,20 @@ extend layout
 
 block content
 	p The url is #{url}
-	p The ip of the url is #{urlip}
 	p The client IP is #{clientip}
 	p The client country is #{country}
 	table#servers-table.table.table-bordered.table-striped.table-hover
 		thead
 			th Name
 			th Primary IP
+			th Primary result
 			th Secondary IP
+			th Secondary result
 		tbody
-			each item in servers
+			each item in result
 				tr
 					td= item.name 
 					td= item.primary_ip
+					td= item.primary_resolve
 					td= item.secondary_ip
+					td= item.secondary_resolve

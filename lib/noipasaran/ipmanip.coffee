@@ -25,17 +25,38 @@ module.exports = (app) ->
 			request.get(url, (error, response, body) ->
 				if !error && response.statusCode == 200
 					data = JSON.parse(body)
-					console.log 'DATA'
-					console.log data
 					country(data.country_name)
 			)
 
-		@getProbableIP = (url, servers, ip) ->
-			alladdresses = []
-			resolve(url, server, (ips) ->
-				alladdresses.push(ip) for ip in ips
-				console.log alladdresses
+		@resolveServers = (url, servers, resolved) ->
+			result = []
+			count = 0
+			treatServer(url, server, (serverObject) ->
+				result.push(serverObject)
+				console.log result
+				console.log 'count = ' + count
+				count++ 
+				resolved result if count is servers.length
 			) for server in servers
+
+		treatServer = (url, server, serverObject) ->
+			oneServer = new Object()
+			oneServer.name = server.name
+			oneServer.primary_ip = server.primary_ip
+			oneServer.secondary_ip = server.secondary_ip
+			resolve(url, server.primary_ip, (answer1) ->
+				oneServer.primary_resolve = answer1
+				resolve(url, server.secondary_ip, (answer2) ->
+					oneServer.secondary_resolve = answer2
+					serverObject(oneServer)
+				)
+			)
+
+		insertInTable = (addresses, ip) ->
+			if addresses.indexOf(ip) > -1
+				console.log ip + ' already exists'
+			else
+				addresses.push(ip)
 
 		resolve = (url, server, ips) ->
 			question = dns.Question({
