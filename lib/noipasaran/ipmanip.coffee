@@ -1,5 +1,5 @@
 request = require 'request'
-dns = require 'native-dns'
+# dns = require 'native-dns'
 util = require 'util'
 
 
@@ -28,24 +28,25 @@ module.exports = (app) ->
 			)
 
 		@resolve = (url, server, ip) ->
-			question = dns.Question({
-				name: url,
-				type: 'A'})
-			start = Date.now()
-			req = dns.Request({
-				question: question,
-				server: {address: server}
-				})
-			req.on('timeout', () ->
-				console.log 'Timeout')
-			req.on('message', (err, answer) ->
-				console.log answer
-				console.log 'boucle'
-				console.log a for a in answer.answer
-				ip(answer.answer[0].address)
-			)
-			req.on('end', () ->
-				delta = Date.now() - start
-				console.log 'Finished processing request: ' + delta.toString() + 'ms'
-			)
-			req.send()
+			ip '10.0.0.0'
+			# question = dns.Question({
+			# 	name: url,
+			# 	type: 'A'})
+			# start = Date.now()
+			# req = dns.Request({
+			# 	question: question,
+			# 	server: {address: server}
+			# 	})
+			# req.on('timeout', () ->
+			# 	console.log 'Timeout')
+			# req.on('message', (err, answer) ->
+			# 	console.log answer
+			# 	console.log 'boucle'
+			# 	console.log a for a in answer.answer
+			# 	ip(answer.answer[0].address)
+			# )
+			# req.on('end', () ->
+			# 	delta = Date.now() - start
+			# 	console.log 'Finished processing request: ' + delta.toString() + 'ms'
+			# )
+			# req.send()

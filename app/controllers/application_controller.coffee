@@ -35,8 +35,8 @@ module.exports = (app) ->
 				# Get the client IP
 				app.ipmanip.getClientIP(req, (ip) ->
 					# To remove before prod
-					ip = '81.247.34.211'
-					# ip = '8.8.8.8'
+					# ip = '81.247.34.211'
+					ip = '8.8.8.8'
 					# Get the client IP informations
 					app.ipmanip.getIpInfos(ip, (data) ->
 						country = data.country_name
