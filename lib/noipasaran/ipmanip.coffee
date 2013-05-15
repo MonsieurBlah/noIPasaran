@@ -1,5 +1,5 @@
 request = require 'request'
-# dns = require 'native-dns'
+dns = require 'native-dns'
 util = require 'util'
 
 
@@ -33,13 +33,11 @@ module.exports = (app) ->
 		@getProbableIP = (url, servers, ip) ->
 			alladdresses = []
 			resolve(url, server, (ips) ->
-				alladdresses.push(ips)
+				alladdresses.push(ip) for ip in ips
+				console.log alladdresses
 			) for server in servers
-			console.log alladdresses
-			ip(alladdresses[0])
 
-
-		@resolve = (url, server, ips) ->
+		resolve = (url, server, ips) ->
 			question = dns.Question({
 				name: url,
 				type: 'A'})
@@ -51,11 +49,10 @@ module.exports = (app) ->
 			req.on('timeout', () ->
 				console.log 'Timeout')
 			req.on('message', (err, answer) ->
-				results 
 				console.log 'boucle'
 				addresses = []
 				addresses.push(a.address) for a in answer.answer
-				ip(addresses)
+				ips(addresses)
 			)
 			req.on('end', () ->
 				delta = Date.now() - start

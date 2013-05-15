@@ -32,6 +32,7 @@ module.exports = (app) ->
 						servers = []
 						servers.push(server.primary_ip) for server in serversres
 						servers.push(server.secondary_ip) for server in serversres
+						servers.push('8.8.8.8')
 						console.log servers
 						app.ipmanip.getProbableIP(url, servers, (resip) ->
 							if resip != '0.0.0.0'
