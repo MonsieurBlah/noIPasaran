@@ -23,25 +23,24 @@ module.exports = (app) ->
 		@url = (req, res) ->
 			console.log 'Not an ip'
 			url = req.params.url
-			# Resolve the url
-			app.ipmanip.resolve(url, '8.8.8.8', (resip) ->
-				if resip != '0.0.0.0'
-					# Insert the url into the db with his IP
-					app.dao.insertSite(url, resip, (id) ->
-						console.log 'Site ' + id + ' inserted'
-					)
-				else
-					res.redirect '/google/' + url
-				# Get the client IP
-				app.ipmanip.getClientIP(req, (ip) ->
-					# To remove before prod
-					ip = '81.247.34.211'
-					# ip = '8.8.8.8'
-					# Get the client IP informations
-					app.ipmanip.getIpInfos(ip, (data) ->
-						country = data.country_name
-						# Get the servers from the client country
-						app.dao.getServersWhereLocation(country, (servers) ->
+			app.ipmanip.getClientIP(req, (ip) ->
+				ip = '81.247.34.211'
+				app.ipmanip.getIpCountry(ip, (country) ->
+					console.log 'country: ' + country
+					app.dao.getServersWhereLocation(country, (serversres) ->
+						console.log serversres
+						servers = []
+						servers.push(server.primary_ip) for server in serversres
+						servers.push(server.secondary_ip) for server in serversres
+						console.log servers
+						app.ipmanip.getProbableIP(url, servers, (resip) ->
+							if resip != '0.0.0.0'
+								# Insert the url into the db with his IP
+								app.dao.insertSite(url, resip, (id) ->
+									console.log 'Site ' + id + ' inserted'
+								)
+							else
+								res.redirect '/google/' + url
 							res.render 'url', view: 'url', title: 'Result', url: url, urlip: resip, clientip: ip, country: country, servers: servers
 						)
 					)
@@ -58,7 +57,7 @@ module.exports = (app) ->
 
 		@helpPost = (req, res) ->
 			app.dao.insertServer(req.body, (newId) ->
-				res.end(JSON.stringify(newId))
+				res.json(newId)
 			)
 
 		# ABOUT
@@ -86,7 +85,7 @@ module.exports = (app) ->
 
 		@editServer = (req, res) ->
 			app.dao.editServer(req.body, (data) ->
-				res.end(JSON.stringify(data))
+				res.json(data)
 			)
 
 		@delServer = (req, res) ->

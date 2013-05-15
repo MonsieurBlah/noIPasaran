@@ -20,14 +20,26 @@ module.exports = (app) ->
 			matchres = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/.test(str)
 			match(matchres)
 
-		@getIpInfos = (ip, data) ->
+		@getIpCountry = (ip, country) ->
 			url = 'http://freegeoip.net/json/' + ip
 			request.get(url, (error, response, body) ->
 				if !error && response.statusCode == 200
-					data(JSON.parse(body))
+					data = JSON.parse(body)
+					console.log 'DATA'
+					console.log data
+					country(data.country_name)
 			)
 
-		@resolve = (url, server, ip) ->
+		@getProbableIP = (url, servers, ip) ->
+			alladdresses = []
+			resolve(url, server, (ips) ->
+				alladdresses.push(ips)
+			) for server in servers
+			console.log alladdresses
+			ip(alladdresses[0])
+
+
+		@resolve = (url, server, ips) ->
 			question = dns.Question({
 				name: url,
 				type: 'A'})
@@ -39,10 +51,11 @@ module.exports = (app) ->
 			req.on('timeout', () ->
 				console.log 'Timeout')
 			req.on('message', (err, answer) ->
-				console.log answer
+				results 
 				console.log 'boucle'
-				console.log a for a in answer.answer
-				ip(answer.answer[0].address)
+				addresses = []
+				addresses.push(a.address) for a in answer.answer
+				ip(addresses)
 			)
 			req.on('end', () ->
 				delta = Date.now() - start
