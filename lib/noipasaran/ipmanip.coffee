@@ -1,5 +1,5 @@
 request = require 'request'
-dns = require 'native-dns'
+# dns = require 'native-dns'
 util = require 'util'
 
 
