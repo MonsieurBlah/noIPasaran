@@ -3,11 +3,11 @@ mysql = require 'mysql'
 module.exports = (app) ->
 	class app.dao
 
-		connection = mysql.createConnection({
+		connection = mysql.createConnection {
 			host     : 'mysql2.alwaysdata.com',
 			user     : 'brnrd_noip_app',
 			password : 'test',
-			database : 'brnrd_noipasaran'})
+			database : 'brnrd_noipasaran'}
 
 		queryInsertServer = 'INSERT INTO dns_servers SET ?'
 		queryGetServers = 'SELECT * FROM dns_servers'
@@ -26,46 +26,40 @@ module.exports = (app) ->
 				data.is_isp = 1
 			else 
 				data.is_isp = 0
-			connection.query(queryInsertServer, data, (err, result) ->
+			connection.query queryInsertServer, data, (err, result) ->
 				if err 
 					throw err
-				id(result.insertId)
-			)
+				id result.insertId
 
 		@getServers = (data) ->
-			connection.query(queryGetServers, (err, rows, fields) ->
+			connection.query queryGetServers, (err, rows, fields) ->
 				if err 
 					throw err
-				data(rows)
-			)
+				data rows
 
 		@getServer = (id, data) ->
-			connection.query(queryGetServer, id, (err, rows, fields) ->
+			connection.query queryGetServer, id, (err, rows, fields) ->
 				if err 
 					throw err
-				data(rows)
-			)
+				data rows
 
 		@getServersWhereLocation = (location, data) ->
-			connection.query(queryGetServersWhereLocation, location, (err, rows, fields) ->
+			connection.query queryGetServersWhereLocation, location, (err, rows, fields) ->
 				if err 
 					throw err
-				data(rows)
-			)
+				data rows
 
 		@getValidServers = (data) ->
-			connection.query(queryValServer, (err, rows, fields) -> 
+			connection.query queryValServer, (err, rows, fields) -> 
 				if err
 					throw err
-				data(rows)
-			)
+				data rows
 
 		@valServer = (id, res) ->
-			connection.query(queryValServer, id, (err, result) ->
+			connection.query queryValServer, id, (err, result) ->
 				if err
 					throw err 
-				console.log result
-				result)
+				result
 
 		@editServer = (data, resData) ->
 			if data.is_isp == 'on'
@@ -74,19 +68,16 @@ module.exports = (app) ->
 				data.is_isp = 0
 			id = data.dns_server_id
 			delete data.dns_server_id
-			connection.query(queryEditServer, [data, id], (err, result) ->
+			connection.query queryEditServer, [data, id], (err, result) ->
 				if err 
 					throw err 
-				resData(result.affectedRows)
-				)
+				resData result.affectedRows
 
 		@delServer = (id, data) ->
-			connection.query(queryDeleteServer, id, (err, data) ->
+			connection.query queryDeleteServer, id, (err, data) ->
 				if err 
 					throw err
-				console.log data
 				data
-			)
 
 		#########
 		# Sites #
@@ -96,29 +87,25 @@ module.exports = (app) ->
 		queryGetSite = 'SELECT * FROM sites WHERE url = ? OR ip = ?'
 
 		@getSites = (data) ->
-			connection.query(queryGetSites, (err, rows, fields) ->
+			connection.query queryGetSites, (err, rows, fields) ->
 				if err 
 					throw err 
-				data(rows)
-			)
+				data rows
 
 		@insertSite = (url, ip, id) ->
-			checkIfSiteExists(url, ip, (exists) ->
+			checkIfSiteExists url, ip, (exists) ->
 				if !exists
 					data = {
 						'url': url,
 						'ip': ip
 					}
-					connection.query(queryInserSite, data, (err, result) ->
+					connection.query queryInserSite, data, (err, result) ->
 						if err 
 							throw err 
-						id(result.insertId)
-					)
-			)	
+						id result.insertId
 
 		checkIfSiteExists = (url, ip, exists) ->
-			connection.query(queryGetSite, [url,ip], (err, rows, fields) ->
+			connection.query queryGetSite, [url,ip], (err, rows, fields) ->
 				if err 
 					throw err
-				exists(rows.length > 0)
-			)
+				exists rows.length > 0

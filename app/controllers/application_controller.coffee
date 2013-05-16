@@ -13,41 +13,33 @@ module.exports = (app) ->
 			queryStr = req.body.query
 			console.log 'QUERY:' + queryStr
 			# Check if the query is an IP or an URL
-			app.ipmanip.isIp(queryStr, (isIp) ->
+			app.ipmanip.isIp queryStr, (isIp) ->
 				if isIp
 					res.redirect '/ip/' + queryStr
 				else
 					res.redirect '/url/' + queryStr
-			)
 
 		@url = (req, res) ->
-			console.log 'Not an ip'
 			url = req.params.url
-			app.ipmanip.getClientIP(req, (ip) ->
+			app.ipmanip.getClientIP req, (ip) ->
 				ip = '81.247.34.211'
-				app.ipmanip.getIpCountry(ip, (country) ->
+				app.ipmanip.getIpCountry ip, (country) ->
 					console.log 'country: ' + country
-					app.dao.getServersWhereLocation(country, (servers) ->
+					app.dao.getServersWhereLocation country, (servers) ->
 						console.log servers
-						app.ipmanip.resolveServers(url, servers, (resolved) ->
+						app.ipmanip.resolveServers url, servers, (resolved) ->
 							console.log 'RESOLVED :'
 							console.log resolved
 							if resolved
 								# Insert the url into the db with his IP
 								resip = '0.0.0.0'
-								app.dao.insertSite(url, resip, (id) ->
+								app.dao.insertSite url, resip, (id) ->
 									console.log 'Site ' + id + ' inserted'
-								)
 							else
 								res.redirect '/google/' + url
 							res.render 'url', view: 'url', title: 'Result', url: url, clientip: ip, country: country, result: resolved
-						)
-					)
-				)
-			)
 
 		@ip = (req, res) ->
-			console.log 'Is an ip'
 			res.render 'ip', view 'ip'
 
 		# HELP
@@ -55,9 +47,8 @@ module.exports = (app) ->
 			res.render 'help', view: 'help', title: 'Help'
 
 		@helpPost = (req, res) ->
-			app.dao.insertServer(req.body, (newId) ->
-				res.json(newId)
-			)
+			app.dao.insertServer req.body, (newId) ->
+				res.json newId
 
 		# ABOUT
 		@about = (req, res) ->
@@ -65,41 +56,38 @@ module.exports = (app) ->
 
 		# DNS
 		@dns = (req, res) ->
-			app.dao.getServer(req.params.id, (data) ->
-				console.log data
+			app.dao.getServer req.params.id, (data) ->
 				res.render 'dns', view: 'dns', title: data[0].name, server: data[0]
-			)
 
 		#ADMIN
 		@admin = (req, res) ->
 			res.render 'admin', view: 'admin', title: 'Admin'
+
 		# Admin servers
 		@adminservers = (req, res) ->
-			app.dao.getServers((data) ->
-				res.render 'adminservers', view: 'adminservers', title: 'Servers', servers: data)
+			app.dao.getServers (data) ->
+				res.render 'adminservers', view: 'adminservers', title: 'Servers', servers: data
 
 		@valServer = (req, res) ->
-			app.dao.valServer(req.params.id, (data) ->
-				res.redirect '/admin/temp')
+			app.dao.valServer req.params.id, (data) ->
+				res.redirect '/admin/temp'
 
 		@editServer = (req, res) ->
-			app.dao.editServer(req.body, (data) ->
-				res.json(data)
-			)
+			app.dao.editServer req.body, (data) ->
+				res.json data
 
 		@delServer = (req, res) ->
-			app.dao.delServer(req.params.id, (data) ->
-				res.redirect '/admin/servers')
+			app.dao.delServer req.params.id, (data) ->
+				res.redirect '/admin/servers'
 
 		@editServerModal = (req, res) ->
-			app.dao.getServer(req.params.id, (data) ->
+			app.dao.getServer req.params.id, (data) ->
 				res.render 'editservermodal', view: 'editservermodal', server: data[0]
-			)
 
 		# Admin sites	
 		@adminsites = (req, res) ->
-			app.dao.getSites((data) ->
-				res.render 'adminsites', view: 'adminsites', title: 'Sites', sites: data)
+			app.dao.getSites (data) ->
+				res.render 'adminsites', view: 'adminsites', title: 'Sites', sites: data
 
 		@google = (req, res) ->
 			res.render 'google', view: 'google', title: '!Google', query: req.params.query

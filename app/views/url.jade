@@ -16,6 +16,12 @@ block content
 				tr
 					td= item.name 
 					td= item.primary_ip
-					td= item.primary_resolve
+					td
+						ul.unstyled
+							each ip in item.primary_resolve
+								li= ip
 					td= item.secondary_ip
-					td= item.secondary_resolve
+					td
+						ul.unstyled
+							each ip in item.secondary_resolve
+								li= ip
