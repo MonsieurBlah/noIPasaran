@@ -88,10 +88,10 @@ module.exports = (app) ->
 				resData result.affectedRows
 
 		@delServer = (id, data) ->
-			connection.query queryDeleteServer, id, (err, data) ->
+			connection.query queryDeleteServer, id, (err, result) ->
 				if err 
 					throw err
-				data
+				data result
 
 		#########
 		# Sites #
@@ -120,10 +120,10 @@ module.exports = (app) ->
 						id result.insertId
 
 		@delSite = (id, data) ->
-			connection.query queryDeleteSite, id, (err, answer) ->
+			connection.query queryDeleteSite, id, (err, result) ->
 				if err 
 					throw err 
-				data answer
+				data result
 
 		checkIfSiteExists = (url, exists) ->
 			connection.query queryGetSite, url, (err, rows, fields) ->

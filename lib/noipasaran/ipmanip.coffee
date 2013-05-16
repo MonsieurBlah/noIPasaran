@@ -30,7 +30,6 @@ module.exports = (app) ->
 		@resolveServers = (url, servers, resolved) ->
 			result = []
 			treatServer(url, server, (serverObject) ->
-				console.log 'in treatServer'
 				result.push serverObject
 				resolved result if result.length is servers.length
 			) for server in servers

@@ -12,8 +12,7 @@ $('.edit').on 'click', (event) ->
 
 submitEdit = (dataToSend) ->
 	console.log dataToSend
-	$.post '/admin/servers/edit', dataToSend, 
-	(data) ->
+	$.post '/admin/servers/edit', dataToSend, (data) ->
 		console.log data
 		$('#edit-modal').modal('hide')
 
@@ -23,9 +22,12 @@ $('#editform').on "submit", (event) ->
 	submitEdit($(this).serialize())
 
 $('.delete').on 'click', (event) ->
-	serverId = $(this).data("server-id")
-	console.log serverId
-	$.post '/admin/servers/delete/' + serverId
+	button = $(this)
+	serverId = button.data("server-id")
+	$.post '/admin/servers/delete/' + serverId, (data) ->
+		console.log data
+		if data
+			button.parent('td').parent('tr').remove()
 
 $(document).ready ->	
   $("#servers-table").dataTable({

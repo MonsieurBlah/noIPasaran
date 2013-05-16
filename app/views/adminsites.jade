@@ -1,5 +1,8 @@
 extends layout
 
+block specific-css
+	!= css('adminsites')
+
 block content
 		.row
 			.span12
@@ -25,3 +28,4 @@ block content
 										|  Delete
 block specific-js
 	!= js('adminsites')
+
