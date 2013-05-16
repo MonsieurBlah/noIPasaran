@@ -70,6 +70,6 @@ module.exports = (app) ->
 			)
 			req.on('end', () ->
 				delta = Date.now() - start
-				console.log 'Finished processing request: ' + delta.toString() + 'ms'
+				console.log 'Finished processing ' + server + ' request: ' + delta.toString() + 'ms'
 			)
 			req.send()

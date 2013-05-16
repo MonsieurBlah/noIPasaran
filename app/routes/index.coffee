@@ -33,6 +33,8 @@ module.exports = (app) ->
 
 	app.get '/admin/servers/modal/:id', app.ApplicationController.editServerModal
 
+	app.post '/admin/sites/delete/:id', app.ApplicationController.delSite
+
 
 	app.get '/google/:query', app.ApplicationController.google
 	# Error handling (No previous route found. Assuming it’s a 404)

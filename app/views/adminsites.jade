@@ -8,8 +8,6 @@ block content
 						th ID
 						th URL
 						th Problem ?
-						th Validate
-						th Edit
 						th Delete
 					tbody
 						each item in sites
@@ -21,9 +19,9 @@ block content
 										i.icon-ok
 									else
 										i.icon-remove
-								td 
-									button
-								td 
-									button
 								td
-									button
+									button.btn.btn-danger.delete(href="#", data-site-id=item.site_id)
+										i.icon-remove-sign.icon-white
+										|  Delete
+block specific-js
+	!= js('adminsites')

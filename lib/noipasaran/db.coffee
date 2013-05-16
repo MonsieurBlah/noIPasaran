@@ -17,6 +17,7 @@ module.exports = (app) ->
 		queryEditServer = 'UPDATE dns_servers SET ? WHERE dns_server_id = ?'
 		queryDeleteServer = 'DELETE FROM dns_servers WHERE dns_server_id = ?'
 		queryGetServersWhereLocation = 'SELECT * FROM dns_servers WHERE location = ? AND valid = 1'
+		queryGetGlobalServers = 'SELECT * FROM dns_servers WHERE location = \'Global\' AND valid = 1'
 		queryGetValidServers = 'SELECT * FROM dns_servers WHERE valid = 1'
 		
 		###########
@@ -49,6 +50,12 @@ module.exports = (app) ->
 				if err 
 					throw err
 				data rows
+
+		@getGlobalServers = (data) ->
+					connection.query queryGetGlobalServers, (err, rows, fields) ->
+						if err 
+							throw err
+						data rows
 
 		@getValidServers = (data) ->
 			connection.query queryValServer, (err, rows, fields) -> 
@@ -91,7 +98,8 @@ module.exports = (app) ->
 		#########
 		queryGetSites = 'SELECT * FROM sites'
 		queryInserSite = 'INSERT INTO sites SET ?'
-		queryGetSite = 'SELECT * FROM sites WHERE url = ? OR ip = ?'
+		queryGetSite = 'SELECT * FROM sites WHERE url = ?'
+		queryDeleteSite = 'DELETE FROM sites WHERE site_id = ?'
 
 		@getSites = (data) ->
 			connection.query queryGetSites, (err, rows, fields) ->
@@ -100,7 +108,7 @@ module.exports = (app) ->
 				data rows
 
 		@insertSite = (url, ip, id) ->
-			checkIfSiteExists url, ip, (exists) ->
+			checkIfSiteExists url, (exists) ->
 				if !exists
 					data = {
 						'url': url,
@@ -111,8 +119,14 @@ module.exports = (app) ->
 							throw err 
 						id result.insertId
 
-		checkIfSiteExists = (url, ip, exists) ->
-			connection.query queryGetSite, [url,ip], (err, rows, fields) ->
+		@delSite = (id, data) ->
+			connection.query queryDeleteSite, id, (err, answer) ->
+				if err 
+					throw err 
+				data answer
+
+		checkIfSiteExists = (url, exists) ->
+			connection.query queryGetSite, url, (err, rows, fields) ->
 				if err 
 					throw err
 				exists rows.length > 0

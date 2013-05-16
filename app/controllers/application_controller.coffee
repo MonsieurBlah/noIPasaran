@@ -21,24 +21,29 @@ module.exports = (app) ->
 
 		@url = (req, res) ->
 			url = req.params.url
+			if url.indexOf 'www.', 0 < 0 and url.split('.').length - 1 < 2
+				url = 'www.' + url
+			console.log url
 			app.ipmanip.getClientIP req, (ip) ->
-				#ip = '81.247.34.211'
+				ip = '81.247.34.211'
 				app.ipmanip.getIpCountry ip, (country) ->
 					console.log 'country: ' + country
 					app.dao.getServersWhereLocation country, (servers) ->
 						console.log servers
-						app.ipmanip.resolveServers url, servers, (resolved) ->
-							console.log 'RESOLVED :'
-							console.log resolved
-							if resolved
-								# Insert the url into the db with his IP
-								resip = '0.0.0.0'
-
-								app.dao.insertSite url, resip, (id) ->
-									console.log 'Site ' + id + ' inserted'
-							else
-								res.redirect '/google/' + url
-							res.render 'url', view: 'url', title: 'Result', url: url, clientip: ip, country: country, result: resolved
+						app.dao.getGlobalServers (globalServers) ->
+							servers.push server for server in globalServers
+							console.log servers
+							app.ipmanip.resolveServers url, servers, (resolved) ->
+								console.log 'RESOLVED :'
+								console.log resolved
+								if resolved
+									# Insert the url into the db with his IP
+									resip = '0.0.0.0'
+									app.dao.insertSite url, resip, (id) ->
+										console.log 'Site ' + id + ' inserted'
+								else
+									res.redirect '/google/' + url
+								res.render 'url', view: 'url', title: 'Result', url: url, clientip: ip, country: country, result: resolved
 
 		@ip = (req, res) ->
 			res.render 'ip', view 'ip'
@@ -83,7 +88,7 @@ module.exports = (app) ->
 
 		@delServer = (req, res) ->
 			app.dao.delServer req.params.id, (data) ->
-				res.redirect '/admin/servers'
+				res.json data
 
 		@editServerModal = (req, res) ->
 			app.dao.getServer req.params.id, (data) ->
@@ -93,6 +98,11 @@ module.exports = (app) ->
 		@adminsites = (req, res) ->
 			app.dao.getSites (data) ->
 				res.render 'adminsites', view: 'adminsites', title: 'Sites', sites: data
+
+		@delSite = (req, res) ->
+			app.dao.delSite req.params.id, (data) ->
+				console.log data
+				res.end JSON.stringify data
 
 		@google = (req, res) ->
 			res.render 'google', view: 'google', title: '!Google', query: req.params.query
