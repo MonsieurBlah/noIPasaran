@@ -27,6 +27,7 @@ module.exports = (app) ->
 	app.get '/admin/servers', app.ApplicationController.adminservers
 
 	app.post '/admin/servers/validate/:id', app.ApplicationController.valServer
+	app.post '/admin/servers/unvalidate/:id', app.ApplicationController.unvalServer
 	app.post '/admin/servers/edit', app.ApplicationController.editServer
 	app.post '/admin/servers/delete/:id', app.ApplicationController.delServer
 

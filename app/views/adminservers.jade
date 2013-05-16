@@ -32,14 +32,14 @@ block content
 										i.icon-remove
 								if item.valid == 0
 									td
-										button.btn.btn-success.validate(href="#", data-server-id=item.dns_server_id) 
+										button.btn.btn-success.validate(href="#", data-server-id=item.dns_server_id, data-toggle="button") 
 											i.icon-ok-sign.icon-white
 											|  Add
 								else
 									td
-										button.btn.btn-success.validate(href="#", data-server-id=item.dns_server_id, disabled) 
+										button.btn.btn-success.validate.active(href="#", data-server-id=item.dns_server_id, data-toggle="button") 
 											i.icon-ok-sign.icon-white
-											|  Added
+											|  Add
 								td
 									button.btn.btn-warning.edit(href="#", data-server-id=item.dns_server_id)
 										i.icon-plus-sign.icon-white 

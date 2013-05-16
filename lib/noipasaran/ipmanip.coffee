@@ -30,7 +30,9 @@ module.exports = (app) ->
 		@resolveServers = (url, servers, resolved) ->
 			result = []
 			treatServer(url, server, (serverObject) ->
-				resolved result if result.push serverObject is servers.length
+				console.log 'in treatServer'
+				result.push serverObject
+				resolved result if result.length is servers.length
 			) for server in servers
 
 		treatServer = (url, server, serverObject) ->
@@ -62,7 +64,6 @@ module.exports = (app) ->
 			req.on('timeout', () ->
 				console.log 'Timeout')
 			req.on('message', (err, answer) ->
-				console.log 'boucle'
 				addresses = []
 				addresses.push(a.address) for a in answer.answer
 				ips(addresses)

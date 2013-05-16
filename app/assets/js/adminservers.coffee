@@ -1,7 +1,10 @@
 $('.validate').on 'click', (event) ->
 	serverId = $(this).data("server-id")
 	console.log serverId
-	$.post '/admin/servers/validate/' + serverId
+	if $(this).hasClass('active')
+		$.post '/admin/servers/unvalidate/' + serverId
+	else
+		$.post '/admin/servers/validate/' + serverId
 
 $('.edit').on 'click', (event) ->
 	$('#edit-modal .modal-body').load('/admin/servers/modal/' + $(this).data('server-id'))

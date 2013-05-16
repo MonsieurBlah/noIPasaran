@@ -13,9 +13,10 @@ module.exports = (app) ->
 		queryGetServers = 'SELECT * FROM dns_servers'
 		queryGetServer = 'SELECT * FROM dns_servers WHERE dns_server_id = ?'
 		queryValServer = 'UPDATE dns_servers SET valid = 1 WHERE dns_server_id = ?'
+		queryUnValServer = 'UPDATE dns_servers SET valid = 0 WHERE dns_server_id = ?'
 		queryEditServer = 'UPDATE dns_servers SET ? WHERE dns_server_id = ?'
 		queryDeleteServer = 'DELETE FROM dns_servers WHERE dns_server_id = ?'
-		queryGetServersWhereLocation = 'SELECT * FROM dns_servers WHERE location = ?'
+		queryGetServersWhereLocation = 'SELECT * FROM dns_servers WHERE location = ? AND valid = 1'
 		queryGetValidServers = 'SELECT * FROM dns_servers WHERE valid = 1'
 		
 		###########
@@ -57,6 +58,12 @@ module.exports = (app) ->
 
 		@valServer = (id, res) ->
 			connection.query queryValServer, id, (err, result) ->
+				if err
+					throw err 
+				result
+
+		@unvalServer = (id, res) ->
+			connection.query queryUnValServer, id, (err, result) ->
 				if err
 					throw err 
 				result

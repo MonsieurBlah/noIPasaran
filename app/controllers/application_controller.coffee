@@ -8,7 +8,7 @@ module.exports = (app) ->
 		# INDEX
 		@index = (req, res) ->
 			res.render 'index', view: 'index', title: 'Home'
-
+			
 		@query = (req, res) ->
 			queryStr = req.body.query
 			console.log 'QUERY:' + queryStr
@@ -22,7 +22,7 @@ module.exports = (app) ->
 		@url = (req, res) ->
 			url = req.params.url
 			app.ipmanip.getClientIP req, (ip) ->
-				ip = '81.247.34.211'
+				#ip = '81.247.34.211'
 				app.ipmanip.getIpCountry ip, (country) ->
 					console.log 'country: ' + country
 					app.dao.getServersWhereLocation country, (servers) ->
@@ -33,6 +33,7 @@ module.exports = (app) ->
 							if resolved
 								# Insert the url into the db with his IP
 								resip = '0.0.0.0'
+
 								app.dao.insertSite url, resip, (id) ->
 									console.log 'Site ' + id + ' inserted'
 							else
@@ -70,7 +71,11 @@ module.exports = (app) ->
 
 		@valServer = (req, res) ->
 			app.dao.valServer req.params.id, (data) ->
-				res.redirect '/admin/temp'
+				res.json data
+
+		@unvalServer = (req, res) ->
+			app.dao.unvalServer req.params.id, (data) ->
+				res.json data
 
 		@editServer = (req, res) ->
 			app.dao.editServer req.body, (data) ->
