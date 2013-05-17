@@ -57,11 +57,16 @@ html
 		.container
 			block content
 
-	.footer-wrapper
-		.row
-			.span12
-				hr
-				a(href="#", target="_blank") [Licence]
+	footer
+		.container
+			.row
+				.span12
+					hr
+					#licence
+						a(href="http://www.kopimi.com/kopimi/", target="_blank")
+							img(src="/img/kopimi.gif", alt="kopimi")
+						p © 2013 WTFPL - Homemade with love by 
+							a(href="https://bitbucket.org/brnrd", target="_blank") brnrd
 
 	script(src="/js/jquery/jquery-2.0.0.min.js")
 	script(src="/js/jquery/jquery.dataTables.min.js")
