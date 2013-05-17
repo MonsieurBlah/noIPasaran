@@ -16,6 +16,16 @@ module.exports = (app) ->
 				ipAddress = req.connection.remoteAddress
 			ip ipAddress
 
+		getClientIP = (req, ip) ->
+			ipAddress = null
+			forwardedIpsStr = req.header 'x-forwarded-for'
+			if forwardedIpsStr
+				forwardedIps = forwardedIpsStr.split ','
+				ipAddress = forwardedIps[0]
+			if !ipAddress
+				ipAddress = req.connection.remoteAddress
+			ip ipAddress
+
 		@isIp = (str, match) ->
 			matchres = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/.test(str)
 			match matchres
@@ -26,6 +36,48 @@ module.exports = (app) ->
 				if !error && response.statusCode == 200
 					data = JSON.parse body
 					country data.country_name
+
+		getIPInfos = (ip, infos) ->
+			result = new Object()
+			url = 'http://freegeoip.net/json/' + ip
+			request.get url, (error, response, body) ->
+				if !error && response.statusCode == 200
+					data = JSON.parse body
+					result.latitude = data.latitude
+					result.longitude = data.longitude
+					result.country = data.region_name + ' ' + data.country_name
+					result.city = data.city
+					infos result
+
+		base_url = 'http://maps.googleapis.com/maps/api/staticmap?'
+		size = 'size=640x400'
+		scale = 'scale=1'
+		key = 'key=AIzaSyDkzxNkiE6XtBgM_FxME9zhaZZn1NJHQUlI'
+		marker = 'markers='
+		marker_separator = '%7C'
+		color_red = 'color:red'
+		path_base = 'path=color:0x0000ff|weight:5|'
+		sensor = 'sensor=false'
+		separator = '&'
+
+
+		@getStaticMapsUrl = (req, ip, data) ->
+			getClientIP req, (clientIp) ->
+				clientIp = '81.247.98.175'
+				getIPInfos clientIp, (clientInfos) ->
+					getIPInfos ip, (serverInfos) ->
+						client = clientInfos.latitude + ',' + clientInfos.longitude
+						server = serverInfos.latitude + ',' + serverInfos.longitude
+						fullUrl = base_url + scale + separator + size + separator + marker + color_red
+						fullUrl = fullUrl + marker_separator + client
+						fullUrl = fullUrl + separator + marker + color_red + marker_separator
+						fullUrl = fullUrl + server + separator
+						fullUrl = fullUrl + path_base + client + '|' + server + separator + sensor
+						result = new Object()
+						result.url = fullUrl
+						result.client = clientInfos
+						result.server = serverInfos
+						data result
 
 		@resolveServers = (url, servers, resolved) ->
 			result = []

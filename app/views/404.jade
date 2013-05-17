@@ -1,4 +1,7 @@
 extends layout
 
 block content
-  h1 Nothing here…
+	if something
+		h1 Sorry, I don't know "#{something}"
+	else
+		h1 Nothing here but you

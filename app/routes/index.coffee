@@ -21,8 +21,10 @@ module.exports = (app) ->
 	# Dns
 	app.get '/dns/:id', app.ApplicationController.dns
 
+	# Google
+	app.get '/google/:query', app.ApplicationController.google
+
 	# Admin DON'T FORGET TO RUN AUTH LATER !!!
-	app.get '/admin', app.ApplicationController.admin
 	app.get '/admin/sites', app.ApplicationController.adminsites
 	app.get '/admin/servers', app.ApplicationController.adminservers
 
@@ -36,10 +38,8 @@ module.exports = (app) ->
 	app.post '/admin/sites/delete/:id', app.ApplicationController.delSite
 
 
-	app.get '/google/:query', app.ApplicationController.google
+	
 	# Error handling (No previous route found. Assuming it’s a 404)
-	app.get '/*', (req, res) ->
-		NotFound res
+	app.get '/404/:something', app.ApplicationController.fourOfour
 
-	NotFound = (res) ->
-		res.render '404', status: 404, view: 'four-o-four', title: 'four-o-four'
+	app.get '/*', app.ApplicationController.fourOfour

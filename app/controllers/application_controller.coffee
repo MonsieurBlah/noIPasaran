@@ -46,7 +46,14 @@ module.exports = (app) ->
 								res.render 'url', view: 'url', title: 'Result', url: url, clientip: ip, country: country, result: resolved
 
 		@ip = (req, res) ->
-			res.render 'ip', view 'ip'
+			ip = req.params.ip
+			app.dao.getServerByIp ip, (server) ->
+				if server.length > 0
+					app.ipmanip.getStaticMapsUrl req, server[0].primary_ip, (data) ->
+						app.distance.get data.server.latitude, data.server.longitude, data.client.latitude, data.client.longitude, (distance) ->
+							res.render 'ip', view: 'ip', title: ip, url: data.url, server: server[0], serverInfo: data.server, distance: distance
+				else
+					res.redirect '/404/' + ip
 
 		# HELP
 		@help = (req, res) ->
@@ -66,9 +73,6 @@ module.exports = (app) ->
 				res.render 'dns', view: 'dns', title: data[0].name, server: data[0]
 
 		#ADMIN
-		@admin = (req, res) ->
-			res.render 'admin', view: 'admin', title: 'Admin'
-
 		# Admin servers
 		@adminservers = (req, res) ->
 			app.dao.getServers (data) ->
@@ -107,5 +111,14 @@ module.exports = (app) ->
 
 		@google = (req, res) ->
 			res.render 'google', view: 'google', title: '!Google', query: req.params.query
+
+		@fourOfour = (req, res) ->
+			something = req.params.something
+			if something
+				res.render '404', status: 404, view: 'four-o-four', title: '404.404.404.404', something: something
+			else
+				res.render '404', status: 404, view: 'four-o-four', title: '404.404.404.404', something: null
+
+
 
 

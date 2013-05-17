@@ -4,21 +4,20 @@ block specific-css
 	!= css('help')
 
 block content
-	section#form.forms
-		.row
-			.span6.offset3
-				form#help-form.well.form-horizontal(action="/help", method="post")
-					fieldset
-						legend ... to get more DNS servers !
-							input#dnsname.input-xlarge(name="name", type="text", placeholder="Name of the DNS provider", required)
-							input#primaryip.input-xlarge(name="primary_ip", type="text", placeholder="The primary IP", required)
-							input#secondaryip.input-xlarge(name="secondary_ip", type="text", placeholder="The secondary IP", required) 
-							include includes/countries
-							label.checkbox
-								p Check if this is an ISP
-									input#isisp(name="is_isp", type="checkbox") 
-							button#submit-help.btn.btn-primary(type="submit",value="Submit") Submit
-							span#btnspan
+	.row
+		.span6.offset3
+			form#help-form.well.form-horizontal(action="/help", method="post")
+				fieldset
+					legend ... to get more DNS servers !
+						input#dnsname.input-xlarge(name="name", type="text", placeholder="Name of the DNS provider", required)
+						input#primaryip.input-xlarge(name="primary_ip", type="text", placeholder="The primary IP", required)
+						input#secondaryip.input-xlarge(name="secondary_ip", type="text", placeholder="The secondary IP", required) 
+						include includes/countries
+						label.checkbox
+							p Check if this is an ISP
+								input#isisp(name="is_isp", type="checkbox") 
+						button#submit-help.btn.btn-primary(type="submit",value="Submit") Submit
+						span#btnspan
 
 block specific-js
 	!= js('help')
