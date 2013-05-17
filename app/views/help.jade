@@ -1,12 +1,15 @@
 extend layout
 
+block specific-css
+	!= css('help')
+
 block content
 	section#form.forms
 		.row
 			.span6.offset3
 				form#help-form.well.form-horizontal(action="/help", method="post")
 					fieldset
-						legend ... to help me get more DNS servers !
+						legend ... to get more DNS servers !
 							input#dnsname.input-xlarge(name="name", type="text", placeholder="Name of the DNS provider", required)
 							input#primaryip.input-xlarge(name="primary_ip", type="text", placeholder="The primary IP", required)
 							input#secondaryip.input-xlarge(name="secondary_ip", type="text", placeholder="The secondary IP", required) 

@@ -2,8 +2,10 @@ $('.validate').on 'click', (event) ->
 	serverId = $(this).data("server-id")
 	console.log serverId
 	if $(this).hasClass('active')
+		$(this).removeClass('btn-success').addClass('btn-inverse')
 		$.post '/admin/servers/unvalidate/' + serverId
 	else
+		$(this).addClass('btn-success').removeClass('btn-inverse')
 		$.post '/admin/servers/validate/' + serverId
 
 $('.edit').on 'click', (event) ->

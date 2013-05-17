@@ -50,7 +50,7 @@ module.exports = (app) ->
 
 		# HELP
 		@help = (req, res) ->
-			res.render 'help', view: 'help', title: 'Help'
+			res.render 'help', view: 'help', title: 'Help me'
 
 		@helpPost = (req, res) ->
 			app.dao.insertServer req.body, (newId) ->

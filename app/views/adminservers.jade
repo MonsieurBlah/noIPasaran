@@ -6,7 +6,7 @@ block specific-css
 block content
 		.row
 			.span12
-				table#servers-table.table.table-bordered.table-striped.table-hover
+				table#servers-table.table.table-bordered.table-striped.table-hover.table-condensed
 					thead
 						th ID
 						th Name
@@ -32,7 +32,7 @@ block content
 										i.icon-remove
 								if item.valid == 0
 									td
-										button.btn.btn-success.validate(href="#", data-server-id=item.dns_server_id, data-toggle="button") 
+										button.btn.btn-inverse.validate(href="#", data-server-id=item.dns_server_id, data-toggle="button") 
 											i.icon-ok-sign.icon-white
 											|  Add
 								else
