@@ -92,9 +92,9 @@ module.exports = (app) ->
 			oneServer.primary_ip = server.primary_ip
 			oneServer.secondary_ip = server.secondary_ip
 			resolve url, server.primary_ip, (answer1) ->
-				oneServer.primary_resolve = answer1
+				oneServer.primary_result = answer1
 				resolve url, server.secondary_ip, (answer2) ->
-					oneServer.secondary_resolve = answer2
+					oneServer.secondary_result = answer2
 					serverObject oneServer
 
 		insertInTable = (addresses, ip) ->
@@ -103,24 +103,29 @@ module.exports = (app) ->
 			else
 				addresses.push ip
 
-		resolve = (url, server, ips) ->
+		resolve = (url, server, data) ->
 			question = dns.Question({
 				name: url,
 				type: 'A'})
+			response = new Object()
 			start = Date.now()
 			req = dns.Request({
 				question: question,
-				server: {address: server}
+				server: {address: server},
+				timeout: 3000
 				})
 			req.on('timeout', () ->
-				console.log 'Timeout')
+				response.timeout = true
+				console.log 'Timeout for ' + server)
 			req.on('message', (err, answer) ->
 				addresses = []
 				addresses.push(a.address) for a in answer.answer
-				ips(addresses)
+				response.addresses = addresses
 			)
 			req.on('end', () ->
 				delta = Date.now() - start
 				console.log 'Finished processing ' + server + ' request: ' + delta.toString() + 'ms'
+				response.time = delta.toString()
+				data response
 			)
 			req.send()

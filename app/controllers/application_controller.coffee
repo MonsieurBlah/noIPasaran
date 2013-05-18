@@ -17,7 +17,11 @@ module.exports = (app) ->
 				if isIp
 					res.redirect '/ip/' + queryStr
 				else
-					res.redirect '/url/' + queryStr
+					dot = queryStr.split('.').length - 1
+					if dot
+						res.redirect '/url/' + queryStr
+					else
+						res.redirect '/404/' + queryStr
 
 		@url = (req, res) ->
 			url = req.params.url
@@ -27,9 +31,7 @@ module.exports = (app) ->
 			app.ipmanip.getClientIP req, (ip) ->
 				ip = '81.247.34.211'
 				app.ipmanip.getIpCountry ip, (country) ->
-					console.log 'country: ' + country
 					app.dao.getServersWhereLocation country, (servers) ->
-						console.log servers
 						app.dao.getGlobalServers (globalServers) ->
 							servers.push server for server in globalServers
 							console.log servers

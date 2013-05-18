@@ -9,19 +9,37 @@ block content
 			th Name
 			th Primary server
 			th Primary result
+			th Timeout ?
 			th Secondary server
 			th Secondary result
+			th Timeout ?
 		tbody
 			each item in result
 				tr
 					td= item.name 
 					td= item.primary_ip
 					td
-						ul.unstyled
-							each ip in item.primary_resolve
-								li= ip
+						if item.primary_result.addresses && item.primary_result.addresses.length > 0
+							ul.unstyled
+								each ip in item.primary_result.addresses
+									li= ip
+						else
+							p No result
+					td
+						if item.primary_result.timeout
+							i.icon-ok
+						else
+							i.icon-remove
 					td= item.secondary_ip
 					td
-						ul.unstyled
-							each ip in item.secondary_resolve
-								li= ip
+						if item.secondary_result.addresses && item.secondary_result.addresses.length > 0
+							ul.unstyled
+								each ip in item.secondary_result.addresses
+									li= ip
+						else
+							p No result
+					td
+						if item.secondary_result.timeout
+							i.icon-ok
+						else
+							i.icon-remove
