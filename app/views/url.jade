@@ -1,5 +1,8 @@
 extend layout
 
+block specific-css
+	!= css('url')
+
 block content
 	p The url is #{url}
 	p The client IP is #{clientip}
@@ -43,3 +46,6 @@ block content
 							i.icon-ok
 						else
 							i.icon-remove
+
+block specific-js
+	!= js('url')
