@@ -22,26 +22,14 @@ html
 					a.brand(href="/") noIPasaran
 					#main-menu.nav-collapse
 						ul#main-menu-left.nav
-							if title == 'Home'
-								li.active 
-									a(href="/") Home
-							else
-								li	
-									a(href="/") Home
-							if title == 'Help'
-								li.active 
-									a(href="/help") Help me
-							else
-								li	
-									a(href="/help") Help me
-							if title == 'About'
-								li.active 
-									a(href="/about") About
-							else
-								li	
-									a(href="/about") About
+							li(class=title=='Home'?'active':undefined)
+								a(href="/") Home
+							li(class=title=='Help'?'active':undefined)
+								a(href="/help") Help me
+							li(class=title=='About'?'active':undefined)
+								a(href="/about") About
 							li 
-								a(href="https://bitbucket.org/brnrd/noipasaran", target="_blank") Code
+								a(href="https://bitbucket.org/brnrd/noipasaran", target="_blank") Repository
 						ul.nav.pull-right
 							li.dropdown
 								a.dropdown-toggle(data-toggle="dropdown", href="#") Admin
