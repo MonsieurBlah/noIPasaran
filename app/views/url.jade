@@ -7,14 +7,14 @@ block content
 	p The url is #{url}
 	p The client IP is #{clientip}
 	p The client country is #{country}
-	table#servers-table.table.table-bordered.table-striped.table-hover.table-condensed
+	table#servers-table.table.table-bordered.table-hover.table-condensed
 		thead
 			th Name
 			th Primary server
-			th Primary result
+			th Result
 			th Timeout ?
 			th Secondary server
-			th Secondary result
+			th Result
 			th Timeout ?
 		tbody
 			each item in result
@@ -48,4 +48,5 @@ block content
 							i.icon-remove
 
 block specific-js
+	script(src="/js/jquery/jquery.dataTables.min.js")
 	!= js('url')

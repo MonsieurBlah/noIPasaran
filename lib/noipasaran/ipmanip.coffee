@@ -1,6 +1,7 @@
 request = require 'request'
 dns = require 'native-dns'
 util = require 'util'
+async = require 'async'
 
 
 module.exports = (app) ->
@@ -86,6 +87,17 @@ module.exports = (app) ->
 				resolved result if result.length is servers.length
 			) for server in servers
 
+		###@resolveServers = (url, servers, resolved) ->
+			async.map(servers, (server, callback) ->
+				treatServer(url, server, (serverObject) ->
+					callback null, serverObject
+				)
+			, (err, result) ->
+				if err 
+					console.log next err
+				resolved result
+			)###
+
 		treatServer = (url, server, serverObject) ->
 			oneServer = new Object()
 			oneServer.name = server.name
@@ -96,6 +108,25 @@ module.exports = (app) ->
 				resolve url, server.secondary_ip, (answer2) ->
 					oneServer.secondary_result = answer2
 					serverObject oneServer
+
+		###treatServer = (url, server, serverObject) ->
+			oneServer = new Object()
+			oneServer.name = server.name
+			oneServer.primary_ip = server.primary_ip
+			oneServer.secondary_ip = server.secondary_ip
+			async.parallel {
+				first: (data) ->
+					resolve url, server.primary_ip, (answer) ->
+						data answer
+				second: (data) ->
+					resolve url, server.primary_ip, (answer) ->
+						data = answer
+			}, (err, results) ->
+				if err
+					console.log err
+				oneServer.primary_result = results.first
+				oneServer.secondary_result = results.second
+				serverObject oneServer###
 
 		insertInTable = (addresses, ip) ->
 			if addresses.indexOf ip > -1

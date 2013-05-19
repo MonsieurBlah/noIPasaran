@@ -17,35 +17,37 @@ Not much for the moment. Be patient dear.
 
 ### What it's made of
 
-+ [node.js][1]
-+ [CoffeeScript][10]
-+ [Express][2]
-+ [connect-assets][14]
-+ [jQuery][13]
-+ [Jade][3]
-+ [Stylus][9]
-+ [node-mysql][5]
-+ [Bootstrap][4]
-+ [Skeleton][6]
-+ [Request][17]
++ [node.js][node] - The great JS framework to build lightweight and scalable network application
++ [CoffeeScript][coffee] - It's just JavaScript. But better.
++ [Express][express] - Web application framework for Node.
++ [connect-assets][connect] - File compilation and dependency management framework for Node's connect framework.
++ [jQuery][jquery] - The multi-browser JS library designed for client-side scripting of HTML
++ [Jade][jade] - High performance template engine influenced by Haml and implemented with JS for Node.
++ [Stylus][stylus] - Efficient way to write CSS. It is to CSS what's Jade is to HTML.
++ [node-mysql][nodemysql] - A great little module to use MySQL db with node.
++ [Bootstrap][bootstrap] - The most famous front-end framework.
++ [Skeleton][skeleton] - An Express 3.0 framework-lss app structure generator.
++ [Request][request] - A simple module to make HTTP calls.
++ [Node-dns][nodedns] - A replacement DNS stack for Node.
++ [Marked][marked] - A markdown parser and compiler build for speed.
++ [Async][async] - A utility module that provides asynchronous function for JS.
 
-The database is hosted by [AlwaysData][7]
+The database is hosted by [AlwaysData][alwaysdata]
 
 It uses also : 
 
-+ [jsonip][11]
-+ [freegeoip][12]
++ [freegeoip][freegeoip]
 
-Made with love under [Ubuntu][15] using [Sublime Text][16] with lots of cool packages
+Made with love under [Ubuntu][ubuntu] using [Sublime Text][sublimetext] with lots of cool packages
 
 
 ### How it works
 
 If you clone the project, just don't yet.
 
-Still, to run it, you must have [Node.js][1] installed.
+Still, to run it, you must have [Node.js][node] installed.
 
-You can install [nodemon][8], a great way to run node apps without stopping and starting each time you make a modification.
+You can install [nodemon][nodemon], a great way to run node apps without stopping and starting each time you make a modification.
 
 First install nodemon (with a -g for global)
 
@@ -76,21 +78,23 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-[1]:http://nodejs.org/
-[2]:http://expressjs.com
-[3]:http://jade-lang.com/
-[4]:http://twitter.github.io/bootstrap/
-[5]:https://github.com/felixge/node-mysql
-[6]:https://github.com/EtienneLem/skeleton
-[7]:https://www.alwaysdata.com/
-[8]:https://github.com/remy/nodemon
-[9]:http://learnboost.github.io/stylus/
-[10]:http://coffeescript.org/
-[11]:http://jsonip.com
-[12]:http://jsonip.com
-[13]:http://jquery.com/
-[14]:https://github.com/adunkman/connect-assets
-[15]:http://www.ubuntu.com/
-[16]:http://www.sublimetext.com/
-[17]:https://github.com/mikeal/request
-[licence]:https://raw.github.com/MonsieurBlah/noipasaran/master/LICENCE
+[node]:http://nodejs.org/
+[express]:http://expressjs.com
+[jade]:http://jade-lang.com/
+[bootsrap]:http://twitter.github.io/bootstrap/
+[nodemysql]:https://github.com/felixge/node-mysql
+[skeleton]:https://github.com/EtienneLem/skeleton
+[alwaysdata]:https://www.alwaysdata.com/
+[nodemon]:https://github.com/remy/nodemon
+[stylus]:http://learnboost.github.io/stylus/
+[coffee]:http://coffeescript.org/
+[freegeoip]:http://freegeoip.net/
+[jquery]:http://jquery.com/
+[connect]:https://github.com/adunkman/connect-assets
+[ubuntu]:http://www.ubuntu.com/
+[sublime]:http://www.sublimetext.com/
+[request]:https://github.com/mikeal/request
+[licence]:https://bitbucket.org/brnrd/noipasaran/raw/b4bf2a8132fbdefb9c5e56787e75e45147323a80/LICENCE
+[nodedns]:https://github.com/tjfontaine/node-dns
+[marked]:https://github.com/chjj/marked
+[async]:https://github.com/caolan/async/

@@ -6,7 +6,7 @@ block specific-css
 block content
 		.row
 			.span12
-				table#sites-table.table.table-bordered.table-stripred.table-hover.table-condensed
+				table#sites-table.table.table-bordered.table-hover.table-condensed
 					thead
 						th ID
 						th URL
@@ -29,5 +29,6 @@ block content
 										i.icon-remove-sign.icon-white
 										|  Delete
 block specific-js
+	script(src="/js/jquery/jquery.dataTables.min.js")
 	!= js('adminsites')
 

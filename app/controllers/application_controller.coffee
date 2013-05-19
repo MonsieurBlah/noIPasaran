@@ -11,51 +11,63 @@ module.exports = (app) ->
 			
 		@query = (req, res) ->
 			queryStr = req.body.query
-			console.log 'QUERY:' + queryStr
 			# Check if the query is an IP or an URL
 			app.ipmanip.isIp queryStr, (isIp) ->
 				if isIp
-					res.redirect '/ip/' + queryStr
+					res.redirect "/ip/#{queryStr}"
 				else
+					# Check if there is a . means it could be a URL
 					dot = queryStr.split('.').length - 1
 					if dot
-						res.redirect '/url/' + queryStr
+						res.redirect "/url/#{queryStr}"
 					else
-						res.redirect '/404/' + queryStr
+						res.redirect "/404/#{queryStr}"
 
 		@url = (req, res) ->
+			# Get the url
 			url = req.params.url
+			# If no www. and only one . in the url
 			if url.indexOf 'www.', 0 < 0 and url.split('.').length - 1 < 2
-				url = 'www.' + url
-			console.log url
+				# Add www. in front of the url
+				url = "www.#{url}"
+			# get the client's IP 
 			app.ipmanip.getClientIP req, (ip) ->
+				# ONLY ADDED DURING DEVELOPPEMENT // TO REMOVE FOR PROD
 				ip = '81.247.34.211'
+				# get the client's IP country
 				app.ipmanip.getIpCountry ip, (country) ->
+					# get the servers for that country
 					app.dao.getServersWhereLocation country, (servers) ->
+						# get the global server // DECIDE WHETHER KEEP AND MERGE WITH GET SERVER LOCATION OR DELETE
 						app.dao.getGlobalServers (globalServers) ->
+							# add the global global servers in servers
 							servers.push server for server in globalServers
-							console.log servers
+							# resolve the url with those servers
 							app.ipmanip.resolveServers url, servers, (resolved) ->
-								console.log 'RESOLVED :'
-								console.log resolved
-								if resolved
-									# Insert the url into the db with his IP
-									resip = '0.0.0.0'
-									app.dao.insertSite url, resip, (id) ->
-										console.log 'Site ' + id + ' inserted'
-								else
-									res.redirect '/google/' + url
+								if !resolved
+									# If resolve show nothing, it's probably a wrong url. CHECK NXDOMAIN
+									res.redirect "/google/#{url}"
+								# Insert the url into the db with his IP // TODO : GET THE BEST IP
+								resip = '0.0.0.0' # TO REMOVE AFTERWARDS
+								app.dao.insertSite url, resip, (id) ->
+									console.log 'Site ' + id + ' inserted'
 								res.render 'url', view: 'url', title: 'Result', url: url, clientip: ip, country: country, result: resolved
 
 		@ip = (req, res) ->
+			# Get the ip
 			ip = req.params.ip
+			# Get the server from the db
 			app.dao.getServerByIp ip, (server) ->
+				# if there is a server with this ip
 				if server.length > 0
+					# Build the static Maps URL
 					app.ipmanip.getStaticMapsUrl req, server[0].primary_ip, (data) ->
+						# Get the distance between client and server
 						app.distance.get data.server.latitude, data.server.longitude, data.client.latitude, data.client.longitude, (distance) ->
 							res.render 'ip', view: 'ip', title: ip, url: data.url, server: server[0], serverInfo: data.server, distance: distance
+				# else redirect to 404 // EXAMINE THE POSSIBILITY TO RED TO HELP
 				else
-					res.redirect '/404/' + ip
+					res.redirect "/404/#{ip}"
 
 		# HELP
 		@help = (req, res) ->
@@ -63,7 +75,7 @@ module.exports = (app) ->
 
 		@helpPost = (req, res) ->
 			app.dao.insertServer req.body, (newId) ->
-				res.end JSON.stringify newId
+				res.json newId
 
 		# ABOUT
 		@about = (req, res) ->
@@ -86,16 +98,15 @@ module.exports = (app) ->
 
 		@unvalServer = (req, res) ->
 			app.dao.unvalServer req.params.id, (data) ->
-				res.end JSON.stringify data
+				res.json data
 
 		@editServer = (req, res) ->
 			app.dao.editServer req.body, (data) ->
-				res.end JSON.stringify data
+				res.json data
 
 		@delServer = (req, res) ->
 			app.dao.delServer req.params.id, (data) ->
-				console.log data
-				res.end JSON.stringify data
+				res.json data
 
 		@editServerModal = (req, res) ->
 			app.dao.getServer req.params.id, (data) ->
@@ -109,7 +120,7 @@ module.exports = (app) ->
 		@delSite = (req, res) ->
 			app.dao.delSite req.params.id, (data) ->
 				console.log data
-				res.end JSON.stringify data
+				res.json data
 
 		@google = (req, res) ->
 			res.render 'google', view: 'google', title: '!Google', query: req.params.query
