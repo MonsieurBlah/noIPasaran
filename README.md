@@ -31,6 +31,7 @@ Not much for the moment. Be patient dear.
 + [Node-dns][nodedns] - A replacement DNS stack for Node.
 + [Marked][marked] - A markdown parser and compiler build for speed.
 + [Async][async] - A utility module that provides asynchronous function for JS.
++ [Underscore][underscore] - Underscore is a utility-belt library for JavaScrip.
 
 The database is hosted by [AlwaysData][alwaysdata]
 
@@ -98,3 +99,4 @@ OTHER DEALINGS IN THE SOFTWARE.
 [nodedns]:https://github.com/tjfontaine/node-dns
 [marked]:https://github.com/chjj/marked
 [async]:https://github.com/caolan/async/
+[underscore]:http://underscorejs.org/
