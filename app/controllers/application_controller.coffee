@@ -30,28 +30,11 @@ module.exports = (app) ->
 			if url.indexOf 'www.', 0 < 0 and url.split('.').length - 1 < 2
 				# Add www. in front of the url
 				url = "www.#{url}"
-			# get the client's IP 
-			app.ipmanip.getClientIP req, (ip) ->
-				# ONLY ADDED DURING DEVELOPPEMENT // TO REMOVE FOR PROD
-				ip = '81.247.34.211'
-				# get the client's IP country
-				app.ipmanip.getIpCountry ip, (country) ->
-					# get the servers for that country
-					app.dao.getServersWhereLocation country, (servers) ->
-						# get the global server // DECIDE WHETHER KEEP AND MERGE WITH GET SERVER LOCATION OR DELETE
-						app.dao.getGlobalServers (globalServers) ->
-							# add the global global servers in servers
-							servers.push server for server in globalServers
-							# resolve the url with those servers
-							app.ipmanip.resolveServers url, servers, (resolved) ->
-								if !resolved
-									# If resolve show nothing, it's probably a wrong url. CHECK NXDOMAIN
-									res.redirect "/google/#{url}"
-								# Insert the url into the db with his IP // TODO : GET THE BEST IP
-								resip = '0.0.0.0' # TO REMOVE AFTERWARDS
-								app.dao.insertSite url, resip, (id) ->
-									console.log 'Site ' + id + ' inserted'
-								res.render 'url', view: 'url', title: 'Result', url: url, clientip: ip, country: country, result: resolved
+			app.ipmanip.getIpAndData req, url, (data) ->
+				console.log data
+				###app.dao.insertSite url, resip, (id) ->
+					console.log 'Site ' + id + ' inserted'###
+				res.render 'url', view: 'url', title: "#{url}", url: url, clientip: data.clientip, country: data.country, resultlocal: data.local, resultglobal: data.global 
 
 		@ip = (req, res) ->
 			# Get the ip

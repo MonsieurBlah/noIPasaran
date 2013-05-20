@@ -46,17 +46,17 @@ module.exports = (app) ->
 					throw err
 				data rows
 
-		@getServersWhereLocation = (location, data) ->
+		@getLocalServers = (location, data) ->
 			connection.query queryGetServersWhereLocation, location, (err, rows, fields) ->
 				if err 
 					throw err
 				data rows
 
 		@getGlobalServers = (data) ->
-					connection.query queryGetGlobalServers, (err, rows, fields) ->
-						if err 
-							throw err
-						data rows
+			connection.query queryGetGlobalServers, (err, rows, fields) ->
+				if err 
+					throw err
+				data rows
 
 		@getValidServers = (data) ->
 			connection.query queryValServer, (err, rows, fields) -> 

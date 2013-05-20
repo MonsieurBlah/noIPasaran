@@ -12,6 +12,7 @@
       , "native-dns" : "*"
       , "marked" :  "*"
       , "async" : "*"
+      , "underscore" : "*"
     }
   , "scripts": {
       "start": "server.coffee"
