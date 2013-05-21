@@ -139,9 +139,9 @@ module.exports = (app) ->
 		@insertAndGetSite = (url, ip, data) ->
 			site = {
 				'url': url,
-				'ip': ip
+				'ip': ip.toString()
 			}
-			connection.query queryInserSite, site, (err, result) ->
+			query = connection.query queryInserSite, site, (err, result) ->
 				if err 
 					throw err 
 				connection.query queryGetSiteById, result.insertId, (err, rows, fields) ->

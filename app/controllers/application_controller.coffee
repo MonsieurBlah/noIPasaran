@@ -99,7 +99,6 @@ module.exports = (app) ->
 
 		@delSite = (req, res) ->
 			app.dao.delSite req.params.id, (data) ->
-				console.log data
 				res.json data
 
 		@google = (req, res) ->
