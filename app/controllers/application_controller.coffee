@@ -31,9 +31,6 @@ module.exports = (app) ->
 				# Add www. in front of the url
 				url = "www.#{url}"
 			app.ipmanip.getIpAndData req, url, (data) ->
-				console.log data
-				###app.dao.insertSite url, resip, (id) ->
-					console.log 'Site ' + id + ' inserted'###
 				res.render 'url', view: 'url', title: "#{url}", url: url, ip: data.site.ip, clientip: data.clientip, country: data.country, resultlocal: data.local 
 
 		@ip = (req, res) ->

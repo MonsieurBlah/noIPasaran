@@ -19,7 +19,7 @@ block content
 			th Timeout ?
 		tbody
 			each item in resultlocal
-				tr
+				tr(class=item.valid==true?'success':'error')
 					td= item.name 
 					td= item.primary_ip
 					td
@@ -39,7 +39,7 @@ block content
 						if item.secondary_result.addresses && item.secondary_result.addresses.length > 0
 							ul.unstyled
 								each ip in item.secondary_result.addresses
-									li= sip
+									li= ip
 						else
 							p No result
 					td

@@ -147,7 +147,5 @@ module.exports = (app) ->
 				connection.query queryGetSiteById, result.insertId, (err, rows, fields) ->
 					if err 
 						throw err
-					console.log 'post answer'
-					console.log answer
 					data rows[0]
 

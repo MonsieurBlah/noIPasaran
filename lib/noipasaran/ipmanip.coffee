@@ -8,22 +8,31 @@ module.exports = (app) ->
 
 		@getIpAndData = (req, url, data) ->
 			result = new Object()
-			app.dao.getSiteByUrl url, (site) ->
-				console.log data
-				console.log url
-				if data.length > 0
-					result.site = site
-				else
-					getIpAndInsert url, (site) ->
-						result.site = site
+			getSite url, (site) ->
+				result.site = site
 				getClientIP req, (clientip) ->
 					result.clientip = clientip
 					getIpCountry clientip, (country) ->
 						result.country = country
 						app.dao.getLocalServers country, (localServers) ->
 							resolveLocalServers url, localServers, (localAnswers) ->
+								checkIfValid(result.site.ip, answer, (valid) ->
+									answer.valid = valid
+								) for answer in localAnswers
 								result.local = localAnswers
 								data result
+
+		getSite = (url, site) ->
+			app.dao.getSiteByUrl url, (oldsite) ->
+				if oldsite
+					site oldsite
+				else
+					getIpAndInsert url, (newsite) ->
+						site newsite
+
+		checkIfValid = (ip, answer, valid) ->
+			test = (_.indexOf(answer.primary_result.addresses, ip) > -1 ) and (_.indexOf(answer.secondary_result.addresses, ip) > -1)
+			valid test
 
 		getIpAndInsert = (url, data) ->
 			app.dao.getGlobalServers (globalServers) ->
@@ -89,6 +98,7 @@ module.exports = (app) ->
 
 		treatLocalServer = (url, server, serverObject) ->
 			oneServer = new Object()
+			oneServer.valid = null
 			oneServer.name = server.name
 			oneServer.primary_ip = server.primary_ip
 			oneServer.secondary_ip = server.secondary_ip
@@ -97,12 +107,6 @@ module.exports = (app) ->
 				resolve url, server.secondary_ip, (answer2) ->
 					oneServer.secondary_result = answer2
 					serverObject oneServer
-
-		insertInTable = (addresses, ip) ->
-			if addresses.indexOf ip > -1
-				console.log ip + ' already exists'
-			else
-				addresses.push ip
 
 		resolve = (url, server, data) ->
 			question = dns.Question({
@@ -120,7 +124,10 @@ module.exports = (app) ->
 			)
 			req.on('message', (err, answer) ->
 				addresses = []
-				addresses.push(a.address) for a in answer.answer
+				getAddress(a, (address) ->
+					if not _.isUndefined(address)
+						addresses.push(address)
+				) for a in answer.answer
 				response.addresses = addresses
 			)
 			req.on('end', () ->
@@ -129,6 +136,9 @@ module.exports = (app) ->
 				data response
 			)
 			req.send()
+
+		getAddress = (answer, address) ->
+			address answer.address
 
 		getIPInfos = (ip, infos) ->
 			result = new Object()
