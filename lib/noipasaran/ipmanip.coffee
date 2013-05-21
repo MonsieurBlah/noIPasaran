@@ -1,5 +1,6 @@
 request = require 'request'
 dns = require 'native-dns'
+async = require 'async'
 _ = require 'underscore'
 
 module.exports = (app) ->
@@ -7,17 +8,28 @@ module.exports = (app) ->
 
 		@getIpAndData = (req, url, data) ->
 			result = new Object()
-			getClientIP req, (ip) ->
-				result.clientip = ip
-				getIpCountry ip, (country) ->
-					result.country = country
-					app.dao.getLocalServers country, (localServers) ->
-						app.dao.getGlobalServers (globalServers) ->
-							resolveServers url, localServers, (localAnswers) ->
+			app.dao.getSiteByUrl url, (site) ->
+				console.log data
+				console.log url
+				if data.length > 0
+					result.site = site
+				else
+					getIpAndInsert url, (site) ->
+						result.site = site
+				getClientIP req, (clientip) ->
+					result.clientip = clientip
+					getIpCountry clientip, (country) ->
+						result.country = country
+						app.dao.getLocalServers country, (localServers) ->
+							resolveLocalServers url, localServers, (localAnswers) ->
 								result.local = localAnswers
-								resolveServers url, globalServers, (globalAnswers) ->
-									result.global = globalAnswers
-									data result
+								data result
+
+		getIpAndInsert = (url, data) ->
+			app.dao.getGlobalServers (globalServers) ->
+				resolveGlobalServers url, globalServers, (answer) ->
+					app.dao.insertAndGetSite url, answer, (site) ->
+						data site
 
 		getClientIP = (req, ip) ->
 			ipAddress = null
@@ -41,14 +53,41 @@ module.exports = (app) ->
 					data = JSON.parse body
 					country data.country_name
 
-		resolveServers = (url, servers, resolved) ->
+		resolveGlobalServers = (url, servers, data) ->
 			result = []
-			treatServer(url, server, (serverObject) ->
+			count = 0
+			treatGlobalServer(url, server, (resolved) ->
+				result = _.union(resolved, result)
+				count++
+				data result if count is servers.length
+			) for server in servers
+
+		resolveLocalServers = (url, servers, resolved) ->
+			result = []
+			treatLocalServer(url, server, (serverObject) ->
 				result.push serverObject
 				resolved result if result.length is servers.length
 			) for server in servers
 
-		treatServer = (url, server, serverObject) ->
+		treatGlobalServer = (url, server, answers) ->
+			result = []
+			async.parallel [
+				(callback) ->
+					resolve url, server.primary_ip, (answer1) ->
+						if answer1.addresses
+							result = _.union(result, answer1.addresses)
+						callback()
+				,(callback) ->
+					resolve url, server.secondary_ip, (answer2) ->
+						if answer2.addresses
+							result = _.union(result, answer2.addresses)
+						callback()
+				], (err) ->
+					if err 
+						throw err
+					answers result
+
+		treatLocalServer = (url, server, serverObject) ->
 			oneServer = new Object()
 			oneServer.name = server.name
 			oneServer.primary_ip = server.primary_ip

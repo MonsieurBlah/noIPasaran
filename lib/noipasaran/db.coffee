@@ -104,7 +104,8 @@ module.exports = (app) ->
 		#########
 		queryGetSites = 'SELECT * FROM sites'
 		queryInserSite = 'INSERT INTO sites SET ?'
-		queryGetSite = 'SELECT * FROM sites WHERE url = ?'
+		queryGetSiteByUrl = 'SELECT * FROM sites WHERE url = ?'
+		queryGetSiteById = 'SELECT * FROM sites WHERE site_id = ?'
 		queryDeleteSite = 'DELETE FROM sites WHERE site_id = ?'
 
 		@getSites = (data) ->
@@ -113,17 +114,15 @@ module.exports = (app) ->
 					throw err 
 				data rows
 
-		@insertSite = (url, ip, id) ->
-			checkIfSiteExists url, (exists) ->
-				if !exists
-					data = {
-						'url': url,
-						'ip': ip
-					}
-					connection.query queryInserSite, data, (err, result) ->
-						if err 
-							throw err 
-						id result.insertId
+		@insertSite = (url, ip, data) ->
+			site = {
+				'url': url,
+				'ip': ip
+			}
+			connection.query queryInserSite, site, (err, result) ->
+				if err 
+					throw err 
+				data result
 
 		@delSite = (id, data) ->
 			connection.query queryDeleteSite, id, (err, result) ->
@@ -131,8 +130,24 @@ module.exports = (app) ->
 					throw err 
 				data result
 
-		checkIfSiteExists = (url, exists) ->
-			connection.query queryGetSite, url, (err, rows, fields) ->
+		@getSiteByUrl = (url, data) ->
+			connection.query queryGetSiteByUrl, url, (err, rows, fields) ->
 				if err 
 					throw err
-				exists rows.length > 0
+				data rows[0]
+
+		@insertAndGetSite = (url, ip, data) ->
+			site = {
+				'url': url,
+				'ip': ip
+			}
+			connection.query queryInserSite, site, (err, result) ->
+				if err 
+					throw err 
+				connection.query queryGetSiteById, result.insertId, (err, rows, fields) ->
+					if err 
+						throw err
+					console.log 'post answer'
+					console.log answer
+					data rows[0]
+

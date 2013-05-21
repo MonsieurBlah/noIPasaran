@@ -5,6 +5,7 @@ block specific-css
 
 block content
 	p The url is #{url}
+	p The ip for this url is #{ip}
 	p The client IP is #{clientip}
 	p The client country is #{country}
 	table#servers-table.table.table-bordered.table-hover.table-condensed
@@ -38,7 +39,7 @@ block content
 						if item.secondary_result.addresses && item.secondary_result.addresses.length > 0
 							ul.unstyled
 								each ip in item.secondary_result.addresses
-									li= ip
+									li= sip
 						else
 							p No result
 					td
