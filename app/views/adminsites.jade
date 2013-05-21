@@ -18,7 +18,10 @@ block content
 							tr 
 								td= item.site_id
 								td= item.url
-								td= item.ip
+								td
+									ul
+										each ip in item.ip
+											li= ip
 								td
 									if item.haz_problem == 1
 										i.icon-ok

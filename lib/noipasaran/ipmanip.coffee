@@ -9,6 +9,7 @@ module.exports = (app) ->
 		@getIpAndData = (req, url, data) ->
 			result = new Object()
 			getSite url, (site) ->
+				site.ip = site.ip.split(',')
 				result.site = site
 				getClientIP req, (clientip) ->
 					result.clientip = clientip
