@@ -17,10 +17,11 @@ module.exports = (app) ->
 						result.country = country
 						app.dao.getLocalServers country, (localServers) ->
 							resolveLocalServers url, localServers, (localAnswers) ->
-								checkIfValid(result.site.ip, answer, (valid) ->
+								checkIfAnswerIsValid(result.site.ip, answer, (valid) ->
 									answer.valid = valid
 								) for answer in localAnswers
 								result.local = localAnswers
+								console.log result
 								data result
 
 		getSite = (url, site) ->
@@ -31,8 +32,18 @@ module.exports = (app) ->
 					getIpAndInsert url, (newsite) ->
 						site newsite
 
-		checkIfValid = (ip, answer, valid) ->
-			test = (_.indexOf(answer.primary_result.addresses, ip) > -1 ) and (_.indexOf(answer.secondary_result.addresses, ip) > -1)
+		checkIfAnswerIsValid = (ip, answer, valid) ->
+			test = true
+			checkIfIpIsValid(i, answer.primary_result.addresses, answer.secondary_result.addresses, (valid1) ->
+				test = valid1
+				if !test 
+					valid test
+			) for i in ip
+			valid test
+
+		checkIfIpIsValid = (ip, iplist1, iplist2, valid) ->
+			test = (_.indexOf(_.toArray(iplist1), ip) > -1 ) and (_.indexOf(_.toArray(iplist2), ip) > -1)
+			console.log "#{test} #{iplist1} #{iplist2}"
 			valid test
 
 		getIpAndInsert = (url, data) ->
@@ -49,7 +60,8 @@ module.exports = (app) ->
 				ipAddress = forwardedIps[0]
 			if !ipAddress
 				ipAddress = req.connection.remoteAddress
-			ipAddress = '81.247.34.211'
+			#ipAddress = '81.247.34.211' #BELGIQUE
+			ipAddress = '91.121.208.6' #FRANCE
 			ip ipAddress
 
 		@isIp = (str, match) ->

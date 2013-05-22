@@ -105,6 +105,7 @@ module.exports = (app) ->
 		queryGetSites = 'SELECT * FROM sites'
 		queryInserSite = 'INSERT INTO sites SET ?'
 		queryGetSiteByUrl = 'SELECT * FROM sites WHERE url = ?'
+		queryGetSiteByIp = 'SELECT * FROM sites WHERE ip LIKE "%?%"'
 		queryGetSiteById = 'SELECT * FROM sites WHERE site_id = ?'
 		queryDeleteSite = 'DELETE FROM sites WHERE site_id = ?'
 
@@ -136,6 +137,13 @@ module.exports = (app) ->
 				if err 
 					throw err
 				data rows[0]
+
+		@getSiteByIp = (ip, data) ->
+			query = connection.query queryGetSiteByIp, ip, (err, rows, fields) ->
+				if err 
+					throw err
+				data rows[0]
+			console.log query.sql
 
 		@insertAndGetSite = (url, ip, data) ->
 			site = {
