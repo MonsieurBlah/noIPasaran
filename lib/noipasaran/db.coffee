@@ -112,6 +112,7 @@ module.exports = (app) ->
 			connection.query queryGetSites, (err, rows, fields) ->
 				if err 
 					throw err 
+				row.ip = row.ip.split(',') for row in rows
 				data rows
 
 		@insertSite = (url, ip, data) ->

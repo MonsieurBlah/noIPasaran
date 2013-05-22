@@ -6,9 +6,9 @@ block specific-css
 block content
 	p The url is #{url}
 	p The ip for this url is/are
-		ul
+		select
 			each i in ip
-				li= i
+				option= i
 	p The client IP is #{clientip}
 	p The client country is #{country}
 	table#servers-table.table.table-bordered.table-hover.table-condensed
@@ -27,9 +27,9 @@ block content
 					td= item.primary_ip
 					td
 						if item.primary_result.addresses && item.primary_result.addresses.length > 0
-							ul.unstyled
+							select
 								each ip in item.primary_result.addresses
-									li= ip
+									option= ip
 						else
 							p No result
 					td
@@ -40,9 +40,9 @@ block content
 					td= item.secondary_ip
 					td
 						if item.secondary_result.addresses && item.secondary_result.addresses.length > 0
-							ul.unstyled
+							select
 								each ip in item.secondary_result.addresses
-									li= ip
+									option= ip
 						else
 							p No result
 					td

@@ -19,9 +19,9 @@ block content
 								td= item.site_id
 								td= item.url
 								td
-									ul
+									select
 										each ip in item.ip
-											li= ip
+											option= ip
 								td
 									if item.haz_problem == 1
 										i.icon-ok
