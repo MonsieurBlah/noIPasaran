@@ -141,7 +141,7 @@ module.exports = (app) ->
 				'url': url,
 				'ip': ip.toString()
 			}
-			query = connection.query queryInserSite, site, (err, result) ->
+			connection.query queryInserSite, site, (err, result) ->
 				if err 
 					throw err 
 				connection.query queryGetSiteById, result.insertId, (err, rows, fields) ->

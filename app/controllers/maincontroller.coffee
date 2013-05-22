@@ -1,8 +1,7 @@
-request = require 'request'
 marked = require 'marked'
 
 module.exports = (app) ->
-	class app.ApplicationController
+	class app.maincontroller
 
 	# NAVBAR CONTENT
 		# INDEX
@@ -12,7 +11,7 @@ module.exports = (app) ->
 		@query = (req, res) ->
 			queryStr = req.body.query
 			# Check if the query is an IP or an URL
-			app.ipmanip.isIp queryStr, (isIp) ->
+			app.ip.isIp queryStr, (isIp) ->
 				if isIp
 					res.redirect "/ip/#{queryStr}"
 				else
@@ -30,21 +29,22 @@ module.exports = (app) ->
 			if url.indexOf 'www.', 0 < 0 and url.split('.').length - 1 < 2
 				# Add www. in front of the url
 				url = "www.#{url}"
-			app.ipmanip.getIpAndData req, url, (data) ->
+			app.ip.getIpAndData req, url, (data) ->
 				res.render 'url', view: 'url', title: "#{url}", url: url, ip: data.site.ip, clientip: data.clientip, country: data.country, resultlocal: data.local 
 
 		@ip = (req, res) ->
 			# Get the ip
-			ip = req.params.ip
+			serverip = req.params.ip
+
 			# Get the server from the db
-			app.dao.getServerByIp ip, (server) ->
+			app.dao.getServerByIp serverip, (server) ->
 				# if there is a server with this ip
 				if server.length > 0
 					# Build the static Maps URL
-					app.ipmanip.getStaticMapsUrl req, server[0].primary_ip, (data) ->
+					app.staticmap.getMapUrl req, server[0].primary_ip, (data) ->
 						# Get the distance between client and server
 						app.distance.get data.server.latitude, data.server.longitude, data.client.latitude, data.client.longitude, (distance) ->
-							res.render 'ip', view: 'ip', title: ip, url: data.url, server: server[0], serverInfo: data.server, distance: distance
+							res.render 'ip', view: 'ip', title: serverip, url: data.url, server: server[0], serverInfo: data.server, distance: distance
 				# else redirect to 404 // EXAMINE THE POSSIBILITY TO RED TO HELP
 				else
 					res.redirect "/404/#{ip}"
@@ -65,41 +65,6 @@ module.exports = (app) ->
 		@dns = (req, res) ->
 			app.dao.getServer req.params.id, (data) ->
 				res.render 'dns', view: 'dns', title: data[0].name, server: data[0]
-
-		#ADMIN
-		# Admin servers
-		@adminservers = (req, res) ->
-			app.dao.getServers (data) ->
-				res.render 'adminservers', view: 'adminservers', title: 'Servers', servers: data
-
-		@valServer = (req, res) ->
-			app.dao.valServer req.params.id, (data) ->
-				res.end JSON.stringify data
-
-		@unvalServer = (req, res) ->
-			app.dao.unvalServer req.params.id, (data) ->
-				res.json data
-
-		@editServer = (req, res) ->
-			app.dao.editServer req.body, (data) ->
-				res.json data
-
-		@delServer = (req, res) ->
-			app.dao.delServer req.params.id, (data) ->
-				res.json data
-
-		@editServerModal = (req, res) ->
-			app.dao.getServer req.params.id, (data) ->
-				res.render 'editservermodal', view: 'editservermodal', server: data[0]
-
-		# Admin sites	
-		@adminsites = (req, res) ->
-			app.dao.getSites (data) ->
-				res.render 'adminsites', view: 'adminsites', title: 'Sites', sites: data
-
-		@delSite = (req, res) ->
-			app.dao.delSite req.params.id, (data) ->
-				res.json data
 
 		@google = (req, res) ->
 			res.render 'google', view: 'google', title: '!Google', query: req.params.query

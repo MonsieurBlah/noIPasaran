@@ -4,42 +4,42 @@ module.exports = (app) ->
 
 	auth = express.basicAuth('admin', 'test')
 	# Index
-	app.get '/', app.ApplicationController.index
+	app.get '/', app.maincontroller.index
 
 	# Query
-	app.post '/query', app.ApplicationController.query
-	app.get '/url/:url', app.ApplicationController.url
-	app.get '/ip/:ip', app.ApplicationController.ip
+	app.post '/query', app.maincontroller.query
+	app.get '/url/:url', app.maincontroller.url
+	app.get '/ip/:ip', app.maincontroller.ip
 
 	# Help
-	app.get '/help', app.ApplicationController.help
-	app.post '/help', app.ApplicationController.helpPost
+	app.get '/help', app.maincontroller.help
+	app.post '/help', app.maincontroller.helpPost
 
 	# About
-	app.get '/about', app.ApplicationController.about
+	app.get '/about', app.maincontroller.about
 
 	# Dns
-	app.get '/dns/:id', app.ApplicationController.dns
+	app.get '/dns/:id', app.maincontroller.dns
 
 	# Google
-	app.get '/google/:query', app.ApplicationController.google
+	app.get '/google/:query', app.maincontroller.google
 
 	# Admin DON'T FORGET TO RUN AUTH LATER !!!
-	app.get '/admin/sites', app.ApplicationController.adminsites
-	app.get '/admin/servers', app.ApplicationController.adminservers
+	app.get '/admin/sites', app.admincontroller.adminsites
+	app.get '/admin/servers', app.admincontroller.adminservers
 
-	app.post '/admin/servers/validate/:id', app.ApplicationController.valServer
-	app.post '/admin/servers/unvalidate/:id', app.ApplicationController.unvalServer
-	app.post '/admin/servers/edit', app.ApplicationController.editServer
-	app.post '/admin/servers/delete/:id', app.ApplicationController.delServer
+	app.post '/admin/servers/validate/:id', app.admincontroller.valServer
+	app.post '/admin/servers/unvalidate/:id', app.admincontroller.unvalServer
+	app.post '/admin/servers/edit', app.admincontroller.editServer
+	app.post '/admin/servers/delete/:id', app.admincontroller.delServer
 
-	app.get '/admin/servers/modal/:id', app.ApplicationController.editServerModal
+	app.get '/admin/servers/modal/:id', app.admincontroller.editServerModal
 
-	app.post '/admin/sites/delete/:id', app.ApplicationController.delSite
+	app.post '/admin/sites/delete/:id', app.admincontroller.delSite
 
 
 	
 	# Error handling (No previous route found. Assuming it’s a 404)
-	app.get '/404/:something', app.ApplicationController.fourOfour
+	app.get '/404/:something', app.maincontroller.fourOfour
 
-	app.get '/*', app.ApplicationController.fourOfour
+	app.get '/*', app.maincontroller.fourOfour

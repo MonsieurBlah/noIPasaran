@@ -4,7 +4,7 @@ async = require 'async'
 _ = require 'underscore'
 
 module.exports = (app) ->
-	class app.ipmanip
+	class app.ip
 
 		@getIpAndData = (req, url, data) ->
 			result = new Object()
@@ -141,7 +141,8 @@ module.exports = (app) ->
 		getAddress = (answer, address) ->
 			address answer.address
 
-		getIPInfos = (ip, infos) ->
+		@getIPInfos = (ip, infos) ->
+			console.log ip
 			result = new Object()
 			url = 'http://freegeoip.net/json/' + ip
 			request.get url, (error, response, body) ->
@@ -153,33 +154,5 @@ module.exports = (app) ->
 					result.city = data.city
 					infos result
 
-		# TO REWRITE WITH COFFEE STRING CONCAT
-		base_url = 'http://maps.googleapis.com/maps/api/staticmap?'
-		size = 'size=640x400'
-		scale = 'scale=1'
-		key = 'key=AIzaSyDkzxNkiE6XtBgM_FxME9zhaZZn1NJHQUlI'
-		marker = 'markers='
-		marker_separator = '%7C'
-		color_red = 'color:red'
-		path_base = 'path=color:0x0000ff|weight:5|'
-		sensor = 'sensor=false'
-		separator = '&'
-
-		@getStaticMapsUrl = (req, ip, data) ->
-			getClientIP req, (clientIp) ->
-				clientIp = '81.247.98.175'
-				getIPInfos clientIp, (clientInfos) ->
-					getIPInfos ip, (serverInfos) ->
-						client = clientInfos.latitude + ',' + clientInfos.longitude
-						server = serverInfos.latitude + ',' + serverInfos.longitude
-						fullUrl = base_url + scale + separator + size + separator + marker + color_red
-						fullUrl = fullUrl + marker_separator + client
-						fullUrl = fullUrl + separator + marker + color_red + marker_separator
-						fullUrl = fullUrl + server + separator
-						fullUrl = fullUrl + path_base + client + '|' + server + separator + sensor
-						result = new Object()
-						result.url = fullUrl
-						result.client = clientInfos
-						result.server = serverInfos
-						data result
+		
 
