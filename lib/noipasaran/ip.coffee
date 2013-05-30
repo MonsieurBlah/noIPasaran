@@ -1,5 +1,6 @@
 request = require 'request'
-dns = require 'native-dns'
+dns = require 'dns'
+dns_ = require 'native-dns'
 async = require 'async'
 _ = require 'underscore'
 
@@ -12,6 +13,12 @@ module.exports = (app) ->
 				site.ip = site.ip.split(',')
 				result.site = site
 				getClientIP req, (clientip) ->
+					dns.reverse(clientip, (err, domains) ->
+						if err 
+							throw err
+						console.log "DOMAINS"
+						console.log domains
+					)
 					result.clientip = clientip
 					getIpCountry clientip, (country) ->
 						result.country = country
@@ -60,8 +67,8 @@ module.exports = (app) ->
 				ipAddress = forwardedIps[0]
 			if !ipAddress
 				ipAddress = req.connection.remoteAddress
-			#ipAddress = '81.247.34.211' #BELGIQUE
-			ipAddress = '91.121.208.6' #FRANCE
+			ipAddress = '81.247.34.211' #BELGIQUE
+			#ipAddress = '91.121.208.6' #FRANCE
 			ip ipAddress
 
 		@isIp = (str, match) ->
@@ -122,12 +129,12 @@ module.exports = (app) ->
 					serverObject oneServer
 
 		resolve = (url, server, data) ->
-			question = dns.Question({
+			question = dns_.Question({
 				name: url,
 				type: 'A'})
 			response = new Object()
 			start = Date.now()
-			req = dns.Request({
+			req = dns_.Request({
 				question: question,
 				server: {address: server},
 				timeout: 3000
