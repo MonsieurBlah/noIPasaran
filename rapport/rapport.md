@@ -17,7 +17,30 @@ C'est ici que l'idée est née : permettre à un utilisateur lambda, n'ayant pas
 
 Pour comprendre comment effectuer les tests nécessaires à cette vérification, il faut tout d'abord comprendre comment fonctionne la résolution d'une URL et ce qu'est une URL.
 
-### 1. 
+### 1. Qu'est-ce qu'une URL ?
+
+Une URL, Uniform Resource Locator ou adresse réticulaire, est ce qu'on appelle communément une adresse web. C'est une chaîne de caractères utilisée pour adresser les ressources du World Wide Web : page HTML, image, son, etc. Cette URL permet d'indiquer à un programme comment accéder à cette ressource. Elle peut comprendre le protocole de communication, un numéro de port TCP/IP, un nom de dommaine ou autres.
+
+Dans mon cas, je n'utilise que des noms de domaines tel
+
+	www.uneadresse.be
+
+Cette adresse peut-être scindée en plusieurs partie :
+
++ www: sous-domaine.
++ uneadresse: nom de domaine de deuxième niveau.
++ com: nom de domaine de premier niveau.
+
+Je reviendrai sur ces dénominations et leurs utilités un petit peu plus loin.
+
+### 2. Résolution d'une URL
+
+Pour qu'un navigateur Internet puisse obtenir cette page, l'ordinateur (l'hôte) de l'utilisateur doit en obtenir l'IP. Ce processus s'appelle la résolution d'une URL.
+Pour ce faire, l'hôte s'adresse à un serveur DNS. L'hôte reçoit normalement l'IP d'un ou deux serveurs DNS via DHCP. Ce sont généralement ceux mis à disposition par le fournisseur d'accès Internet auquel l'utilisateur est abonné. Il est également possible d'introduire en dur ces IP, et donc choisir d'autres serveurs DNS.
+
+
+
+
 
 Une fois l'idée germée, il a fallu réfléchir à comment offrir ce service. Un programme à installer ? Une extension pour le navigateur Internet ?
 
@@ -25,8 +48,6 @@ Le but étant de permettre à quiconque d'utiliser ce service, ces deux solution
 
 C'est donc assez naturellement que le choix s'est tourné vers une application web. De cette manière n'importe qui ayant un accès à Internet pourrait utiliser le service.
 Pour aller plus loin, et permettre au maximum de monde d'utiliser le service, le choix a été fait de ne pas utiliser de JavaScript côté client pour les fonctionnalités principales du service.
-
-
 
 Que permet donc alors ce service ?
 
