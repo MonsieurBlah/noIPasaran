@@ -39,7 +39,7 @@ It uses also :
 
 + [freegeoip][freegeoip]
 
-Made with love under [Ubuntu][ubuntu] using [Sublime Text][sublimetext] with lots of cool packages
+Made with love under [Ubuntu][ubuntu] using [Sublime Text][sublime] with lots of cool packages
 
 
 ### How it works
@@ -82,7 +82,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 [node]:http://nodejs.org/
 [express]:http://expressjs.com
 [jade]:http://jade-lang.com/
-[bootsrap]:http://twitter.github.io/bootstrap/
+[bootstrap]:http://twitter.github.io/bootstrap/
 [nodemysql]:https://github.com/felixge/node-mysql
 [skeleton]:https://github.com/EtienneLem/skeleton
 [alwaysdata]:https://www.alwaysdata.com/
@@ -95,7 +95,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 [ubuntu]:http://www.ubuntu.com/
 [sublime]:http://www.sublimetext.com/
 [request]:https://github.com/mikeal/request
-[licence]:https://bitbucket.org/brnrd/noipasaran/raw/b4bf2a8132fbdefb9c5e56787e75e45147323a80/LICENCE
+[licence]:https://raw.github.com/brnrd/noipasaran/master/LICENCE
 [nodedns]:https://github.com/tjfontaine/node-dns
 [marked]:https://github.com/chjj/marked
 [async]:https://github.com/caolan/async/
