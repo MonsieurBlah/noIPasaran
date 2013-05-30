@@ -7,18 +7,12 @@ _ = require 'underscore'
 module.exports = (app) ->
 	class app.ip
 
-		@getIpAndData = (req, url, data) ->
+		###@getIpAndData = (req, url, data) ->
 			result = new Object()
 			getSite url, (site) ->
 				site.ip = site.ip.split(',')
 				result.site = site
 				getClientIP req, (clientip) ->
-					dns.reverse(clientip, (err, domains) ->
-						if err 
-							throw err
-						console.log "DOMAINS"
-						console.log domains
-					)
 					result.clientip = clientip
 					getIpCountry clientip, (country) ->
 						result.country = country
@@ -28,6 +22,24 @@ module.exports = (app) ->
 									answer.valid = valid
 								) for answer in localAnswers
 								result.local = localAnswers
+								console.log result
+								data result###
+
+		@getIpAndData = (req, url, data) ->
+			result = new Object()
+			getSite url, (site) ->
+				site.ip = site.ip.split ','
+				result.site = site
+				getClientIP req, (clientip) ->
+					result.clientip = clientip
+					getIpISP clientip, (isp) ->
+						app.dao.getServerByName isp, (ispServers) ->
+							console.log ispServers
+							resolveLocalServers url, ispServers, (ispAnswers) ->
+								checkIfAnswerIsValid(result.site.ip, answer, (valid) ->
+									answer.valid = valid
+								) for answer in ispAnswers
+								result.local = ispAnswers
 								console.log result
 								data result
 
@@ -43,7 +55,7 @@ module.exports = (app) ->
 			test = true
 			checkIfIpIsValid(i, answer.primary_result.addresses, answer.secondary_result.addresses, (valid1) ->
 				test = valid1
-				if !test 
+				if !test
 					valid test
 			) for i in ip
 			valid test
@@ -81,6 +93,14 @@ module.exports = (app) ->
 				if !error && response.statusCode == 200
 					data = JSON.parse body
 					country data.country_name
+
+		getIpISP = (ip, isp) ->
+			dns.reverse ip, (err, domains) ->
+					if err 
+						throw err
+					console.log domains
+					segments = domains[0].split '.'
+					isp segments[segments.length-2]
 
 		resolveGlobalServers = (url, servers, data) ->
 			result = []

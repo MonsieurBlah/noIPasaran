@@ -5,10 +5,13 @@ block specific-css
 
 block content
 	p The url is #{url}
-	p The ip for this url is/are
-		select
-			each i in ip
-				option= i
+	if ip.length > 1
+		p The ip for this url are
+			select
+				each i in ip
+					option= i
+	else
+		p The ip for this url is #{ip}
 	p The client IP is #{clientip}
 	p The client country is #{country}
 	table#servers-table.table.table-bordered.table-hover.table-condensed
@@ -26,10 +29,14 @@ block content
 					td= item.name 
 					td= item.primary_ip
 					td
-						if item.primary_result.addresses && item.primary_result.addresses.length > 0
+						if item.primary_result.addresses && item.primary_result.addresses.length > 3
 							select
 								each ip in item.primary_result.addresses
 									option= ip
+						else if item.primary_result.addresses && item.primary_result.addresses.length > 0
+							ul.unstyled
+								each ip in item.primary_result.addresses
+									li= ip
 						else
 							p No result
 					td
@@ -39,10 +46,14 @@ block content
 							i.icon-remove
 					td= item.secondary_ip
 					td
-						if item.secondary_result.addresses && item.secondary_result.addresses.length > 0
+						if item.secondary_result.addresses && item.secondary_result.addresses.length > 3
 							select
 								each ip in item.secondary_result.addresses
 									option= ip
+						else if item.secondary_result.addresses && item.secondary_result.addresses.length > 0
+							ul.unstyled
+								each ip in item.secondary_result.addresses
+									li= ip
 						else
 							p No result
 					td
