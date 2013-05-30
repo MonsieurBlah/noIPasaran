@@ -32,6 +32,8 @@ module.exports = (app) ->
 				result.site = site
 				getClientIP req, (clientip) ->
 					result.clientip = clientip
+					getIpCountry clientip, (country) ->
+						result.country = country
 					getIpISP clientip, (isp) ->
 						app.dao.getServerByName isp, (ispServers) ->
 							console.log ispServers
@@ -55,8 +57,7 @@ module.exports = (app) ->
 			test = true
 			checkIfIpIsValid(i, answer.primary_result.addresses, answer.secondary_result.addresses, (valid1) ->
 				test = valid1
-				if !test
-					valid test
+				valid test if not test
 			) for i in ip
 			valid test
 
@@ -77,8 +78,7 @@ module.exports = (app) ->
 			if forwardedIpsStr
 				forwardedIps = forwardedIpsStr.split ','
 				ipAddress = forwardedIps[0]
-			if !ipAddress
-				ipAddress = req.connection.remoteAddress
+			ipAddress = req.connection.remoteAddress if not ipAddress
 			ipAddress = '81.247.34.211' #BELGIQUE
 			#ipAddress = '91.121.208.6' #FRANCE
 			ip ipAddress
@@ -96,8 +96,7 @@ module.exports = (app) ->
 
 		getIpISP = (ip, isp) ->
 			dns.reverse ip, (err, domains) ->
-					if err 
-						throw err
+					throw err if err
 					console.log domains
 					segments = domains[0].split '.'
 					isp segments[segments.length-2]
@@ -123,17 +122,14 @@ module.exports = (app) ->
 			async.parallel [
 				(callback) ->
 					resolve url, server.primary_ip, (answer1) ->
-						if answer1.addresses
-							result = _.union(result, answer1.addresses)
+						result = _.union(result, answer1.addresses) if answer1.addresses
 						callback()
 				,(callback) ->
 					resolve url, server.secondary_ip, (answer2) ->
-						if answer2.addresses
-							result = _.union(result, answer2.addresses)
+						result = _.union(result, answer2.addresses) if answer2.addresses
 						callback()
 				], (err) ->
-					if err 
-						throw err
+					throw err if err 
 					answers result
 
 		treatLocalServer = (url, server, serverObject) ->
@@ -165,8 +161,7 @@ module.exports = (app) ->
 			req.on('message', (err, answer) ->
 				addresses = []
 				getAddress(a, (address) ->
-					if not _.isUndefined(address)
-						addresses.push(address)
+					addresses.push(address) if not _.isUndefined(address)
 				) for a in answer.answer
 				response.addresses = addresses
 			)
