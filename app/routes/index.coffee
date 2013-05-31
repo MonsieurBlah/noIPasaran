@@ -37,6 +37,8 @@ module.exports = (app) ->
 
 	app.post '/admin/sites/delete/:id', app.admincontroller.delSite
 
+	app.get '/test', app.testcontroller.test
+
 
 	
 	# Error handling (No previous route found. Assuming it’s a 404)
