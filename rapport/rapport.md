@@ -15,33 +15,6 @@ C'est ici que l'idée est née : permettre à un utilisateur lambda, n'ayant pas
 
 ## 2. Comment ?
 
-Pour comprendre comment effectuer les tests nécessaires à cette vérification, il faut tout d'abord comprendre comment fonctionne la résolution d'une URL et ce qu'est une URL.
-
-### 1. Qu'est-ce qu'une URL ?
-
-Une URL, Uniform Resource Locator ou adresse réticulaire, est ce qu'on appelle communément une adresse web. C'est une chaîne de caractères utilisée pour adresser les ressources du World Wide Web : page HTML, image, son, etc. Cette URL permet d'indiquer à un programme comment accéder à cette ressource. Elle peut comprendre le protocole de communication, un numéro de port TCP/IP, un nom de dommaine ou autres.
-
-Dans mon cas, je n'utilise que des noms de domaines tel
-
-	www.uneadresse.be
-
-Cette adresse peut-être scindée en plusieurs partie :
-
-+ www: sous-domaine.
-+ uneadresse: nom de domaine de deuxième niveau.
-+ com: nom de domaine de premier niveau.
-
-Je reviendrai sur ces dénominations et leurs utilités un petit peu plus loin.
-
-### 2. Résolution d'une URL
-
-Pour qu'un navigateur Internet puisse obtenir cette page, l'ordinateur (l'hôte) de l'utilisateur doit en obtenir l'IP. Ce processus s'appelle la résolution d'une URL.
-Pour ce faire, l'hôte s'adresse à un serveur DNS. L'hôte reçoit normalement l'IP d'un ou deux serveurs DNS via DHCP. Ce sont généralement ceux mis à disposition par le fournisseur d'accès Internet auquel l'utilisateur est abonné. Il est également possible d'introduire en dur ces IP, et donc choisir d'autres serveurs DNS.
-
-
-
-
-
 Une fois l'idée germée, il a fallu réfléchir à comment offrir ce service. Un programme à installer ? Une extension pour le navigateur Internet ?
 
 Le but étant de permettre à quiconque d'utiliser ce service, ces deux solutions ne sont pas envisageable. Pour pouvoir installer un programme ou une extension demande des droits assez élevé sur un ordinateur. Or, le client d'un cybercafé ou l'employé d'une entreprise ne possède souvent ces droits.
@@ -49,9 +22,66 @@ Le but étant de permettre à quiconque d'utiliser ce service, ces deux solution
 C'est donc assez naturellement que le choix s'est tourné vers une application web. De cette manière n'importe qui ayant un accès à Internet pourrait utiliser le service.
 Pour aller plus loin, et permettre au maximum de monde d'utiliser le service, le choix a été fait de ne pas utiliser de JavaScript côté client pour les fonctionnalités principales du service.
 
-Que permet donc alors ce service ?
+Que permet donc ce service ?
 
-La fonction principale est donc de proposer à l'utilisateur d'entre une URL et de soumettre cette URL à vérifications. Ce que le service va faire alors, c'est de comparer les résultats de la résolution de l'URL par les serveurs DNS des différents FAI de son pays avec 
+La fonction principale est donc de proposer à l'utilisateur d'entrer une URL et de soumettre cette URL à vérifications.
+
+Cas d'utilisation 
+
+### 1. Test d'une URL inconnue.
+
+Lorsqu'une URL n'est pas encore présente dans la base de données, la première action va être de récupérer la ou les IP sur une sélection de serveurs DNS sûrs.
+
+Les serveurs choisis pour cette tâche sont :
+
++ Google Public DNS
++ Level3
++ censurfridns.dk
++ SmartViper
+
+[DETAIL DE POURQUOI EUX]
+
+L'URL est alors résolue sur les deux (principaux) serveurs de ces fournisseurs.
+
+S'il devait y avoir des IP contradictoires dans les résultats obtenus, chaque IP est appellée à l'aide d'une requète http pour obtenir le contenu HTML de la page. Ce contenu est hashé à l'aide de l'algorithme MD5. Le résultat de ce hashage est alors comparé. Si deux IP produisent le même résultat, la probabilité est grande que ces deux IPs appartiennent bien au même site.
+
+Le résultat obtenu est alors enregistré dans la base de données et les données du site enregistrés sont alors renvoyé pour la continuité du test.
+
+En même temps, l'IP du client est récupérée sur base de sa requête.
+Pour cela, deux possibilités :
+
++ Récupération du header de la requète X-Forwarded-For (XFF)
++ Récupération de la remoteAddress dans les paramètres de connexion de la requète.
+
+Dans le cas où la requète vers le serveur est passée par un proxy pour l'atteindre, le header de la requète sera modifié en fonction et structuré de la façon suivante :
+
+	X-Forwarded-For: IP client, IP proxy 1, IP proxy 2.
+
+Cette information est malgré tout à prendre avec prudence car le header peut être modifié par le client. Malgré cela, c'est tout de même la source principale d'IP cliente qui sera retenue.
+
+S'il ne devait pas y avoir de header, c'est la remote address de la connexion qui sera retenue.
+
+L'IP récupérée va servir à tenter d'obtenir le fournisseur d'accès à Internet de l'utilisateur (FAI).
+
+La méthode utilisée n'est pas sûre à 100%.
+Il s'agit d'effectuer une requête de type Reverse DNS sur l'IP obtenue.
+
+Exemple de résultat pour une requète Reverse DNS sur l'IP 81.247.34.211
+	
+	211.34-247-81.adsl-dyn.isp.belgacom.be
+
+Si cette méthode ne donne pas de résultat, ou que l'ISP de l'utilisateur n'est pas présent dans la base de données, c'est le pays duquel émane cette IP qui sera retenu.
+
+Dans un cas comme dans l'autre, le ou les serveurs DNS correspondants sont récupérés dans la base de données.
+
+De nouveau, l'URL est de nouveau résolue sur chacun des serveurs DNS.
+
+Les résultats obtenus sont comparés avec le lot d'IP fournies par les serveurs sûrs.
+
+En cas de discordance, une requète HTTP est de nouveau effectuée sur l'IP problèmatique, le contenu hashé et comparé.
+
+Une fois ces tests effectués, le résultat est passé à la vue et l'utilisateur peut alors en prendre connaissance.
+
 
 ## 3. Avec quoi ?
 
@@ -158,6 +188,7 @@ Une simple page HTML tel que
 				Ceci est une phrase avec un <a href="cible.html">hyperlien</a>.
 				<p>
 					Ceci est un paragraphe
+				</p>
 			</body>
 		</html>
 
@@ -171,8 +202,6 @@ Peut s'écrire en Jade :
 				Ceci est une phrase avec un
 					a(href="cible.html") hyperlien
 				p Ceci est un paragraphe
-
-Simple non ?
 
 ###	7. Stylus
 ###	8. Bootstrap

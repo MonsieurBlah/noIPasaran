@@ -27,6 +27,7 @@ module.exports = (app) ->
 			# Get the url
 			url = req.params.url
 			# If no www. and only one . in the url
+			# ADD THE CLEANING AFTER THE FIRST /
 			if url.indexOf 'www.', 0 < 0 and url.split('.').length - 1 < 2
 				# Add www. in front of the url
 				url = "www.#{url}"
@@ -36,13 +37,11 @@ module.exports = (app) ->
 		@ip = (req, res) ->
 			# Get the ip
 			ip = req.params.ip
-			console.log '1'
 			# Get the server from the db
 			app.dao.getServerByIp ip, (server) ->
 				# if there is a server with this ip
 				console.log server
 				if not _.isEmpty(server)
-					console.log '2'
 					# Build the static Maps URL
 					app.staticmap.getMapUrl req, server[0].primary_ip, (data) ->
 						# Get the distance between client and server
@@ -50,11 +49,8 @@ module.exports = (app) ->
 							res.render 'ip', view: 'ip', title: ip, url: data.url, server: server[0], serverInfo: data.server, distance: distance
 				# else redirect to 404 // EXAMINE THE POSSIBILITY TO RED TO HELP
 				else
-					console.log '3'
 					app.dao.getSiteByIp ip, (site) ->
-						console.log '4'
 						if not _.isEmpty(site)
-							console.log '5'
 							res.redirect "/url/#{site[0].url}"
 						else
 							res.redirect "/404/#{ip}"
