@@ -63,8 +63,8 @@ S'il ne devait pas y avoir de header, c'est la remote address de la connexion qu
 
 L'IP récupérée va servir à tenter d'obtenir le fournisseur d'accès à Internet de l'utilisateur (FAI).
 
-La méthode utilisée n'est pas sûre à 100%.
 Il s'agit d'effectuer une requête de type Reverse DNS sur l'IP obtenue.
+La méthode utilisée n'est pas sûre à 100%. Il est en effet possible que l'IP possède un canonical name autre que celui fourni par le fournisseur d'accès à Internet en utilisant un service comme DynDns.
 
 Exemple de résultat pour une requète Reverse DNS sur l'IP 81.247.34.211
 	
@@ -82,8 +82,129 @@ En cas de discordance, une requète HTTP est de nouveau effectuée sur l'IP prob
 
 Une fois ces tests effectués, le résultat est passé à la vue et l'utilisateur peut alors en prendre connaissance.
 
+### 2. Test d'une URL connue.
+
+Lorsqu'une URL est connue dans la base de données, le processus de test est simplifié vu qu'il ne faut que récupérer le site et le comparer au test du serveur DNS lié au client.
+
+En pratique, comment est traitée une requète ?
+
+Dans la page index du site se trouve un input text. Le contenu de ce champ, lorsque l'utilisateur clique sur le bouton 'Go', est passé en POST à l'url /query.
+
+La requète arrive alors au sein du fichier index.coffee qui contient les différentes routes. 
+
+	app.post '/query', app.maincontroller.query
+
+L'application, app, reçoit donc une méthode de type POST addressée à /query, et elle appelle la méthode query du maincontroller.
+
+	@query = (req, res) ->
+		queryStr = req.body.query
+		# Check if the query is an IP or an URL
+		app.ip.isIp queryStr, (isIp) ->
+			if isIp
+				res.redirect "/ip/#{queryStr}"
+			else
+				# Check if there is a . means it could be a URL
+				dot = queryStr.split('.').length - 1
+				if dot
+					res.redirect "/url/#{queryStr}"
+				else
+					res.redirect "/404/#{queryStr}"
+
+Cette méthode query reçoit en paramètre la requète et la réponse qui servira de callback.
+
+La valeur de la requète, c'est-à-dire le contenu de l'input est extraite du corps de la requète dans la variable queryStr. 
+La valeur de cette variable est ensuite testée afin de déterminer si c'est une adresse IP, une possible URL, déterminée ici simplement s'il y a un point dans le texte, ou un contenu autre.
+
+Le cas qui nous intéresse ici est si la valeur est une URL. Le callback est alors utilisé pour établir une redirection vers /url/queryStr
+
+Retour par les routes, et cette fois-ci, c'est la route /url/:url qui est donc utilisée.
+
+	app.get '/url/:url', app.maincontroller.url
+
+La notation ':url' permet de récupérer la valeur située après "/url/" dans les paramètres de la requète.
+
+La méthode url du maincontroller est appelée.
+
+	@url = (req, res) ->
+		# Get the url
+		url = req.params.url
+		# If no www. and only one . in the url
+		# ADD THE CLEANING AFTER THE FIRST /
+		url = "www.#{url}" if url.indexOf 'www.', 0 < 0 and url.split('.').length - 1 < 2
+		app.ip.getIpAndData req, url, (data) ->
+			res.render 'url', view: 'url', title: "#{url}", url: url, ip: data.site.ip, clientip: data.clientip, country: ata.country, resultlocal: data.local 
+
+L'url est donc récupérée dans les paramètres. Elle est ensuite formatée pour être sous la forme :
+
+	www.example.com
+
+C'est ensuite la méthode getIpAndData auquel est passée la requète, nécessaire pour récupérer l'IP du client, ainsi que l'url précédemment récupérée. Le callback de cette méthode, data, contient les données qui seront affichées dans la page de résultat.
+
+Ces données sont structurés comme suit :
+
+[JSON DONNEES]
+
 
 ## 3. Avec quoi ?
+
+### 3.1 Architecture du serveur
+
+La structure du serveur est générée par [Skeleton][skeleton].
+
+	noIPasaran
+	├─┬ app
+	│ ├── app.coffee
+	│ ├─┬ assets
+	│ │ ├─┬ css
+	│ │ │ └── styles.styl
+	│ │ └─┬ js
+	│ │   └── scripts.coffee
+	│ ├─┬ controllers
+	│ │ └── controllers.coffee
+	│ ├─┬ helpers
+	│ │ └── index.coffee
+	│ ├─┬ routes
+	│ │ └── index.coffee
+	│ └─┬ views
+	│   ├── 404.jade
+	│   ├── index.jade
+	│   └── layout.jade
+	├─┬ config
+	│ └── boot.coffee
+	├─┬ lib
+	│ └─┬ myapp
+	│   └── my_custom_class.coffee
+	├── package.json
+	├── Procfile
+	├── public
+	├── README.md
+	└── server.coffee
+
+#### 3.1.2 app
+
+- app.coffee : c'est ici que la configuration du framework Express est faite.
+
+[commenter app.coffee et coller le code ici]
+
+- assets : le dossier assets contient les fichiers Stylus et CoffeeScript qui seront compilés en mémoire RAM pour être utilisé par le client.
+
+- controllers : c'est ici que les fichiers contrôleurs se trouvent. Deux contrôleurs sont définis : admincontroller et maincontroller. Cette division à principalement pour but d'offrir plus de clarté et de lisibilité. Le rôle du contrôleur n'est ici pas le même qu'un contrôleur en Java. En Java, la fonction du contrôleur est double : 
+
+- helpers : helpers.coffee est un fichier généré par Skeleton permettant à celui-ci d'effectuer un chargement automatique des contrôleurs et des classes lors du démarrage du serveur.
+
+- routes : c'est au sein du fichier index.coffee du dossier routes que les requètes sont distribuées aux contrôleurs. La politique de sécurité d'accès aux pages est également gérée au sein de ce fichier.
+
+- views : les vues sont pages HTML, écrites ici en Jade.
+
+- config : le fichier boot.coffee contient les instructions de chargement automatique lors du démarrage du serveur.
+
+- lib : ce dossier contient les différentes classes qui sont utilisées au sein du serveur.
+
+- package.json : ce fichier contient différentes informations contenant le projet. Son nom, sa version, ses dépendances (les modules qu'il utilise), ainsi que des informations sur le fichier à exécuter pour lancer le serveur.
+
+- server.coffee : le fichier qui est appellé lors du lancement du serveur. Ici, il ne fait que charger le compilateur CoffeeScript et charger le fichier app.coffee qui va paramétrer et démarrer le serveur.
+
+
 
 ### 1. Node.js
 
@@ -158,17 +279,6 @@ Mais avec ceci, vient également d'éventuels désavantages :
 
 Express.js est un framework pour Node.js
 
-
-### 4. Skeleton
-
-Skeleton est un générateur de structure d'application Express. Il permet de générer une base d'application en fonction de différents paramètres. 
-Les principaux sont : 
-
-+ Le moteur de template (ejs ou jade)
-+ Le moteur de feuilles de style (Stylus, LESS ou CSS)
-+ Le moteur JavaScript (CoffeeScript ou JavaScript)
-
-### 5. connect-assets
 ### 6. Jade
 
 Jade est un moteur de template HTML haute-performance développé spécifiquement pour Node.js.
@@ -205,5 +315,3 @@ Peut s'écrire en Jade :
 
 ###	7. Stylus
 ###	8. Bootstrap
-###	9. Node-mysql
-###	10. Request 
