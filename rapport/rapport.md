@@ -216,6 +216,15 @@ Que fait donc le programme dans le "Hello world" ci-dessus, entre le moment où 
 
 Il "idle", il attend qu'on lui demande de faire quelque chose.
 
+- "Ok Bernard, super, c'est génial dans le principe, mais JavaScript s'exécute plus lentement vu que c'est un langage interpreté."
+
+Oui... Et non. Oui, parce que JavaScript est en effet un langage interpreté. Mais non, parce que j'utilise ici JavaScript sur Node.js. Et Node.js repose sur le moteur JavaScript V8 de Google.
+
+- "Ok Bernard, donc là tu vas dire que parce que c'est Google, c'est mieux."
+
+Bah oui, mais pas parce que c'est Google, parce que Google a eu une bonne idée : "Et si on compilait le JavaScript en langage machine avant de l'exécuter ?" Le code compilé est en plus optimisé et réoptimisé dynamiquement à l'exécution. Mais je ne vais pas rentrer trop dans les détails.
+
+
 Pourquoi ai-je besoin de ce modèle de fonctionnement pour ce projet ?
 
 Comme je dois effectuer un nombre important de requètes sortantes vers des serveurs DNS qui peuvent aussi bien répondre en moins de 100 millisecondes mais aussi ne pas répondre du tout et donc renvoyer un timeout (après 1000 millisecondes dans mon cas), je ne peux pas me permettre de faire une boucle traditionnelle où les temps de réponses des différents serveurs s'additionne. Ce que me permet Node, c'est d'envoyer successivement toutes les requètes, et de recevoir les résultats au fur et à mesure. Sans perdre de temps à ne rien faire.
