@@ -147,6 +147,81 @@ Ces données sont structurés comme suit :
 
 ## 3. Avec quoi ?
 
+Pourquoi Node.js ?
+
+Afin de pouvoir explique pourquoi Node.js, je dois commencer par justifier JavaScript.
+
+Afin de le comparer à un autre langage exécuté sur machine virtuelle, je vais prendre Java comme langage de comparaison.
+
+A en croire ce [benchmark](http://benchmarksgame.alioth.debian.org/u32/javascript.php), Java a tendance à être majoritairement plus rapide en exécution mais légèrement plus gourmand en mémoire que JavaScript. 
+
+JavaScript est donc plus lent que Java, malgré le formidable moteur V8 développé par Google, ce n'est pas une nouvelle.
+
+C'est ici que Node.js entre en jeu.
+
+Une des caractéristiques de Node.js, est que cet ensemble de librairie utilise un modèle orienté évènement, non-bloquant.
+
+Pour illustrer la chose, je me permets une analogie. Je prends donc un homme, Albert et une femme, Simone. Albert représente Java et Simone Node.js. Je sais que les femmes savent faire plusieurs choses à la fois, mais pas Simone. Mes deux protagonistes n'effectuent qu'une opération à la fois.
+
+Albert et Simone vont chacun préparer une tarte au pommes pour un goûter qu'ils organisent chacun chez eux.
+
+Voyons comment Albert s'y prend :
+
+- Il commence par épelucher et couper ses pommes en tranche. (5 minutes)
+- Il étale sa pâte toute faite dans son moule. (2 minutes)
+- Il dispose les pommes sur la pâte. (2 minutes)
+- Il fait préchauffer le four. (10 minutes)
+- Une fois le four chaud, il enfourne la tarte. (1 minute)
+- Cuisson de la tarte. Une fois cuite, il la sort du four. (25 minutes)
+- Il peut maintenant mettre la table pour ses invités. (10 minutes)
+
+Au total, Albert a mis 55 minutes pour préparer son goûter.
+
+Maintenant, comment Simone et son modèle non bloquant va-t-elle si prendre ?
+
+- Elle met le four à préchauffer (1 minute)
+- Elle épeluche et coupe ses pommes en tranche avec amour. (10 minutes)
+- Elle étale sa pâte toute faite dans son moule avec minutie. (4 minutes)
+- Elle dispose les pommes sur la pâte avec attention. (4 minutes)
+- Le four est chaud, elle enfourne la tarte. (1 minute)
+- Elle met la table pour ses invités en veillant à l'alignement parfait des assiettes. (20 minutes)
+- Il lui reste 15 minutes avant de la fin de la cuisson... Elle prend un bon livre et lit durant le temps restant. (5 minutes)
+
+Au total, Simone a mis 45 minutes pour préparer son goûter.
+
+Que conclure de ces deux façons de faire ?
+
+Albert exécute plus vite les étapes, mais perd énormément de temps à attendre lors de les étapes longue vu qu'il ne peut rien faire d'autre.
+
+Simone est plus lente à l'exécution, mais comme elle utilise un modèle non-bloquant, elle peut effectuer d'autres étapes de la préparation quand Albert attend bêtement devant son four.
+
+Bien sur, cette analogie est grossière et exagérée, dans un sens comme dans l'autre. Mais elle permet de comprendre une des différences fondamentales entre Java et Node.js
+
+Pour être un peu plus technique, voici un petit "Hello world" permettant d'illustrer le modèle non bloquant.
+
+	setTimeout(function(){
+		console.log("world");
+	}, 2000);
+
+	console.log("hello")
+
+Aussi étonnant que ça puisse paraître de prime abord, le résultat en console sera bien :
+
+	hello
+	world
+
+Node.js ne permet jamais de s'arrêter ou de tourner dans une boucle sans rien faire d'autre.
+
+Que fait donc le programme dans le "Hello world" ci-dessus, entre le moment où il a affiché "hello" et le moment où il affichera "world" ?
+
+Il "idle", il attend qu'on lui demande de faire quelque chose.
+
+Pourquoi ai-je besoin de ce modèle de fonctionnement pour ce projet ?
+
+Comme je dois effectuer un nombre important de requètes sortantes vers des serveurs DNS qui peuvent aussi bien répondre en moins de 100 millisecondes mais aussi ne pas répondre du tout et donc renvoyer un timeout (après 1000 millisecondes dans mon cas), je ne peux pas me permettre de faire une boucle traditionnelle où les temps de réponses des différents serveurs s'additionne. Ce que me permet Node, c'est d'envoyer successivement toutes les requètes, et de recevoir les résultats au fur et à mesure. Sans perdre de temps à ne rien faire.
+
+Ce projet aurait donc pu s'appeler Simone.
+
 ### 3.1 Architecture du serveur
 
 La structure du serveur est générée par [Skeleton][skeleton].
