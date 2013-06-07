@@ -361,13 +361,13 @@ Mais avec ceci, vient également d'éventuels désavantages :
 
 ### 3. Express.js
 
-Express.js est un framework pour Node.js
+Express.js est un framework très léger pour Node.js qui fourni une légère surcouche à Node.js pour construire des applications web. Ce framework permet l'utilisation de middleware. Les middlewares utilisés sont développés ci-après.
 
-### 6. Jade
+### 4. Jade
 
 Jade est un moteur de template HTML haute-performance développé spécifiquement pour Node.js.
 
-Il permet d'écrire des pages HTML sans balise et permet d'exécuter du code sur base d'élément passé au template.
+Il permet d'écrire des pages HTML sans balise.
 
 Une simple page HTML tel que
 		
@@ -397,5 +397,134 @@ Peut s'écrire en Jade :
 					a(href="cible.html") hyperlien
 				p Ceci est un paragraphe
 
-###	7. Stylus
-###	8. Bootstrap
+En plus de posséder une structure très légère, Jade permet également d'exécuter du code sur base des valeurs qu'on passe au template.
+
+[Intro de cet exemple]
+
+layout.jade
+
+	!!!5
+			html
+				head
+					title #{title} | Exemple
+				body
+					block content
+
+itemview.jade
+
+	extends layout
+
+	block content
+		#rowid.rowclass
+			ul.list
+				each item in items
+					li= item.name
+
+Que nous appelons en utilisant Express
+
+	res.render 'itemview', view: 'itemwiew', title: 'Ceci est un', items: {{name: "Jean"},{name:"Marc"}}
+
+Va produire le code HTML suivant :
+
+	<!DOCTYPE html>
+		<html>
+			<head>
+				<title>
+					Ceci est un | Exemple
+				</title>
+			</head>
+			<body>
+				<div id="rowid" class="rowclass">
+					<ul>
+						<li>Jean</li>
+						<li>Marc</li>
+					</ul>
+				</div>
+			</body>
+		</html>
+
+Quelques explications s'imposent:
+
+- Jade supporte l'héritage de template. Un template peut donc en étendre un autre.
+- Les attributs id="unId" et class="uneClasse" d'un éléments se s'écrivent respectivement #unId et .uneClasse
+- Les tag <div> sont optionnels et supposés lors de l'utilisation d'id ou de classe. On peut écrire par exemple, en reprennant l'exemple précédent, #rowId.rowclass et obtenir un tag parfaitement formé <div id="rowid" class="rowclass"></div>
+- Les variables passées sont accessibles soit par l'utilisation de la balise #{variable} ou directement après un tag, p= variable.
+
+###	5. Stylus
+
+Stylus est au CSS ce que Jade est au HTML. Simple, intuitif et complet.
+Il permet la rédaction de feuilles de style de façon très simple.
+
+Pourquoi écrire : 
+
+	body {
+  	font: 12px Helvetica, Arial, sans-serif;
+	}
+	a.button {
+ 	 	-webkit-border-radius: 5px;
+  	-moz-border-radius: 5px;
+  	border-radius: 5px;
+	}
+
+Quand on peut se contenter de :
+
+	border-radius()
+	  -webkit-border-radius arguments
+	  -moz-border-radius arguments
+	  border-radius arguments
+  
+	body
+	  font 12px Helvetica, Arial, sans-serif
+  
+	a.button
+	  border-radius 5px
+
+Le code Stylus est évidemment compilé en CSS par la suite.
+
+### 6. Modules et middlewares utilisés
+
+#### 6.1 Connect-assets
+
+Ce middleware permet de servir à l'exécution du serveur les fichiers .coffee et .styl en .js et .css
+
+Ceci évite la tâche redondante de compiler manuellement ces fichiers avant l'exécution.
+
+De plus, il permet d'accéder à ces fichiers compilés en utilisant le raccourci :
+
+	!= css('nomdufichiercss')
+
+ou
+
+	!= js('nomdufichierjs')
+
+#### 6.2 mysql
+
+Ce module entièrement écrit en JavaScript est ce qu'il y a de plus performant pour utiliser une base de données de type MySQL.
+
+Son utilisation est très simple mais ses possibilités sont très poussées. A usage égal, il a été démontré qu'il peut être plus performant qu'un module écrit en C pour effectuer le même travail. Pour les explications complètes, je vous invite à regarder la présentation du module faite par Felix Geisendörfer, créateur de ce module, en vidéo : [Faster than C? Parsing Node.js Streams!](http://youtu.be/Kdwwvps4J9A)
+
+#### 6.3 request
+
+Ce petit module permet de faire des requètes HTTP de manière très simple. Le module HTTP inclus dans Node.js permet bien sûr de faire le même travail, mais de façon un peu moins intuitive.
+
+#### 6.4 marked
+
+Ce module très perfomant permet de convertir un fichier Markdown en code HTML.
+
+Ce module est également intégralement écrit en JavaScript.
+
+#### 6.5 async
+
+Ce module rajoute des fonctions d'exécution de code de façon asynchrone à Node.js.
+
+#### 6.6 underscore
+
+Blah
+
+#### 6.7 MD5
+
+Permet de hasher facilement et simplement n'importe quoi en utilisant le protocol MD5.
+
+	console.log md5 'message'
+
+	>> "78e731027d8fd50ed642340b7c9a63b3"
