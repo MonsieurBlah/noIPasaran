@@ -17,11 +17,11 @@
       , "MD5" : "*"
     }
   , "scripts": {
-      "start": "server.coffee"
+      "start": "server.js"
     }
   , "engines": {
         "node": "*"
       , "npm": "*"
     }
-  , "main": "server.coffee"
+  , "main": "server.js"
 }
