@@ -1,8 +1,8 @@
 request = require 'request'
 dns = require 'dns'
-dns_ = require 'native-dns'
 async = require 'async'
 _ = require 'underscore'
+dns_ = require 'native-dns'
 
 module.exports = (app) ->
 	class app.ip

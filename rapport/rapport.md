@@ -187,7 +187,7 @@ Maintenant, comment Simone et son modèle non bloquant va-t-elle si prendre ?
 - Elle met la table pour ses invités en veillant à l'alignement parfait des assiettes. (20 minutes)
 - Il lui reste 15 minutes avant de la fin de la cuisson... Elle prend un bon livre et lit durant le temps restant. (5 minutes)
 
-Au total, Simone a mis 45 minutes pour préparer son goûter.
+Au total, Simone a mis 45 minutes pour préparer son goûter et a même eu le temps de lire son livre.
 
 Que conclure de ces deux façons de faire ?
 
