@@ -179,8 +179,41 @@ Par contre, un site posant problème restera de façon indéfinie dans la base d
 
 Les utilisateurs ont la possibilités de soumettre un serveur DNS qui serait inconnu.
 
+La page Help a été créée pour cela. 
 
+Le format des adresses IP est vérifié côté client avant la soumission du formulaire.
 
+Le pays est tapé en utilisant un typeahead au lieu d'un menu déroulant.
+
+Une fois le formulaire completé et la soumission faite, côté serveur, l'existence du serveur et vérifiée sur base de adresses IP.
+
+Si le serveur est existant, l'utilisateur en est averti.
+
+Dans le cas contraire, le serveur est inséré dans la base de données et l'utilisateur est remercié.
+
+## 4. Problèmes rencontrés
+
+J'ai commencé ce projet alors que je débutais à peine Node.js et je n'avais jamais fais de JavaScript. J'ai suivi quelques tutoriaux et ça m'a amené à prendre de mauvaises habitudes. Les tutoriaux que j'ai suivi oubliaient tous un point important : la structure. Ce qui m'a ammené assez vite à un code horrible et inmaintenable.
+
+C'est là que j'ai décidé de reprendre la structure depuis le début avec l'aide de Skeleton.
+
+J'ai également rencontré des problèmes avec la base de données. J'avais débuté avec une base de données noSQL de type MongoDB. De nouveau, étant novice en la matière, c'était le foutoir. Pour gagner du temps, je me suis retourné vers une technologie avec lequel j'ai plus d'expérience, le SQL. Maintenant que l'application est en place, et compte tenu du fait que ma base de données n'est absolument pas relationnelle, je pense retourner vers MongoDB le plus rapidement possible.
+
+Les problèmes structurels passés et le développement réellement commencé, le plus gros obstacle que j'ai rencontré, et que je rencontre toujours, ne s'explique toujours pas.
+
+Pour pouvoir effectuer des requètes à un serveur DNS précis sans devoir gérer moi-même l'ouverture d'un socket UDP, d'envoyer un buffer sur le port 53 au serveur DNS puis d'en attendre la réponse et la déchiffrer, j'ai trouvé un module pour Node qui permet de faire ces requètes facilement. En effet, la librairie de Node ne permet pas pour le moment d'effectuer ce type de requête paramétrable. Cela pourrait venir dans un futur proche vu que le développeur du module en question travaille maintenant pour Joyent, la société auquel appartient Node.js.
+
+Le module qui me permet d'effectuer ces requètes donc s'appelle node-dns (ou native-dns dans NPM).
+Pour utiliser un module dans Node, il faut l'importer. 
+
+	dns = require 'native-dns'
+
+Au démarrage du serveur, l'application est créée, les différents fichiers et modules importés. 
+Sous Windows, aucun problème, le serveur se lance correctement et effectue parfaitement ce que je lui demande de faire avec ce module.
+
+Sous Linux par contre, impossible de démarrer le serveur, une erreur se produit dans un sous module de "node-dns".
+
+Développer sous Windows n'étant pas un problème en soi, c'est ce que je continue de faire. Le problème réel est pour l'hébergement du serveur. En effet, Heroku, AppFog, Nodejitsu sont autant de PaaS sous Linux. Donc impossible de lancer le serveur hosté. Malédiction.
 
 ## 3. Avec quoi ?
 
