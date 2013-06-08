@@ -150,7 +150,7 @@ module.exports = (app) ->
 				if err 
 					throw err
 				data rows[0]
-			console.log query.sql
+			#console.log query.sql
 
 		@insertAndGetSite = (url, ip, data) ->
 			site = {

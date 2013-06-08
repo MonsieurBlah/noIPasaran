@@ -142,7 +142,44 @@ C'est ensuite la méthode getIpAndData auquel est passée la requète, nécessai
 
 Ces données sont structurés comme suit :
 
-[JSON DONNEES]
+{ site: {	site_id: 1,
+				 	url: 'www.example.com',
+				 	ip: ['192.168.0.1'],
+				 	hash: '78e731027d8fd50ed642340b7c9a63b3',
+				  haz_problem: 0,
+					date: Tue May 21 2013 18:46:50 GMT+0200 (Romance Daylight Time)},
+	clientip: '127.0.0.1',
+	local: [ { 	valid: true,
+							name: 'ExampleDnsServer',
+							primary_ip: '195.238.2.21',
+							secondary_ip: '195.268.2.22',
+							primary_result: [{addresses: ['192.168.0.1'], time: '30'}],
+							secondary_result: [{addresses: ['192.168.0.1'], time: '27'}]
+							}]}
+
+Détaillons ceci :
+
++ 'site' est l'objet récupéré dans la base de données. L'adresse IP qu'il contient est celle renvoyée par les serveurs sûrs. Le hash est la valeur hashée du code HTML récupéré sur base de cette adresse IP.
++ 'clientip' est l'adresse IP du client.
++ 'local' contient les résultats des serveurs dit locaux. Si, comme dans cet exemple, le fournisseur d'accès Internet du client a pu être récupéré, il n'y a qu'un résultat. Celui-ci contient un boolean, 'valid', résultat du test comparatif entre le résultat de ce serveur et le résultat des serveurs sûrs. Les valeurs de 'name', 'primary_ip' et 'secondary_ip' sont récupérées de la base de données et passées au client pour information. Les résultats 'primary_results' et 'secondary_result' contiennent la ou les adresses IP renvoyée par ce serveur et le temps prit par ce serveur pour répondre (en millisecondes).
+
+
+### 2. Routine de nettoyage de la base de données "sites"
+
+Toutes les jours, une routine de nettoyage de la base de données "sites" est effectuée.
+
+Celle-ci à pour but principal de ne pas surcharger cette base de données, compte tenu de la rapidité effective pour récupérer les informations qu'elle contient.
+
+Tout site ne posant pas problème et n'ayant pas été consulté durant la journée est supprimé de la base de données.
+
+Par contre, un site posant problème restera de façon indéfinie dans la base de données.
+
+
+### 3. Contributions des utilisateurs à la base de données "servers"
+
+Les utilisateurs ont la possibilités de soumettre un serveur DNS qui serait inconnu.
+
+
 
 
 ## 3. Avec quoi ?
@@ -272,7 +309,7 @@ La structure du serveur est générée par [Skeleton][skeleton].
 
 - assets : le dossier assets contient les fichiers Stylus et CoffeeScript qui seront compilés en mémoire RAM pour être utilisé par le client.
 
-- controllers : c'est ici que les fichiers contrôleurs se trouvent. Deux contrôleurs sont définis : admincontroller et maincontroller. Cette division à principalement pour but d'offrir plus de clarté et de lisibilité. Le rôle du contrôleur n'est ici pas le même qu'un contrôleur en Java. En Java, la fonction du contrôleur est double : 
+- controllers : c'est ici que les fichiers contrôleurs se trouvent. Deux contrôleurs sont définis : admincontroller et maincontroller. Cette division à principalement pour but d'offrir plus de clarté et de lisibilité. Le contrôleur n'en est pas vraiment un, c'est simplement un ensemble de fonction qui fait le lien entre ce que requière une route comme données et d'autres classes permettant d'accéder à ces données.
 
 - helpers : helpers.coffee est un fichier généré par Skeleton permettant à celui-ci d'effectuer un chargement automatique des contrôleurs et des classes lors du démarrage du serveur.
 
@@ -301,17 +338,40 @@ Pour illustrer sa simplicité, voici un exemple de serveur HTTP renvoyant un "He
 	http.createServer(
 		function (request, response) {
 			response.writeHead(200, {'Content-Type': 'text/plain'});
-			response.end('Hello, world\n');
+			response.end('Hello world\n');
 	 	}
 	).listen(8000);
  
 	console.log('Server running at http://localhost:8000/');
 
-### 2. CoffeeScript
+	Il est à constater qu'on travaille ici à un niveau assez bas. Il faut donc définir soi-même le Header de la réponse, signaler que la réponse est finie, définir le contenu séparément du header.
+	C'est ici qu'Express entre en jeu.
+
+
+### 2. Express.js
+
+Express.js est un framework très léger pour Node.js qui lui fourni une légère surcouche pour construire des applications web. Ce framework permet l'utilisation de middleware. Les middlewares utilisés sont développés ci-après.
+
+	var express = require('express')
+		,	app = express.createServer();
+
+	app.get('/', function(req, res) {
+		res.send('Hello world');
+	});
+
+	app.listen(3000);
+
+	Ici donc, plus besoin de définir le header ou quoi que ce soit, express s'en charge. Il est également intéressant d'observer qu'une notion de route est abordée. En effet, app.get('/', (...)) défini la route que le serveur prend en charge. Toute autre route ne renvera rien.
+
+	La notion de controleur comme on l'entend dans une application web en Java n'existe pas en Node/Express. L'intégralité du code pourrait s'écrire dans un seul fichier. Dans le cas de mon application, les routes sont définies dans des fichiers séparés uniquement par volonté de clarté dans la structure.
+
+	Il n'y a pas de notion de MVC en Node/Express. La seul chose qui peut exister réellement en Express et la notion de vue.
+
+### 3. CoffeeScript
 
 CoffeeScript est un langage de programmation qui se compile en JavaScript. Le langage a comme valeur ajoutée par rapport à ce dernier des sucres syntaxiques inspirés de Ruby, Python et Haskell qui lui permette de rendre le code plus lisible et succin.
 
-Un autre avantage de Coffee est qu'il permet d'écrire en moyenne 1/3 de ligne en moins qu'un programme équivalent en JavaScript, tout en n'ayant aucun effet négatif sur les performances.
+Un autre avantage de Coffee est qu'il permet d'écrire en moyenne 1/3 de ligne en moins qu'un programme équivalent en JavaScript, tout en n'ayant aucun effet négatif sur les performances, au contraire.
 
 Par exemple, une classe JavaScript donne :
 
@@ -359,9 +419,16 @@ Mais avec ceci, vient également d'éventuels désavantages :
 + Le langage est très sensible aux espaces et à l'indentation.
 + Le compilateur n'est pas toujours très précis en cas d'erreur.
 
-### 3. Express.js
+Pour continuer avec le même exemple :
 
-Express.js est un framework très léger pour Node.js qui fourni une légère surcouche à Node.js pour construire des applications web. Ce framework permet l'utilisation de middleware. Les middlewares utilisés sont développés ci-après.
+	express = require 'express'
+	app = express.createServer()
+
+	app.get '/', (req, res) ->
+		res.send 'Hello world'
+
+	app.listen 3000
+
 
 ### 4. Jade
 

@@ -31,6 +31,7 @@ module.exports = (app) ->
 			# Add www. in front of the url
 			url = "www.#{url}" if url.indexOf 'www.', 0 < 0 and url.split('.').length - 1 < 2
 			app.ip.getIpAndData req, url, (data) ->
+				console.log data.local[0].primary_result
 				res.render 'url', view: 'url', title: "#{url}", url: url, ip: data.site.ip, clientip: data.clientip, country: data.country, resultlocal: data.local 
 
 		@ip = (req, res) ->
@@ -39,7 +40,7 @@ module.exports = (app) ->
 			# Get the server from the db
 			app.dao.getServerByIp ip, (server) ->
 				# if there is a server with this ip
-				console.log server
+				#console.log server
 				if not _.isEmpty(server)
 					# Build the static Maps URL
 					app.staticmap.getMapUrl req, server[0].primary_ip, (data) ->

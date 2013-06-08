@@ -36,13 +36,13 @@ module.exports = (app) ->
 						result.country = country
 					getIpISP clientip, (isp) ->
 						app.dao.getServerByName isp, (ispServers) ->
-							console.log ispServers
+							#console.log ispServers
 							resolveLocalServers url, ispServers, (ispAnswers) ->
 								checkIfAnswerIsValid(result.site.ip, answer, (valid) ->
 									answer.valid = valid
 								) for answer in ispAnswers
 								result.local = ispAnswers
-								console.log result
+								#console.log result
 								data result
 
 		getSite = (url, site) ->
@@ -63,7 +63,7 @@ module.exports = (app) ->
 
 		checkIfIpIsValid = (ip, iplist1, iplist2, valid) ->
 			test = (_.indexOf(_.toArray(iplist1), ip) > -1 ) and (_.indexOf(_.toArray(iplist2), ip) > -1)
-			console.log "#{test} #{iplist1} #{iplist2}"
+			#console.log "#{test} #{iplist1} #{iplist2}"
 			valid test
 
 		getIpAndInsert = (url, data) ->
@@ -97,7 +97,7 @@ module.exports = (app) ->
 		getIpISP = (ip, isp) ->
 			dns.reverse ip, (err, domains) ->
 					throw err if err
-					console.log domains
+					#console.log domains
 					segments = domains[0].split '.'
 					isp segments[segments.length-2]
 
@@ -176,7 +176,7 @@ module.exports = (app) ->
 			address answer.address
 
 		@getIPInfos = (ip, infos) ->
-			console.log ip
+			#console.log ip
 			result = new Object()
 			url = 'http://freegeoip.net/json/' + ip
 			request.get url, (error, response, body) ->
