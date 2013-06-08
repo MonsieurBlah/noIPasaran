@@ -9,6 +9,23 @@ Belgacom et Telenet se sont alors exécutés, les requètes étant alors redirig
 
 Il n'a fallu alors que quelques mois à Belgacom, voyant que certains de ses abonnés contournaient le blocage DNS en utilisant d'autres serveurs que les leurs, pour bloquer pûrement et simplement toutes requêtes vers le site. Or, aucun arrêt n'a été rendu pour ce faire, cette décision est propre à Belgacom. Depuis, Belgacom refuse de communiquer sur le sujet.
 
+La Belgique autorise donc la censure sur Internet. Il n'en fallait pas plus pour suciter ma curiosité.
+
+Ma curiosité m'a appris qu'il n'y a pas moins de ? sites Internet bloqués en Belgique depuis l'instauration d'une liste noire en 2009, et ce répartit en quatres grandes familles : 
+
++ Les sites de vente de médicaments (vrai ou faux)
++ Les sites de téléchargement 'illégaux' (tel que feu Megaupload)
++ Les sites de vente d'objets contrefaits
++ Les sites de jeux non-authorisés (environ 75 sites)
+
+[Loppsi 2 en France, SOPA/PIPA aux Etat-Unis]
+
+Mais aussi des Pays comme la Belgique, le Royaume-Uni (bloquage cas par cas)
+
+[Parler de la Chine, Egypte durant printemps Arabe, ...]
+
+
+
 Dès lors, comment avoir confiance dans les serveurs DNS que les FAI mettent à la disposition de leurs abonnés ? Comment vérifier que les FAI ne font pas de l'excès de zèle dans le blocage ?
 
 C'est ici que l'idée est née : permettre à un utilisateur lambda, n'ayant pas de connaissance particulière en réseau ou en informatique en générale, de vérifier la qualité des services auquel il souscrit ?
@@ -22,9 +39,13 @@ Le but étant de permettre à quiconque d'utiliser ce service, ces deux solution
 C'est donc assez naturellement que le choix s'est tourné vers une application web. De cette manière n'importe qui ayant un accès à Internet pourrait utiliser le service.
 Pour aller plus loin, et permettre au maximum de monde d'utiliser le service, le choix a été fait de ne pas utiliser de JavaScript côté client pour les fonctionnalités principales du service.
 
+
+
 Que permet donc ce service ?
 
 La fonction principale est donc de proposer à l'utilisateur d'entrer une URL et de soumettre cette URL à vérifications.
+
+Il peut aussi demander des informations générales sur les serveurs DNS de son FAI ou de son pays.
 
 Cas d'utilisation 
 
@@ -214,6 +235,29 @@ Sous Windows, aucun problème, le serveur se lance correctement et effectue parf
 Sous Linux par contre, impossible de démarrer le serveur, une erreur se produit dans un sous module de "node-dns".
 
 Développer sous Windows n'étant pas un problème en soi, c'est ce que je continue de faire. Le problème réel est pour l'hébergement du serveur. En effet, Heroku, AppFog, Nodejitsu sont autant de PaaS sous Linux. Donc impossible de lancer le serveur hosté. Malédiction.
+
+## 5. Et ensuite ?
+
+Ce projet est en effet voué à perdurer. Même si la neutralité du net devait devenir un acqui au niveau mondial, rêvons grand, il ne faut pas pour autant vivre au pays des bisounours. Internet reste un outil complexe, manipulable de façon parfois très aisée. Il faut donc toujours partir sur un principe de précaution.
+
+Que va devenir ce projet par la suite ?
+
+Une fois le problème lié au module 'native-dns', il sera mis en ligne, enfin.
+Le retour d'une base de données MongoDB devrait avoir également avoir lieu.
+
+Il y a également des fonctionnalités que je n'ai pas eu le temps d'implémenter qui sont néanmoins intéressantes à détailler de façon théorique.
+
+### 5.1 Comparaison visuelle des résultats.
+
+Imaginons qu'un utilisateur, Marcel, veuille se rendre sur un site Internet possiblement censuré dans son pays.
+
+Marcel se rend donc sur le site du projet pour effectuer le test sur base de l'url. Le service lui répond qu'il y a une différence, et qu'il ne doit pas se fier au serveur DNS de son FAI parce que les résultats des IP et des hashages d'HTML sont différents. Super.
+
+Mais Marcel ne sait pas ce qu'est une adresse IP et encore moins le hashage de code HTML. Problème.
+
+En voulant aider Marcel, je l'embrouille avec du jargon. Ce n'est pas ce que je veux. Je voudrais que Marcel puisse observer la différence entre les deux résultats. 
+
+[continuer explication ici]
 
 ## 3. Avec quoi ?
 
