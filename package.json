@@ -3,7 +3,7 @@
   , "subdomain": "noipasaran"
   , "version": "0.0.1"
   , "dependencies": {
-        "express": "3.2.1"
+        "express": "3.2.6"
       , "connect-assets": "2.1.x"
       , "jade": "*"
       , "stylus": "*"
