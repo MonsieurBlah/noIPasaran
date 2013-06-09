@@ -674,6 +674,8 @@ Tout site ne posant pas problème et n'ayant pas été consulté durant la journ
 
 Par contre, un site posant problème restera de façon indéfinie dans la base de données.
 
+Le nettoyage s'effectue à heure fixe tous les jours. Pour éviter de perturber l'activité du site, j'utilise un module appelé "toobusy". Ce module permet d'éviter d'effectuer ce nettoyage, potentiellement lourd en requète entrante et sortante, lorsqu'il y a un grand nombre de requète client. Pour cela, il observe le retard qu'a la file d'évènement. Si ce retard est plus grand que 70 millisecondes, il reporte le nettoyage de 5 minutes.
+
 
 ### 4.2.4. Contributions des utilisateurs à la base de données "servers"
 

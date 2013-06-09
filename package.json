@@ -15,6 +15,7 @@
       , "async" : "*"
       , "underscore" : "*"
       , "MD5" : "*"
+      , "toobusy" : "*"
     }
   , "scripts": {
       "start": "server.js"
