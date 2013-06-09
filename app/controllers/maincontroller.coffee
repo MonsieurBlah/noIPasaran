@@ -81,7 +81,3 @@ module.exports = (app) ->
 				res.render '404', status: 404, view: 'four-o-four', title: '404.404.404.404', something: something
 			else
 				res.render '404', status: 404, view: 'four-o-four', title: '404.404.404.404', something: null
-
-
-
-
