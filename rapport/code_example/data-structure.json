@@ -1,15 +1,15 @@
 { "site": {	"site_id": 1,
-				 		"url": "www.example.com",
-				 		"ip": ["192.168.0.1"],
-				 		"hash": "78e731027d8fd50ed642340b7c9a63b3",
-				  	"haz_problem": 0,
-						"date": "Tue May 21 2013 18:46:50 GMT+0200 (Romance Daylight Time)"},
+		"url": "www.example.com",
+		"ip": ["192.168.0.1"],
+		"hash": "78e731027d8fd50ed642340b7c9a63b3",
+	"haz_problem": 0,
+	"date": "Tue May 21 2013 18:46:50 GMT+0200 (Romance Daylight Time)"},
 	"clientip": "127.0.0.1",
 	"local": [ {"valid": true,
-							"name": "ExampleDnsServer",
-							"primary_ip": "195.238.2.21",
-							"secondary_ip": "195.268.2.22",
-							"primary_result": [{"addresses": ["192.168.0.1"], "time": "30"}],
-							"secondary_result": [{"addresses": ["192.168.0.1"], "time": "27"}]
-							} ]
+		"name": "ExampleDnsServer",
+		"primary_ip": "195.238.2.21",
+		"secondary_ip": "195.268.2.22",
+		"primary_result": [{"addresses": ["192.168.0.1"], "time": "30"}],
+		"secondary_result": [{"addresses": ["192.168.0.1"], "time": "27"}]
+		} ]
 }

@@ -1,14 +1,14 @@
 var MaClasse = (function() {
-		function MaClass() {
-			alert('Constructeur')
-		}
+	function MaClass() {
+		alert('Constructeur')
+	}
 
-		MaClasse.prototype.faitQQChose = function() {
-			alert('fait quelque chose')
-		};
+	MaClasse.prototype.faitQQChose = function() {
+		alert('fait quelque chose')
+	};
 
-		return MaClasse;
-	})();
+	return MaClasse;
+})();
 
-	c = new MaClasse();
-	c.faitQQChose();
+c = new MaClasse();
+c.faitQQChose();
