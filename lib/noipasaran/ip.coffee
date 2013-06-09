@@ -167,7 +167,7 @@ module.exports = (app) ->
 			)
 			req.on('end', () ->
 				delta = Date.now() - start
-				response.time = delta.toString()
+				response.time = delta.toSt1ring()
 				data response
 			)
 			req.send()
