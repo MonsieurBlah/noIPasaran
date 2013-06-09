@@ -45,7 +45,7 @@ Faire un site Internet pour informer de la censure comporte un risque : être ce
 
 L'idéal serait que les versions distribuées utilisents une seule et même base de données pour une meilleure pertinence des résultats obtenus. Pour ceux qui désireraient crééer leur propre base de données, le script d'insertion de données sera joint au code du serveur.
 
-3. Matériels et méthodes									  
+## 3. Matériels et méthodes									  
 
 
 ### 3.1. Node.js
@@ -412,7 +412,7 @@ Ce projet aurait donc pu s'appeler Simone.
 
 ### 4.1 Architecture du serveur
 
-La structure du serveur est générée par [Skeleton][skeleton].
+La structure du serveur est générée par Skeleton.
 
 	noIPasaran
 	├─┬ app
@@ -466,6 +466,60 @@ La structure du serveur est générée par [Skeleton][skeleton].
 - package.json : ce fichier contient différentes informations contenant le projet. Son nom, sa version, ses dépendances (les modules qu'il utilise), ainsi que des informations sur le fichier à exécuter pour lancer le serveur.
 
 - server.coffee : le fichier qui est appellé lors du lancement du serveur. Ici, il ne fait que charger le compilateur CoffeeScript et charger le fichier app.coffee qui va paramétrer et démarrer le serveur.
+
+#### 4.1.2 config
+
+Le dossier config ne contient qu'un seul fichier, boot.coffee. Il permet, lorsqu'il est chargé dans app.coffee, de charger automatiquement le contenu des dossiers lib et controllers.
+
+#### 4.1.3 lib
+
+Lib contient les classes utilisées dans l'application. 
+
+##### 4.1.3.1 check.coffee
+
+[A rajouter]
+
+##### 4.1.3.2 db.coffee
+
+Le fichier db est une pseudo classe de DAO. Il n'y a en effet pas de modèle déclaré dans l'application. Cette classe sera à terme refactorée en une vrai classe de DAO à l'aide de MongoDB et Mongoose qui permet de déclarer des modèles et de simplifier leurs manipulations dans la base de données.
+
+Ce fichier n'est donc composé que de différentes fonctions permettant d'insérer, modifier, récupérer ou supprimer des informations dans la base de données.
+
+##### 4.1.3.3 distance.coffee
+
+Distance est une petite classe pour calculer la distance réelle entre deux coordonnées géographique à vol d'oiseaux, en tenant compte de la courbure de la terre. Elle permet de fournir à titre indicatif la distance entre un serveur DNS et la position d'un utilisateur.
+
+##### 4.1.3.4 ip.coffee
+
+La classe la plus importante du projet. Elle contient toutes les fonctions nécessaires à la manipulation, la recherche d'information basée sur les URL et les adresses IP.
+
+##### 4.1.3.5 staticmap.coffee
+
+Cette classe est utilisée pour générer l'URL d'une carte Google Maps Static.
+
+#### 4.1.4 nodes_modules
+
+C'est ici que sont installés les modules déclarés dans le fichier package.json
+
+#### 4.1.5 public
+
+Ce dossier contient les fichiers qui n'ont pas besoin d'être compilés, tels les images, fichier CSS ou JS provenant de sources externes.
+
+#### 4.1.6 Autres fichiers
+
+##### 4.1.6.1 LICENCE
+
+##### 4.1.6.2 Procfile
+
+##### 4.1.6.3 README.md
+
+##### 4.1.6.4 package.json
+
+##### 4.1.6.5 server.js
+
+Le fichier primaire du serveur. C'est lui qui est appellé lors du chargement du serveur, tel que déclaré dans le fichier package.json.
+
+Il ne contient que deux informations : déclarer explicitement que l'exécution nécessite le compilateur CoffeeScript et que le reste du code se trouve dans le fichier app.coffee.
 
 
 ### 4.2 Que permet donc ce service ?

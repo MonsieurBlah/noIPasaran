@@ -7,24 +7,6 @@ dns_ = require 'native-dns'
 module.exports = (app) ->
 	class app.ip
 
-		###@getIpAndData = (req, url, data) ->
-			result = new Object()
-			getSite url, (site) ->
-				site.ip = site.ip.split(',')
-				result.site = site
-				getClientIP req, (clientip) ->
-					result.clientip = clientip
-					getIpCountry clientip, (country) ->
-						result.country = country
-						app.dao.getLocalServers country, (localServers) ->
-							resolveLocalServers url, localServers, (localAnswers) ->
-								checkIfAnswerIsValid(result.site.ip, answer, (valid) ->
-									answer.valid = valid
-								) for answer in localAnswers
-								result.local = localAnswers
-								console.log result
-								data result###
-
 		@getIpAndData = (req, url, data) ->
 			result = new Object()
 			getSite url, (site) ->
@@ -167,7 +149,7 @@ module.exports = (app) ->
 			)
 			req.on('end', () ->
 				delta = Date.now() - start
-				response.time = delta.toSt1ring()
+				response.time = delta.toString()
 				data response
 			)
 			req.send()
