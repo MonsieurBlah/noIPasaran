@@ -34,11 +34,15 @@ C'est ici que l'idée est née : permettre à un utilisateur lambda, n'ayant pas
 
 Une fois l'idée germée, il a fallu réfléchir à comment offrir ce service. Un programme à installer ? Une extension pour le navigateur Internet ?
 
-Le but étant de permettre à quiconque d'utiliser ce service, ces deux solutions ne sont pas envisageable. Pour pouvoir installer un programme ou une extension demande des droits assez élevé sur un ordinateur. Or, le client d'un cybercafé ou l'employé d'une entreprise ne possède souvent ces droits.
+Le but étant de permettre à quiconque d'utiliser ce service, ces deux solutions ne sont pas envisageable. Pour pouvoir installer un programme ou une extension demande des droits assez élevé sur un ordinateur. Or, le client d'un cybercafé ou l'employé d'une entreprise ne possède souvent pas ces droits.
 
 C'est donc assez naturellement que le choix s'est tourné vers une application web. De cette manière n'importe qui ayant un accès à Internet pourrait utiliser le service.
+
 Pour aller plus loin, et permettre au maximum de monde d'utiliser le service, le choix a été fait de ne pas utiliser de JavaScript côté client pour les fonctionnalités principales du service.
 
+Faire un site Internet pour informer de la censure comporte un risque : être censuré. Pour palier à ce risque, le serveur est voué à être distribué gratuitement. 
+
+L'idéal serait que les versions distribuées utilisents une seule et même base de données pour une meilleure pertinence des résultats obtenus. Pour ceux qui désireraient crééer leur propre base de données, le script d'insertion de données sera joint au code du serveur.
 
 
 Que permet donc ce service ?
@@ -255,9 +259,15 @@ Marcel se rend donc sur le site du projet pour effectuer le test sur base de l'u
 
 Mais Marcel ne sait pas ce qu'est une adresse IP et encore moins le hashage de code HTML. Problème.
 
-En voulant aider Marcel, je l'embrouille avec du jargon. Ce n'est pas ce que je veux. Je voudrais que Marcel puisse observer la différence entre les deux résultats. 
+En voulant aider Marcel, je l'embrouille avec du jargon. Ce n'est pas ce que je veux. Je voudrais que Marcel puisse observer la différence entre les deux résultats. En utilisant deux iframe par exemple.
 
-[continuer explication ici]
+Le premier fait un rendu du site sur base de l'URL de base, le second sur base de l'IP renvoyée.
+
+Pas de problème si le FAI de Marcel ne fait que du blocage DNS, par contre si celui-ci fait également du blocage IP, un problème se pose avec le rendu du site basé sur l'IP.
+
+### 5.2 Servir de proxy
+
+[test à faire avant d'en parler]
 
 ## 3. Avec quoi ?
 
