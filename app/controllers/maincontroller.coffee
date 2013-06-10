@@ -33,7 +33,8 @@ module.exports = (app) ->
 			url = "www.#{url}" if url.indexOf 'www.', 0 < 0 and url.split('.').length - 1 < 2
 			app.ip.getIpAndData req, url, (data) ->
 				console.log data.local[0].primary_result
-				res.render 'url', view: 'url', title: "#{url}", url: url, ip: data.site.ip, clientip: data.clientip, country: data.country, resultlocal: data.local 
+				res.render 'url', view: 'url', title: "#{url}", url: url, ip: data.site.ip,
+				clientip: data.clientip, country: data.country, resultlocal: data.local 
 
 		@ip = (req, res) ->
 			# Get the ip
