@@ -1,0 +1,21 @@
+Google Public DNS
+
+Les points forts des serveurs DNS de Google sont sans aucun doute leur rapidité et leur disponibilité.
+Ils sont théoriquement neutre. C'est probablement le service le plus connu aujourd'hui grâce à sa fameuse adresse IP 8.8.8.8
+
+Le seul point négatif est le fait que l'adresse IP de l'utilisateur (supprimée après 24 heures), son FAI et ses informations de géolocalisation sont enregistrées. Au nom de la performance.
+
+Level3
+
+Avant l'arrivée des serveurs DNS de Google, le plus connu était Level3 grâce à son IP facile à retenir : 4.2.2.2. Il ne joui plus aujourd'hui de sa gloire d'entant, mais est toujours aussi neutre qu'en 1993.
+
+censurfridns.dk
+
+Ces serveurs DNS danois sont l'initiative d'un individu danois isolé, Thomas Steen Rasmussen, qui a pour but de fournir gratuitement ces serveurs DNS certifiés sans censure. Cette initiative est née depuis que le gouvernement danois opère de la censure sur Internet de la même manière que le gouvernement belge : en forcant les FAI à bloquer des résolutions d'adresses.
+
+SmartViper
+
+Ceux-ci appartiennent à la société markosweb. Ils représentent une alternative sérieuse à Google DNS en terme de performance.
+
+OpenDNS n'a pas été retenu dans ces serveurs malgré son nom, en effet OpenDNS repose sur les serveurs de Google et se financent grâce à de la pub qu'ils proposent lorsqu'une URL n'est pas résolue.
+
