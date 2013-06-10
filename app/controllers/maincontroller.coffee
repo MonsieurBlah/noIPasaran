@@ -26,8 +26,9 @@ module.exports = (app) ->
 		@url = (req, res) ->
 			# Get the url
 			url = req.params.url
-			# If no www. and only one . in the url
-			# ADD THE CLEANING AFTER THE FIRST /
+			# clean the url after the first /
+			urlArr = url.split('/')
+			url = urlArr[0]
 			# Add www. in front of the url
 			url = "www.#{url}" if url.indexOf 'www.', 0 < 0 and url.split('.').length - 1 < 2
 			app.ip.getIpAndData req, url, (data) ->
