@@ -14,7 +14,7 @@ block content
 						th Secondary IP
 						th Country
 						th ISP ?
-						th Validate
+						th Active
 						th Edit
 						th Delete
 					tbody
@@ -32,21 +32,19 @@ block content
 										i.icon-remove
 								if item.valid == 0
 									td
-										button.btn.btn-inverse.validate(href="#", data-server-id=item.dns_server_id, data-toggle="button") 
-											i.icon-ok-sign.icon-white
-											|  Add
+										.switch
+											input(type="checkbox", data-toggle="switch")
 								else
 									td
-										button.btn.btn-success.validate.active(href="#", data-server-id=item.dns_server_id, data-toggle="button") 
-											i.icon-ok-sign.icon-white
-											|  Add
+										.switch
+											input(type="checkbox", checked, data-toggle="switch")
 								td
 									button.btn.btn-warning.edit(href="#", data-server-id=item.dns_server_id)
-										i.icon-plus-sign.icon-white 
+										i.fui-new 
 										|  Edit
 								td
 									button.btn.btn-danger.delete(href="#", data-server-id=item.dns_server_id)
-										i.icon-remove-sign.icon-white
+										i.fui-cross
 										|  Delete
 		// Modal
 		#edit-modal.modal.hide.fade(tabindex="-1", role="dialog", aria-labelledby="editModal", aria-hidden="true")
@@ -58,7 +56,8 @@ block content
 				button#submitform.btn.btn-primary(form="editform", type="submit") Save
 				button.btn(data-dismiss="modal", aria-hidden="true") Cancel
 block specific-js
-	script(src="/js/jquery/jquery.dataTables.min.js")
+	script(src="/js/jquery.dataTables.min.js")
+	script(src="/js/bootstrap-switch.js")
 	!= js('adminservers')
 
 
