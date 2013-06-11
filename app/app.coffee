@@ -20,7 +20,7 @@ app.configure ->
   # specify that the outputed HTML is not minified
   app.locals.pretty = true
   # set the public directory
-  app.use express.static("#{__dirname}/../public/lib")
+  app.use express.static("#{__dirname}/../public")
   # use express default favicon [TODO change favicon]
   app.use express.favicon()
   # set the logger to full stack view

@@ -11,14 +11,16 @@ block content
 					legend ... to get more DNS servers !
 						input#dnsname.input-xlarge(name="name", type="text", placeholder="Name of the DNS provider", required)
 						input#primaryip.input-xlarge(name="primary_ip", type="text", placeholder="The primary IP", required)
-						input#secondaryip.input-xlarge(name="secondary_ip", type="text", placeholder="The secondary IP") 
-						include includes/countries
+						input#secondaryip.input-xlarge(name="secondary_ip", type="text", placeholder="The secondary IP", required) 
+						input#country.input-xlarge(name="country", type="text", placeholder="Country or Global", required)
 						label.checkbox
-							p Check if this is an ISP
-								input#isisp(name="is_isp", type="checkbox") 
+							span.icons
+								span.first-icon.fui-checkbox-unchecked
+								span.second-icon.fui-checkbox-checked
+							input#isisp(type="checkbox", data-toggle="checkbox", value="") Check if this is an ISP
 						button#submit-help.btn.btn-primary(type="submit",value="Submit") Submit
 						span#btnspan
 
 block specific-js
-	script(src="/js/jquery/jquery-2.0.0.min.js")
+	script(src="/js/flatui-checkbox.js")
 	!= js('help')
