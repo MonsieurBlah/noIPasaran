@@ -8,9 +8,12 @@ html
 				input#dnsname.input-xlarge(name="name", type="text", placeholder="Name of the DNS provider", required, value=server.name)
 				input#primaryip.input-xlarge( name="primary_ip", type="text", placeholder="The primary IP", required, value=server.primary_ip)
 				input#secondaryip.input-xlarge(name="secondary_ip", type="text", placeholder="The secondary IP", required, value=server.secondary_ip) 
-				include includes/countries
+				input#location.input-xlarge(name="location", type="text", placeholder="Country or Global", required)
 				label.checkbox
-					p Check if this is an ISP
+							span.icons
+								span.first-icon.fui-checkbox-unchecked
+								span.second-icon.fui-checkbox-checked
+							input#isisp(type="checkbox", data-toggle="checkbox", value="") Check if this is an ISP
 						if server.is_isp == 1
 							input#isisp(name="is_isp", type="checkbox", checked)
 						else

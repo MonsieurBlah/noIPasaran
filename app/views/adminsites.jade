@@ -24,14 +24,14 @@ block content
 											option= ip
 								td
 									if item.haz_problem == 1
-										i.icon-ok
+										i.fui-lock
 									else
-										i.icon-remove
+										i.fui-radio-unchecked
 								td
 									button.btn.btn-danger.delete(href="#", data-site-id=item.site_id)
-										i.icon-remove-sign.icon-white
+										i.fui-cross
 										|  Delete
 block specific-js
-	script(src="/js/jquery/jquery.dataTables.min.js")
+	script(src="/js/jquery.dataTables.min.js")
 	!= js('adminsites')
 

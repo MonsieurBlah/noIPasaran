@@ -12,21 +12,20 @@ module.exports = (app) ->
 		queryInsertServer = 'INSERT INTO dns_servers SET ?'
 		queryGetServers = 'SELECT * FROM dns_servers'
 		queryGetServer = 'SELECT * FROM dns_servers WHERE dns_server_id = ?'
-		queryValServer = 'UPDATE dns_servers SET valid = 1 WHERE dns_server_id = ?'
-		queryUnValServer = 'UPDATE dns_servers SET valid = 0 WHERE dns_server_id = ?'
+		queryToggleServer = 'UPDATE dns_servers SET valid = IF(valid = 1, 0, 1) WHERE dns_server_id = ?'
 		queryEditServer = 'UPDATE dns_servers SET ? WHERE dns_server_id = ?'
 		queryDeleteServer = 'DELETE FROM dns_servers WHERE dns_server_id = ?'
 		queryGetServersWhereLocation = 'SELECT * FROM dns_servers WHERE location = ? AND valid = 1'
 		queryGetGlobalServers = 'SELECT * FROM dns_servers WHERE location = \'Global\' AND valid = 1'
 		queryGetValidServers = 'SELECT * FROM dns_servers WHERE valid = 1'
 		queryGetServerByIp = 'SELECT * FROM dns_servers WHERE primary_ip = ? OR secondary_ip = ?'
-		queryGetServerByName = 'SELECT * FROM dns_servers WHERE LOWER(name) = ?'
+		queryGetServerByName = 'SELECT * FROM dns_servers WHERE LOWER(name) = LOWER(?)'
 		
 		###########
 		# Servers #
 		###########
 		@insertServer = (data, id) ->
-			if data.is_isp == 'on'
+			if data.is_isp is 'on'
 				data.is_isp = 1
 			else 
 				data.is_isp = 0
@@ -65,14 +64,8 @@ module.exports = (app) ->
 					throw err
 				data rows
 
-		@valServer = (id, res) ->
-			connection.query queryValServer, id, (err, result) ->
-				if err
-					throw err 
-				result
-
-		@unvalServer = (id, res) ->
-			connection.query queryUnValServer, id, (err, result) ->
+		@toggleServer = (id, res) ->
+			connection.query queryToggleServer, id, (err, result) ->
 				if err
 					throw err 
 				result
@@ -102,6 +95,7 @@ module.exports = (app) ->
 				data result
 
 		@getServerByName = (name, data) ->
+			console.log name
 			connection.query queryGetServerByName, name, (err, result) ->
 				if err 
 					throw err 
