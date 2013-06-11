@@ -7,9 +7,9 @@ block content
 	.row
 		.span6.offset3
 			form.form-horizontal(name="form", action="/query", method="post")
-				#search-input.input-append
+				#search-input
 					input.input-xlarge(type="text", placeholder="Go to URL or IP", name="query")
-					input.btn(type="submit", action="/query", method="post", value="Go")
+					input.btn.btn-primary(type="submit", action="/query", method="post", value="Go")
 
 block specific-js
 	!= js('index')
