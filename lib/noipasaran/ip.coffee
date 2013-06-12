@@ -3,6 +3,7 @@ dns = require 'dns'
 async = require 'async'
 _ = require 'underscore'
 dns_ = require 'native-dns'
+md5 = require 'MD5'
 
 module.exports = (app) ->
 	class app.ip
@@ -88,8 +89,10 @@ module.exports = (app) ->
 		getIpAndInsert = (url, data) ->
 			app.dao.getGlobalServers (globalServers) ->
 				resolveGlobalServers url, globalServers, (answer) ->
-					app.dao.insertAndGetSite url, answer, (site) ->
-						data site
+					getHash answer, (hash) ->
+						console.log hash
+						app.dao.insertAndGetSite url, answer, hash, (site) ->
+							data site
 
 		getClientIP = (req, ip) ->
 			ipAddress = null
@@ -207,7 +210,8 @@ module.exports = (app) ->
 					infos result
 
 		getHash = (url, hash) ->
-			request.get url, (error, response, body) ->
+			console.log url.toString()
+			request.get "http://#{url}", (error, response, body) ->
 				if not error and response.statusCode is 200
 					hash md5 body
 

@@ -11,6 +11,7 @@ block content
 						th ID
 						th URL
 						th IP
+						th Hash
 						th Problem ?
 						th Delete
 					tbody
@@ -19,9 +20,17 @@ block content
 								td= item.site_id
 								td= item.url
 								td
-									select
-										each ip in item.ip
-											option= ip
+									if item.ip && item.ip.length > 3
+										select
+											each ip in item.ip
+												option= ip
+									else if item.ip && item.ip.length > 0
+										ul.unstyled
+											each ip in item.ip
+												li= ip
+									else
+										p No result
+								td= item.hash
 								td
 									if item.haz_problem == 1
 										i.fui-lock

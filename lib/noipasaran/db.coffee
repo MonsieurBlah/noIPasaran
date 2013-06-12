@@ -100,7 +100,7 @@ module.exports = (app) ->
 				if err 
 					throw err 
 				data result
-				
+
 		#########
 		# Sites #
 		#########
@@ -118,10 +118,11 @@ module.exports = (app) ->
 				row.ip = row.ip.split(',') for row in rows
 				data rows
 
-		@insertSite = (url, ip, data) ->
+		@insertSite = (url, ip, hash, data) ->
 			site = {
 				'url': url,
-				'ip': ip
+				'ip': ip,
+				'hash': hash
 			}
 			connection.query queryInserSite, site, (err, result) ->
 				if err 
@@ -147,10 +148,11 @@ module.exports = (app) ->
 				data rows[0]
 			#console.log query.sql
 
-		@insertAndGetSite = (url, ip, data) ->
+		@insertAndGetSite = (url, ip, hash, data) ->
 			site = {
 				'url': url,
 				'ip': ip.toString()
+				'hash': hash
 			}
 			connection.query queryInserSite, site, (err, result) ->
 				if err 
