@@ -4,34 +4,44 @@ block specific-css
 	!= css('adminsites')
 
 block content
-		.row
-			.span12
-				table#sites-table.table.table-bordered.table-hover.table-condensed
-					thead
-						th ID
-						th URL
-						th IP
-						th Problem ?
-						th Delete
-					tbody
-						each item in sites
-							tr 
-								td= item.site_id
-								td= item.url
-								td
+	.row
+		.span12
+			table#sites-table.table.table-bordered.table-hover.table-condensed
+				thead
+					th ID
+					th URL
+					th IP
+					th Hash
+					th Problem ?
+					th Delete
+				tbody
+					each item in sites
+						tr 
+							td= item.site_id
+							td= item.url
+							td
+								if item.ip && item.ip.length > 3
 									select
 										each ip in item.ip
 											option= ip
-								td
-									if item.haz_problem == 1
-										i.icon-ok
-									else
-										i.icon-remove
-								td
-									button.btn.btn-danger.delete(href="#", data-site-id=item.site_id)
-										i.icon-remove-sign.icon-white
-										|  Delete
+								else if item.ip && item.ip.length > 0
+									ul.unstyled
+										each ip in item.ip
+											li= ip
+								else
+									p No result
+							td= item.hash
+							td
+								if item.haz_problem == 1
+									i.fui-lock
+								else
+									i.fui-radio-unchecked
+							td
+								button.btn.btn-danger.delete(href="#", data-site-id=item.site_id)
+									i.fui-cross
+									|  Delete
+										
 block specific-js
-	script(src="/js/jquery/jquery.dataTables.min.js")
+	script(src="/js/jquery.dataTables.min.js")
 	!= js('adminsites')
 

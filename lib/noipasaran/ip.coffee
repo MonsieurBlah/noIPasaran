@@ -3,29 +3,54 @@ dns = require 'dns'
 async = require 'async'
 _ = require 'underscore'
 dns_ = require 'native-dns'
+md5 = require 'MD5'
 
 module.exports = (app) ->
 	class app.ip
 
 		@getIpAndData = (req, url, data) ->
 			result = new Object()
-			getSite url, (site) ->
-				site.ip = site.ip.split ','
-				result.site = site
-				getClientIP req, (clientip) ->
-					result.clientip = clientip
-					getIpCountry clientip, (country) ->
-						result.country = country
-					getIpISP clientip, (isp) ->
-						app.dao.getServerByName isp, (ispServers) ->
-							#console.log ispServers
-							resolveLocalServers url, ispServers, (ispAnswers) ->
-								checkIfAnswerIsValid(result.site.ip, answer, (valid) ->
-									answer.valid = valid
-								) for answer in ispAnswers
-								result.local = ispAnswers
-								#console.log result
-								data result
+			async.parallel [
+				(callback) ->
+					getSite url, (site) ->
+						site.ip = site.ip.split ','
+						result.site = site
+						callback()
+				,(callback) ->
+					getClientIP req, (clientIP) ->
+						result.clientip = clientIP
+						async.parallel [
+							(callback) ->
+								getIpCountry clientIP, (country) ->
+									result.country = country
+									callback()
+							,(callback) ->
+								getIpISP clientIP, (isp) ->
+									result.isp = isp
+									callback()
+						], (err) ->
+							throw err if err
+							app.dao.getServerByName result.isp, (ispServers) ->
+								if not ispServers
+									app.dao.getLocalServer result.country, (countryServers) ->
+										result.servers = countryServers
+										callback()
+								else
+									result.servers = ispServers
+									callback()
+			], (err) ->
+				throw err if err
+				resolveLocalServers url, result.servers, (localAnswers) ->
+					fixed = off
+					checkIfAnswerIsValid(result.site.ip, answer, (valid) ->
+						answer.valid = valid
+						app.dao.fixSite(result.site.site_id, (done) ->
+							fixed is on if done
+						) if not valid and not fixed
+					) for answer in localAnswers
+					result.local = localAnswers
+					data result
+
 
 		getSite = (url, site) ->
 			app.dao.getSiteByUrl url, (oldsite) ->
@@ -45,14 +70,15 @@ module.exports = (app) ->
 
 		checkIfIpIsValid = (ip, iplist1, iplist2, valid) ->
 			test = (_.indexOf(_.toArray(iplist1), ip) > -1 ) and (_.indexOf(_.toArray(iplist2), ip) > -1)
-			#console.log "#{test} #{iplist1} #{iplist2}"
 			valid test
 
 		getIpAndInsert = (url, data) ->
 			app.dao.getGlobalServers (globalServers) ->
 				resolveGlobalServers url, globalServers, (answer) ->
-					app.dao.insertAndGetSite url, answer, (site) ->
-						data site
+					getHash answer, (hash) ->
+						console.log hash
+						app.dao.insertAndGetSite url, answer, hash, (site) ->
+							data site
 
 		getClientIP = (req, ip) ->
 			ipAddress = null
@@ -61,7 +87,7 @@ module.exports = (app) ->
 				forwardedIps = forwardedIpsStr.split ','
 				ipAddress = forwardedIps[0]
 			ipAddress = req.connection.remoteAddress if not ipAddress
-			#ipAddress = '81.247.34.211' #BELGIQUE
+			ipAddress = '81.247.34.211' #BELGIQUE
 			#ipAddress = '91.121.208.6' #FRANCE
 			ip ipAddress
 
@@ -131,11 +157,12 @@ module.exports = (app) ->
 				name: url,
 				type: 'A'})
 			response = new Object()
+			response.timeout = false
 			start = Date.now()
 			req = dns_.Request({
 				question: question,
 				server: {address: server},
-				timeout: 3000
+				timeout: 500
 				})
 			req.on('timeout', () ->
 				response.timeout = true
@@ -158,7 +185,6 @@ module.exports = (app) ->
 			address answer.address
 
 		@getIPInfos = (ip, infos) ->
-			#console.log ip
 			result = new Object()
 			url = 'http://freegeoip.net/json/' + ip
 			request.get url, (error, response, body) ->
@@ -170,5 +196,9 @@ module.exports = (app) ->
 					result.city = data.city
 					infos result
 
-		
-
+		getHash = (url, hash) ->
+			console.log url.toString()
+			hash('tpb hash') if url.toString() is '194.71.107.15'
+			request.get "http://#{url}", (error, response, body) ->
+				if not error and response.statusCode is 200
+					hash md5 body

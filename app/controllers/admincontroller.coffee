@@ -7,8 +7,8 @@ module.exports = (app) ->
 			app.dao.getServers (data) ->
 				res.render 'adminservers', view: 'adminservers', title: 'Servers', servers: data
 
-		@valServer = (req, res) ->
-			app.dao.valServer req.params.id, (data) ->
+		@toggleServer = (req, res) ->
+			app.dao.toggleServer req.params.id, (data) ->
 				res.end JSON.stringify data
 
 		@unvalServer = (req, res) ->
@@ -25,6 +25,7 @@ module.exports = (app) ->
 
 		@editServerModal = (req, res) ->
 			app.dao.getServer req.params.id, (data) ->
+				console.log data
 				res.render 'editservermodal', view: 'editservermodal', server: data[0]
 
 		# Admin sites	

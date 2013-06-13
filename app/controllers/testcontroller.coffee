@@ -9,14 +9,18 @@ module.exports = (app) ->
 			url = 'http://www.thepiratebay.se'
 			getHTML url, (html) ->
 				console.log md5(html)
-			###getHTMLproxy url, (htmlproxy) ->
-				console.log md5(htmlproxy)###
 			res.render 'test', view: 'test', title: 'Test'
 
 		getHTML = (url, html) ->
 			request.get url, (error, response, body) ->
 				if not error and response.statusCode is 200
 					html body
+
+
+		getHash = (url, hash) ->
+			request.get url, (error, response, body) ->
+				if not error and response.statusCode is 200
+					hash md5 body
 
 		getHTMLproxy = (url, html) ->
 			host = url.split "://"

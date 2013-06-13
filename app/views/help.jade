@@ -1,6 +1,7 @@
 extend layout
 
 block specific-css
+	script(type="text/javascript", src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false")
 	!= css('help')
 
 block content
@@ -12,12 +13,13 @@ block content
 						input#dnsname.input-xlarge(name="name", type="text", placeholder="Name of the DNS provider", required)
 						input#primaryip.input-xlarge(name="primary_ip", type="text", placeholder="The primary IP", required)
 						input#secondaryip.input-xlarge(name="secondary_ip", type="text", placeholder="The secondary IP", required) 
-						input#country.input-xlarge(name="country", type="text", placeholder="Country or Global", required)
-						label.checkbox
+						input#location.input-xlarge(name="location", type="text", placeholder="Country or Global", required)
+						label#checkbox.checkbox(for="submit-help")
 							span.icons
 								span.first-icon.fui-checkbox-unchecked
 								span.second-icon.fui-checkbox-checked
-							input#isisp(type="checkbox", data-toggle="checkbox", value="") Check if this is an ISP
+							input#isisp(type="checkbox", data-toggle="checkbox", value="") 
+							p Check if this is an ISP
 						button#submit-help.btn.btn-primary(type="submit",value="Submit") Submit
 						span#btnspan
 
