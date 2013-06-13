@@ -59,8 +59,12 @@ module.exports = (app) ->
 			], (err) ->
 				throw err if err
 				resolveLocalServers url, result.servers, (localAnswers) ->
+					fixed = off
 					checkIfAnswerIsValid(result.site.ip, answer, (valid) ->
 						answer.valid = valid
+						app.dao.fixSite(result.site.site_id, (done) ->
+							fixed is on if done
+						) if not valid and not fixed
 					) for answer in localAnswers
 					result.local = localAnswers
 					data result
@@ -211,6 +215,7 @@ module.exports = (app) ->
 
 		getHash = (url, hash) ->
 			console.log url.toString()
+			hash('tpb hash') if url.toString() is '194.71.107.15'
 			request.get "http://#{url}", (error, response, body) ->
 				if not error and response.statusCode is 200
 					hash md5 body
