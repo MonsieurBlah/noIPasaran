@@ -8,24 +8,6 @@ md5 = require 'MD5'
 module.exports = (app) ->
 	class app.ip
 
-		# @getIpAndData = (req, url, data) ->
-		# 	result = new Object()
-		# 	getSite url, (site) ->
-		# 		site.ip = site.ip.split ','
-		# 		result.site = site
-		# 		getClientIP req, (clientip) ->
-		# 			result.clientip = clientip
-		# 			getIpCountry clientip, (country) ->
-		# 				result.country = country
-		# 			getIpISP clientip, (isp) ->
-		# 				app.dao.getServerByName isp, (ispServers) ->
-		# 					resolveLocalServers url, ispServers, (ispAnswers) ->
-		# 						checkIfAnswerIsValid(result.site.ip, answer, (valid) ->
-		# 							answer.valid = valid
-		# 						) for answer in ispAnswers
-		# 						result.local = ispAnswers
-		# 						data result
-
 		@getIpAndData = (req, url, data) ->
 			result = new Object()
 			async.parallel [
@@ -175,6 +157,7 @@ module.exports = (app) ->
 				name: url,
 				type: 'A'})
 			response = new Object()
+			response.timeout = false
 			start = Date.now()
 			req = dns_.Request({
 				question: question,
@@ -219,7 +202,3 @@ module.exports = (app) ->
 			request.get "http://#{url}", (error, response, body) ->
 				if not error and response.statusCode is 200
 					hash md5 body
-
-
-		
-
