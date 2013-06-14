@@ -99,7 +99,7 @@ module.exports = (app) ->
 				forwardedIps = forwardedIpsStr.split ','
 				ipAddress = forwardedIps[0]
 			ipAddress = req.connection.remoteAddress if not ipAddress
-			ipAddress = '81.247.34.211' #BELGIQUE
+			#ipAddress = '81.247.34.211' #BELGIQUE
 			#ipAddress = '91.121.208.6' #FRANCE
 			ip ipAddress
 
@@ -210,7 +210,7 @@ module.exports = (app) ->
 					infos result
 
 		getHash = (url, hash) ->
-			hash('tpb hash') if url.toString() is 'www.thepiratebay.se'
+			#hash('tpb hash') if url.toString() is 'http://thepiratebay.se'
 			request.get url, (error, response, body) ->
 				if not error and response.statusCode is 200
 					hash md5 body
