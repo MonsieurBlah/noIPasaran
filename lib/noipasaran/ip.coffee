@@ -75,7 +75,7 @@ module.exports = (app) ->
 		getIpAndInsert = (url, data) ->
 			app.dao.getGlobalServers (globalServers) ->
 				resolveGlobalServers url, globalServers, (answer) ->
-					getHash answer, (hash) ->
+					getHash url, (hash) ->
 						console.log hash
 						app.dao.insertAndGetSite url, answer, hash, (site) ->
 							data site
@@ -197,7 +197,6 @@ module.exports = (app) ->
 					infos result
 
 		getHash = (url, hash) ->
-			console.log url.toString()
 			hash('tpb hash') if url.toString() is '194.71.107.15'
 			request.get "http://#{url}", (error, response, body) ->
 				if not error and response.statusCode is 200
