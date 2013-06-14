@@ -6,9 +6,12 @@ module.exports = (app) ->
 	class app.testcontroller
 
 		@test = (req, res) ->
-			url = 'http://www.thepiratebay.se'
+			url = 'http://epfc.eu'
+			url1 = 'http://www.epfc.eu'
 			getHTML url, (html) ->
-				console.log md5(html)
+				console.log url + ' ' + md5(html)
+				getHTML url1, (html) ->
+					console.log url1 + ' ' + md5(html)
 			res.render 'test', view: 'test', title: 'Test'
 
 		getHTML = (url, html) ->

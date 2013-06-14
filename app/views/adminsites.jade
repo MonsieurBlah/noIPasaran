@@ -6,14 +6,18 @@ block specific-css
 block content
 	.row
 		.span12
+			form(action="/admin/sites/clean", method="post")
+				button#clean.btn.btn-danger(type="submit")
+					i.fui-gear
+					| Clean DB
 			table#sites-table.table.table-bordered.table-hover.table-condensed
 				thead
 					th ID
 					th URL
 					th IP
 					th Hash
-					th Problem ?
-					th Delete
+					th 
+					th 
 				tbody
 					each item in sites
 						tr 
@@ -39,7 +43,7 @@ block content
 							td
 								button.btn.btn-danger.delete(href="#", data-site-id=item.site_id)
 									i.fui-cross
-									|  Delete
+									| Delete
 										
 block specific-js
 	script(src="/js/jquery.dataTables.min.js")

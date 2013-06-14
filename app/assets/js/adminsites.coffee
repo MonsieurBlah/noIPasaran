@@ -13,4 +13,6 @@ $(document).ready ->
   	"bPaginate" : false,
   	"bLengthChange": false,
   	"bInfo": false
+  	"oLanguage":
+      "sZeroRecords": "We live in a beautiful world"
   	})

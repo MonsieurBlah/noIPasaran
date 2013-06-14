@@ -100,6 +100,8 @@ module.exports = (app) ->
 		queryGetSiteById = 'SELECT * FROM sites WHERE site_id = ?'
 		queryDeleteSite = 'DELETE FROM sites WHERE site_id = ?'
 		queryFixSite = 'UPDATE sites SET haz_problem = 1 WHERE site_id = ?'
+		queryCleanSites = 'DELETE FROM sites WHERE haz_problem = 0'
+		queryCleanSitesDate = 'DELETE FROM sites WHERE haz_problem = 0 AND date < ?'
 
 		@getSites = (data) ->
 			connection.query queryGetSites, (err, rows, fields) ->
@@ -146,6 +148,16 @@ module.exports = (app) ->
 
 		@fixSite = (id, data) ->
 			connection.query queryFixSite, id, (err, result) ->
+				throw err if err
+				data result
+
+		@cleanSites = (data) ->
+			connection.query queryCleanSites, (err, result) ->
+				throw err if err
+				data result
+
+		@cleanSitesDate = (date, data) ->
+			connection.query queryCleanSitesDate, date, (err, result) ->
 				throw err if err
 				data result
 

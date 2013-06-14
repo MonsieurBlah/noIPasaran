@@ -16,6 +16,7 @@
       , "underscore" : "*"
       , "MD5" : "*"
       , "toobusy" : "*"
+      , "bcrypt" : "*"
     }
   , "scripts": {
       "start": "server.js"

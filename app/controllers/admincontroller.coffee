@@ -36,3 +36,13 @@ module.exports = (app) ->
 		@delSite = (req, res) ->
 			app.dao.delSite req.params.id, (data) ->
 				res.json data
+
+		@cleanSites = (req, res) ->
+			app.dao.cleanSites (data) ->
+				res.redirect '/admin/sites'
+
+		@cleanSitesDate = (req, res) ->
+			date = Date.now() - 1
+			console.log date
+			app.dao.cleanSitesDate date, (data) ->
+				res.redirect '/admin/sites'

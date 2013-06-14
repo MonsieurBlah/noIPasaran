@@ -35,6 +35,7 @@ module.exports = (app) ->
 	app.get '/admin/servers/modal/:id', app.admincontroller.editServerModal
 
 	app.post '/admin/sites/delete/:id', app.admincontroller.delSite
+	app.post '/admin/sites/clean', app.admincontroller.cleanSites
 
 	app.get '/test', app.testcontroller.test
 
