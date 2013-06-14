@@ -169,7 +169,7 @@ module.exports = (app) ->
 			req = dns_.Request({
 				question: question,
 				server: {address: server},
-				timeout: 500
+				timeout: 2000
 				})
 			req.on('timeout', () ->
 				response.timeout = true
