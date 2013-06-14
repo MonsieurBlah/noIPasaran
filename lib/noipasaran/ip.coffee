@@ -65,7 +65,7 @@ module.exports = (app) ->
 			test = ''
 			checkIfIpIsValid(i, answer.primary_result, answer.secondary_result, (validAnswer) ->
 				test = validAnswer
-				valid test if "fail"
+				valid test if 'fail'
 			) for i in ip
 			valid test
 
@@ -74,8 +74,8 @@ module.exports = (app) ->
 			testSecond = _.indexOf(_.toArray(second.addresses), ip) > -1 if not second.timeout
 			testResult = switch
 				when prime.timeout and second.timeout then 'both timeout'
-				when prime.timeout or second.timeout then 'one timeout'
-				when testPrime and testSecond then 'both ok'
+				when prime.timeout or second.timeout then 'ok' if testPrime or testSecond
+				when testPrime and testSecond then 'ok'
 				else 'fail'
 			valid testResult
 
@@ -94,7 +94,7 @@ module.exports = (app) ->
 				forwardedIps = forwardedIpsStr.split ','
 				ipAddress = forwardedIps[0]
 			ipAddress = req.connection.remoteAddress if not ipAddress
-			ipAddress = '81.247.34.211' #BELGIQUE
+			#ipAddress = '81.247.34.211' #BELGIQUE
 			#ipAddress = '91.121.208.6' #FRANCE
 			ip ipAddress
 
@@ -204,8 +204,7 @@ module.exports = (app) ->
 					infos result
 
 		getHash = (url, hash) ->
-			console.log url.toString()
-			hash('tpb hash') if url.toString() is 'www.thepiratebay.se'
+			#hash('tpb hash') if url.toString() is 'www.thepiratebay.se'
 			request.get "http://#{url}", (error, response, body) ->
 				if not error and response.statusCode is 200
 					hash md5 body

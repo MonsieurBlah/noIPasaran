@@ -5,7 +5,7 @@ block specific-css
 
 block content
 	if resultlocal.length == 1
-		if resultlocal[0].valid == "both ok"
+		if resultlocal[0].valid == "ok"
 			h1 #{url} is not blocked by #{resultlocal[0].name}
 		else if resultlocal[0].valid == "fail"
 			h1 #{url} is blocked by #{resultlocal[0].name}
