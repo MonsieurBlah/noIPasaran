@@ -60,6 +60,11 @@ module.exports = (app) ->
 					getIpAndInsert url, (newsite) ->
 						site newsite
 
+		getRawUrl = (url, raw) ->
+			urlArr = url.split '://'
+			rawUrl = urlArr[1] if urlArr.length > 1
+			raw rawUrl
+
 		checkIfAnswerIsValid = (ip, answer, valid) ->
 			console.log answer
 			test = ''
@@ -160,33 +165,34 @@ module.exports = (app) ->
 					serverObject oneServer
 
 		resolve = (url, server, data) ->
-			question = dns_.Question({
-				name: url,
-				type: 'A'})
-			response = new Object()
-			response.timeout = false
-			start = Date.now()
-			req = dns_.Request({
-				question: question,
-				server: {address: server},
-				timeout: 2000
-				})
-			req.on('timeout', () ->
-				response.timeout = true
-			)
-			req.on('message', (err, answer) ->
-				addresses = []
-				getAddress(a, (address) ->
-					addresses.push(address) if not _.isUndefined(address)
-				) for a in answer.answer
-				response.addresses = addresses
-			)
-			req.on('end', () ->
-				delta = Date.now() - start
-				response.time = delta.toString()
-				data response
-			)
-			req.send()
+			getRawUrl url, (raw) ->
+				question = dns_.Question({
+					name: raw,
+					type: 'A'})
+				response = new Object()
+				response.timeout = false
+				start = Date.now()
+				req = dns_.Request({
+					question: question,
+					server: {address: server},
+					timeout: 2000
+					})
+				req.on('timeout', () ->
+					response.timeout = true
+				)
+				req.on('message', (err, answer) ->
+					addresses = []
+					getAddress(a, (address) ->
+						addresses.push(address) if not _.isUndefined(address)
+					) for a in answer.answer
+					response.addresses = addresses
+				)
+				req.on('end', () ->
+					delta = Date.now() - start
+					response.time = delta.toString()
+					data response
+				)
+				req.send()
 
 		getAddress = (answer, address) ->
 			address answer.address
@@ -205,6 +211,6 @@ module.exports = (app) ->
 
 		getHash = (url, hash) ->
 			hash('tpb hash') if url.toString() is 'www.thepiratebay.se'
-			request.get "http://#{url}", (error, response, body) ->
+			request.get url, (error, response, body) ->
 				if not error and response.statusCode is 200
 					hash md5 body
