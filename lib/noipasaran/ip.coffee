@@ -46,7 +46,7 @@ module.exports = (app) ->
 						answer.valid = valid
 						app.dao.fixSite(result.site.site_id, (done) ->
 							fixed is on if done
-						) if not valid and not fixed
+						) if valid is 'fail' and not fixed
 					) for answer in localAnswers
 					result.local = localAnswers
 					data result
@@ -61,16 +61,23 @@ module.exports = (app) ->
 						site newsite
 
 		checkIfAnswerIsValid = (ip, answer, valid) ->
-			test = true
-			checkIfIpIsValid(i, answer.primary_result.addresses, answer.secondary_result.addresses, (valid1) ->
-				test = valid1
-				valid test if not test
+			console.log answer
+			test = ''
+			checkIfIpIsValid(i, answer.primary_result, answer.secondary_result, (validAnswer) ->
+				test = validAnswer
+				valid test if 'fail'
 			) for i in ip
 			valid test
 
-		checkIfIpIsValid = (ip, iplist1, iplist2, valid) ->
-			test = (_.indexOf(_.toArray(iplist1), ip) > -1 ) and (_.indexOf(_.toArray(iplist2), ip) > -1)
-			valid test
+		checkIfIpIsValid = (ip, prime, second, valid) ->
+			testPrime = _.indexOf(_.toArray(prime.addresses), ip) > -1 if not prime.timeout
+			testSecond = _.indexOf(_.toArray(second.addresses), ip) > -1 if not second.timeout
+			testResult = switch
+				when prime.timeout and second.timeout then 'both timeout'
+				when prime.timeout or second.timeout then 'ok' if testPrime or testSecond
+				when testPrime and testSecond then 'ok'
+				else 'fail'
+			valid testResult
 
 		getIpAndInsert = (url, data) ->
 			app.dao.getGlobalServers (globalServers) ->
@@ -87,7 +94,7 @@ module.exports = (app) ->
 				forwardedIps = forwardedIpsStr.split ','
 				ipAddress = forwardedIps[0]
 			ipAddress = req.connection.remoteAddress if not ipAddress
-			ipAddress = '81.247.34.211' #BELGIQUE
+			#ipAddress = '81.247.34.211' #BELGIQUE
 			#ipAddress = '91.121.208.6' #FRANCE
 			ip ipAddress
 
@@ -162,7 +169,7 @@ module.exports = (app) ->
 			req = dns_.Request({
 				question: question,
 				server: {address: server},
-				timeout: 500
+				timeout: 2000
 				})
 			req.on('timeout', () ->
 				response.timeout = true
@@ -197,7 +204,7 @@ module.exports = (app) ->
 					infos result
 
 		getHash = (url, hash) ->
-			hash('tpb hash') if url.toString() is '194.71.107.15'
+			#hash('tpb hash') if url.toString() is 'www.thepiratebay.se'
 			request.get "http://#{url}", (error, response, body) ->
 				if not error and response.statusCode is 200
 					hash md5 body

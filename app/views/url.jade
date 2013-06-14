@@ -5,16 +5,18 @@ block specific-css
 
 block content
 	if resultlocal.length == 1
-		if resultlocal[0].valid
+		if resultlocal[0].valid == "ok"
 			h1 #{url} is not blocked by #{resultlocal[0].name}
-		else
+		else if resultlocal[0].valid == "fail"
 			h1 #{url} is blocked by #{resultlocal[0].name}
-		
+		else 
+			h1 #{url} took too long to answer on #{resultlocal[0].name}
 	button#show-modal.btn.btn-primary(href="#") Details
 
 	// details modal
 	#detail-modal.modal.hide.fade(tabindex="-1", role="dialog", aria-label="detailModal", aria-hidden="true")
 		.modal-header
+			h1 Details
 			button.close(type="button", data-dismiss="modal", aria-hidden="true") x
 		.modal-body
 			ul.unstyled
