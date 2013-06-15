@@ -8,12 +8,16 @@ md5 = require 'MD5'
 module.exports = (app) ->
 	class app.ip
 
+		# Use to get Data base on URL and ISP or Country DNS servers
 		@getLocalData = (site, url, servers, data) ->
 			result = new Object()
+			# resolve the url on all the servers
 			resolveLocalServers url, servers, (localAnswers) ->
-				fixed = off
+				fixed = site.haz_problem
+				# check the validity of all the answers
 				checkIfAnswerIsValid(site.ip, answer, (valid) ->
 					answer.valid = valid
+					# set haz_problem if the answer is not valid and not yet fixed
 					app.dao.fixSite(site.site_id, (done) ->
 						fixed is on if done
 					) if valid is 'fail' and not fixed
@@ -25,8 +29,10 @@ module.exports = (app) ->
 			result = new Object()
 			result.isCountry = false
 			result.isIsp = false
+			# get the client's IP
 			getClientIP req, (clientIP) ->
 				result.clientip = clientIP
+				# in parallel get the client's IP country and ISP
 				async.parallel [
 					(callback) ->
 						getIpCountry clientIP, (country) ->
@@ -39,33 +45,39 @@ module.exports = (app) ->
 							callback()
 				], (err) ->
 					throw err if err
+					# get the server base on the name of the ISP
 					app.dao.getServerByName result.isp, (ispServers) ->
-						if ispServers.length > 0
-							result.isIsp = true
+						# if there is an ISP with this name
+						result.isIsp = true if ispServers.length > 0
 						answer result
 
-
+		# get a site from the db or create it base on a URL
 		@getSite = (url, site) ->
 			app.dao.getSiteByUrl url, (oldsite) ->
+				# it there is an existing site returns it
 				if oldsite
 					site oldsite
 				else
+					# create a new site and insert in in the db then returns it
 					getIpAndInsert url, (newsite) ->
 						site newsite
 
+		# extract the hostname from a URL as http://www.example.com -> www.example.com
 		getRawUrl = (url, raw) ->
 			urlArr = url.split '://'
 			rawUrl = urlArr[1] if urlArr.length > 1
 			raw rawUrl
 
-		checkIfAnswerIsValid = (ip, answer, valid) ->
+		# check if the answers are valid
+		checkIfAnswerIsValid = (ips, answer, valid) ->
 			test = ''
-			checkIfIpIsValid(i, answer.primary_result, answer.secondary_result, (validAnswer) ->
+			checkIfIpIsValid(ip, answer.primary_result, answer.secondary_result, (validAnswer) ->
 				test = validAnswer
 				valid test if 'fail'
-			) for i in ip
+			) for ip in ips
 			valid test
 
+		# check if an IP is valid, timeout or fail
 		checkIfIpIsValid = (ip, prime, second, valid) ->
 			testPrime = _.indexOf(_.toArray(prime.addresses), ip) > -1 if not prime.timeout
 			testSecond = _.indexOf(_.toArray(second.addresses), ip) > -1 if not second.timeout
@@ -76,13 +88,20 @@ module.exports = (app) ->
 				else 'fail'
 			valid testResult
 
+		# get the ip of an URL and insert it in the db
 		getIpAndInsert = (url, data) ->
+			# get the global servers
 			app.dao.getGlobalServers (globalServers) ->
+				# resolve the URL on the global servers
 				resolveGlobalServers url, globalServers, (answer) ->
+					# hash the HTML of the site
 					getHash url, (hash) ->
+						# insert those info in the db
 						app.dao.insertAndGetSite url, answer, hash, (site) ->
+							# returns the created site
 							data site
 
+		# get the client IP
 		getClientIP = (req, ip) ->
 			ipAddress = null
 			forwardedIpsStr = req.header 'x-forwarded-for'
@@ -90,14 +109,16 @@ module.exports = (app) ->
 				forwardedIps = forwardedIpsStr.split ','
 				ipAddress = forwardedIps[0]
 			ipAddress = req.connection.remoteAddress if not ipAddress
-			ipAddress = '81.247.34.211' #BELGIQUE
-			#ipAddress = '91.121.208.6' #FRANCE
+			ipAddress = '81.247.34.211' #BELGIQUE - BELGACOM
+			#ipAddress = '91.121.208.6' #FRANCE - KIMSUFI
 			ip ipAddress
 
+		# match the pattern of an IP
 		@isIp = (str, match) ->
 			matchres = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/.test(str)
 			match matchres
 
+		# get the country of an IP using external service
 		getIpCountry = (ip, country) ->
 			url = 'http://freegeoip.net/json/' + ip
 			request.get url, (error, response, body) ->
@@ -105,21 +126,25 @@ module.exports = (app) ->
 					data = JSON.parse body
 					country data.country_name
 
+		# try to get the ISP of an IP with a reverse
 		getIpISP = (ip, isp) ->
 			dns.reverse ip, (err, domains) ->
 				throw err if err
 				segments = domains[0].split '.'
 				isp segments[segments.length-2]
 
+		# resolve an URL on the global servers
 		resolveGlobalServers = (url, servers, data) ->
 			result = []
 			count = 0
 			treatGlobalServer(url, server, (resolved) ->
+				# make a union between the existing results and the new answers
 				result = _.union(resolved, result)
 				count++
 				data result if count is servers.length
 			) for server in servers
 
+		# resolve an URL on the local servers
 		resolveLocalServers = (url, servers, resolved) ->
 			result = []
 			treatLocalServer(url, server, (serverObject) ->
@@ -127,6 +152,7 @@ module.exports = (app) ->
 				resolved result if result.length is servers.length
 			) for server in servers
 
+		# resolve on both servers of a global server
 		treatGlobalServer = (url, server, answers) ->
 			result = []
 			async.parallel [
@@ -142,6 +168,7 @@ module.exports = (app) ->
 					throw err if err 
 					answers result
 
+		# resolve on both servers of a local server
 		treatLocalServer = (url, server, serverObject) ->
 			oneServer = new Object()
 			oneServer.valid = null
@@ -161,6 +188,7 @@ module.exports = (app) ->
 					throw err if err 
 					serverObject oneServer
 
+		# resolve a URL on a DNS server
 		resolve = (url, server, data) ->
 			getRawUrl url, (raw) ->
 				question = dns_.Question({
@@ -191,9 +219,11 @@ module.exports = (app) ->
 				)
 				req.send()
 
+		# get the address of an answer
 		getAddress = (answer, address) ->
 			address answer.address
 
+		# get the localisation infos of an IP
 		@getIPInfos = (ip, infos) ->
 			result = new Object()
 			url = 'http://freegeoip.net/json/' + ip
@@ -206,12 +236,14 @@ module.exports = (app) ->
 					result.city = data.city
 					infos result
 
+		# get the md5 hash of the HTML code of an URL
 		getHash = (url, hash) ->
 			#hash('tpb hash') if url.toString() is 'http://thepiratebay.se'
 			request.get url, (error, response, body) ->
 				if not error and response.statusCode is 200
 					hash md5 body
 
+		# update the hash of a site if the result is different of the existing one
 		updateHash = (site, result) ->
 			id = site.site_id
 			getHash site.url, (hash) ->
@@ -219,6 +251,8 @@ module.exports = (app) ->
 					app.dao.updateSite id, hash, (data) ->
 						result data
 
+		# clean the sites db by checking the date, the hashes and IP
+		# DO THE IP VERIFICATION !!!
 		@cleanSites = (data) ->
 			date = Date.now() - 1000 * 60 * 60 * 24
 			app.dao.cleanSitesDate date, (res) ->
