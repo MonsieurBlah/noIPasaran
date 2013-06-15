@@ -1,7 +1,15 @@
 extends layout
 
+block specific-css
+	!= css('404')
+
 block content
-	if something
-		h1 Sorry, I don't know "#{something}"
-	else
-		h1 Nothing here but you
+	.row
+		.span8.offset2
+			if something
+				h1 Sorry, I don't know "#{something}"
+			else
+				h1 This is an ERROR !
+				h2 You probably broke the Internet
+				h4 Or maybe the Internet broke itself
+				p Or I made a mistake (but this is unlikely)
