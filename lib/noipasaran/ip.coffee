@@ -70,11 +70,12 @@ module.exports = (app) ->
 
 		# check if the answers are valid
 		checkIfAnswerIsValid = (ips, answer, valid) ->
+			ipArr = ips.split ','
 			test = ''
 			checkIfIpIsValid(ip, answer.primary_result, answer.secondary_result, (validAnswer) ->
 				test = validAnswer
 				valid test if 'fail'
-			) for ip in ips
+			) for ip in ipArr
 			valid test
 
 		# check if an IP is valid, timeout or fail

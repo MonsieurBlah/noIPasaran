@@ -4,37 +4,28 @@ block specific-css
 	!= css('isp')
 
 block content
-	.row
-		.span12
+	.row#result
+		.span8.offset2
 			if data.answer[0].valid == "ok"
 				h1 #{data.site.url} is not blocked by #{data.answer[0].name}
 			else if data.answer[0].valid == "fail"
 				h1 #{data.site.url} is blocked by #{data.answer[0].name}
 			else 
 				h1 #{site.url} took too long to answer on #{data.answer[0].name}
-			button#show-modal.btn.btn-primary(href="#") Details
-
-	// details modal
-	#detail-modal.modal.hide.fade(tabindex="-1", role="dialog", aria-label="detailModal", aria-hidden="true")
-		.modal-header
-			h1 Details
-			button.close(type="button", data-dismiss="modal", aria-hidden="true") x
-		.modal-body
-			ul.unstyled
-				li #{data.site.url} should resolve as #{data.site.ip}
+	.row#details
+		.span8.offset2
+			h3 Details
+			p #{data.site.url} should resolve as #{data.site.ip}
 				if data.answer.length == 1
-					li Your ISP is #{data.answer[0].name}
+					p Your ISP is #{data.answer[0].name}
 					if data.answer[0].primary_result.timeout 
-						li Their primary server went timeout
+						p Their primary server went timeout
 					else
-						li Their primary server #{data.answer[0].primary_ip} resolved as #{data.answer[0].primary_result.addresses} in #{data.answer[0].primary_result.time} ms.
+						p Their primary server #{data.answer[0].primary_ip} resolved as #{data.answer[0].primary_result.addresses} in #{data.answer[0].primary_result.time} ms.
 					if data.answer[0].secondary_result.timeout
-						li Their primary server went timeout
+						p Their secondary server went timeout
 					else
-						li Their primary server #{data.answer[0].primary_ip} resolved as #{data.answer[0].secondary_result.addresses} in #{data.answer[0].secondary_result.time} ms.
+						p Their secondary server #{data.answer[0].secondary_ip} resolved as #{data.answer[0].secondary_result.addresses} in #{data.answer[0].secondary_result.time} ms.
 				else
-		.modal-footer
-			button.btn(data-dismiss="modal", aria-hidden="true") Close
-
-block specific-js
-	!= js('isp')
+					p MAKE ELSE
+		
