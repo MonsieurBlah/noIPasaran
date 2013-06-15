@@ -38,11 +38,5 @@ module.exports = (app) ->
 				res.json data
 
 		@cleanSites = (req, res) ->
-			app.dao.cleanSites (data) ->
-				res.redirect '/admin/sites'
-
-		@cleanSitesDate = (req, res) ->
-			date = Date.now() - 1
-			console.log date
-			app.dao.cleanSitesDate date, (data) ->
+			app.ip.cleanSites (data) ->
 				res.redirect '/admin/sites'

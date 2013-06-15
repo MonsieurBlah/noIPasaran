@@ -99,7 +99,7 @@ module.exports = (app) ->
 				forwardedIps = forwardedIpsStr.split ','
 				ipAddress = forwardedIps[0]
 			ipAddress = req.connection.remoteAddress if not ipAddress
-			#ipAddress = '81.247.34.211' #BELGIQUE
+			ipAddress = '81.247.34.211' #BELGIQUE
 			#ipAddress = '91.121.208.6' #FRANCE
 			ip ipAddress
 
@@ -214,3 +214,19 @@ module.exports = (app) ->
 			request.get url, (error, response, body) ->
 				if not error and response.statusCode is 200
 					hash md5 body
+
+		updateHash = (site, result) ->
+			id = site.site_id
+			getHash site.url, (hash) ->
+				if site.hash != hash
+					console.log id + ' ' + hash
+					app.dao.updateSite id, hash, (data) ->
+						result data
+
+		@cleanSites = (data) ->
+			date = Date.now() - 1000 * 60 * 60 * 24
+			app.dao.cleanSitesDate date, (res) ->
+				app.dao.getSites (sites) ->
+					updateHash(site, (result)->
+					) for site in sites
+				data()			

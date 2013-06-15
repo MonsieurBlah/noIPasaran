@@ -18,6 +18,7 @@ block content
 					th Hash
 					th 
 					th 
+					th Last modified
 				tbody
 					each item in sites
 						tr 
@@ -44,6 +45,7 @@ block content
 								button.btn.btn-danger.delete(href="#", data-site-id=item.site_id)
 									i.fui-cross
 									| Delete
+							td= item.date
 										
 block specific-js
 	script(src="/js/jquery.dataTables.min.js")
