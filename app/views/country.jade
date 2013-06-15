@@ -1,0 +1,29 @@
+extend layout
+
+block specific-css
+	!= css('country')
+
+block content
+	.row
+		.span12
+			table.table.table-bordered.table-striped.table-hover.table-condensed
+				thead
+					th ISP name
+					th 
+				tbody
+					each item in data.answer
+						tr(class=item.valid=="ok"?'success':'error')
+							td= item.name
+							td
+								if item.valid == "fail"
+									i.fui-cross
+									|  Not valid
+								else if item.valid == "ok"
+									i.fui-check
+									|  Valid
+								else
+									i.fui-time
+									|  Timeout
+
+block specific-js
+	!= js('country')

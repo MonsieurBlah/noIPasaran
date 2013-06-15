@@ -18,8 +18,8 @@ module.exports = (app) ->
 		queryGetServersWhereLocation = 'SELECT * FROM dns_servers WHERE location = ? AND valid = 1'
 		queryGetGlobalServers = 'SELECT * FROM dns_servers WHERE location = \'Global\' AND valid = 1'
 		queryGetValidServers = 'SELECT * FROM dns_servers WHERE valid = 1'
-		queryGetServerByIp = 'SELECT * FROM dns_servers WHERE primary_ip = ? OR secondary_ip = ?'
-		queryGetServerByName = 'SELECT * FROM dns_servers WHERE LOWER(name) = LOWER(?)'
+		queryGetServerByIp = 'SELECT * FROM dns_servers WHERE primary_ip = ? OR secondary_ip = ? and valid = 1'
+		queryGetServerByName = 'SELECT * FROM dns_servers WHERE LOWER(name) = LOWER(?) and valid = 1'
 		
 		###########
 		# Servers #
@@ -85,7 +85,6 @@ module.exports = (app) ->
 				data result
 
 		@getServerByName = (name, data) ->
-			console.log name
 			connection.query queryGetServerByName, name, (err, result) ->
 				throw err if err 
 				data result

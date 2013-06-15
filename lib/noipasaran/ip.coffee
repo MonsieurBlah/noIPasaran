@@ -8,51 +8,44 @@ md5 = require 'MD5'
 module.exports = (app) ->
 	class app.ip
 
-		@getIpAndData = (req, url, data) ->
+		@getLocalData = (site, url, servers, data) ->
 			result = new Object()
-			async.parallel [
-				(callback) ->
-					getSite url, (site) ->
-						site.ip = site.ip.split ','
-						result.site = site
-						callback()
-				,(callback) ->
-					getClientIP req, (clientIP) ->
-						result.clientip = clientIP
-						async.parallel [
-							(callback) ->
-								getIpCountry clientIP, (country) ->
-									result.country = country
-									callback()
-							,(callback) ->
-								getIpISP clientIP, (isp) ->
-									result.isp = isp
-									callback()
-						], (err) ->
-							throw err if err
-							app.dao.getServerByName result.isp, (ispServers) ->
-								if not ispServers
-									app.dao.getLocalServer result.country, (countryServers) ->
-										result.servers = countryServers
-										callback()
-								else
-									result.servers = ispServers
-									callback()
-			], (err) ->
-				throw err if err
-				resolveLocalServers url, result.servers, (localAnswers) ->
-					fixed = off
-					checkIfAnswerIsValid(result.site.ip, answer, (valid) ->
-						answer.valid = valid
-						app.dao.fixSite(result.site.site_id, (done) ->
-							fixed is on if done
-						) if valid is 'fail' and not fixed
-					) for answer in localAnswers
-					result.local = localAnswers
-					data result
+			resolveLocalServers url, servers, (localAnswers) ->
+				fixed = off
+				checkIfAnswerIsValid(site.ip, answer, (valid) ->
+					answer.valid = valid
+					app.dao.fixSite(site.site_id, (done) ->
+						fixed is on if done
+					) if valid is 'fail' and not fixed
+				) for answer in localAnswers
+				result.local = localAnswers
+				data result
+
+		@getIspOrCountry = (req, answer) ->
+			result = new Object()
+			result.isCountry = false
+			result.isIsp = false
+			getClientIP req, (clientIP) ->
+				result.clientip = clientIP
+				async.parallel [
+					(callback) ->
+						getIpCountry clientIP, (country) ->
+							result.country = country
+							result.isCountry = true
+							callback()
+					,(callback) ->
+						getIpISP clientIP, (isp) ->
+							result.isp = isp
+							callback()
+				], (err) ->
+					throw err if err
+					app.dao.getServerByName result.isp, (ispServers) ->
+						if ispServers.length > 0
+							result.isIsp = true
+						answer result
 
 
-		getSite = (url, site) ->
+		@getSite = (url, site) ->
 			app.dao.getSiteByUrl url, (oldsite) ->
 				if oldsite
 					site oldsite
@@ -66,7 +59,6 @@ module.exports = (app) ->
 			raw rawUrl
 
 		checkIfAnswerIsValid = (ip, answer, valid) ->
-			console.log answer
 			test = ''
 			checkIfIpIsValid(i, answer.primary_result, answer.secondary_result, (validAnswer) ->
 				test = validAnswer
@@ -88,7 +80,6 @@ module.exports = (app) ->
 			app.dao.getGlobalServers (globalServers) ->
 				resolveGlobalServers url, globalServers, (answer) ->
 					getHash url, (hash) ->
-						console.log hash
 						app.dao.insertAndGetSite url, answer, hash, (site) ->
 							data site
 
@@ -116,10 +107,9 @@ module.exports = (app) ->
 
 		getIpISP = (ip, isp) ->
 			dns.reverse ip, (err, domains) ->
-					throw err if err
-					#console.log domains
-					segments = domains[0].split '.'
-					isp segments[segments.length-2]
+				throw err if err
+				segments = domains[0].split '.'
+				isp segments[segments.length-2]
 
 		resolveGlobalServers = (url, servers, data) ->
 			result = []
@@ -158,10 +148,17 @@ module.exports = (app) ->
 			oneServer.name = server.name
 			oneServer.primary_ip = server.primary_ip
 			oneServer.secondary_ip = server.secondary_ip
-			resolve url, server.primary_ip, (answer1) ->
-				oneServer.primary_result = answer1
-				resolve url, server.secondary_ip, (answer2) ->
-					oneServer.secondary_result = answer2
+			async.parallel [
+				(callback) ->
+					resolve url, server.primary_ip, (answer1) ->
+						oneServer.primary_result = answer1
+						callback()
+				,(callback) ->
+					resolve url, server.secondary_ip, (answer2) ->
+						oneServer.secondary_result = answer2
+						callback()
+				], (err) ->
+					throw err if err 
 					serverObject oneServer
 
 		resolve = (url, server, data) ->
@@ -219,7 +216,6 @@ module.exports = (app) ->
 			id = site.site_id
 			getHash site.url, (hash) ->
 				if site.hash != hash
-					console.log id + ' ' + hash
 					app.dao.updateSite id, hash, (data) ->
 						result data
 

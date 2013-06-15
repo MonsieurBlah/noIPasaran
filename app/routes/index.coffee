@@ -9,6 +9,8 @@ module.exports = (app) ->
 	# Query
 	app.post '/query', app.maincontroller.query
 	app.get '/url/:url', app.maincontroller.url
+	app.get '/url/:url/isp/:isp', app.maincontroller.isp
+	app.get '/url/:url/country/:country', app.maincontroller.country
 	app.get '/ip/:ip', app.maincontroller.ip
 
 	# Help

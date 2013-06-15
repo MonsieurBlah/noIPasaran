@@ -28,9 +28,36 @@ module.exports = (app) ->
 			url = req.params.url
 			# Add www. in front of the url
 			url = "http://#{url}" if url.indexOf 'http', 0 < 0
-			app.ip.getIpAndData req, url, (data) ->
-				res.render 'url', view: 'url', title: "#{url}", url: url, ip: data.site.ip,
-				clientip: data.clientip, country: data.country, resultlocal: data.local 
+			app.ip.getIspOrCountry req, (data) ->
+				if data.isIsp
+					res.redirect "/url/#{req.params.url}/isp/#{data.isp}"
+				else 
+					res.redirect "/url/#{req.params.url}/country/#{data.country}"
+
+		@isp = (req, res) ->
+			isp = req.params.isp
+			url = req.params.url
+			url = "http://#{url}" if url.indexOf 'http', 0 < 0
+			result = new Object()
+			app.ip.getSite url, (site) ->
+				result.site = site
+				app.dao.getServerByName isp, (servers) ->
+					result.servers = servers
+					app.ip.getLocalData site, url, servers, (data) ->
+						result.answer = data.local
+						res.render 'isp', view: 'isp', title: url, data: result
+
+		@country = (req, res) ->
+			country = req.params.country
+			url = req.params.url
+			url = "http://#{url}" if url.indexOf 'http', 0 < 0
+			result = new Object()
+			app.ip.getSite url, (site) ->
+				app.dao.getLocalServers country, (servers) ->
+					result.servers = servers
+					app.ip.getLocalData site, url, servers, (data) ->
+						result.answer = data.local
+						res.render 'country', view: 'country', title: url, data: result
 
 		@ip = (req, res) ->
 			# Get the ip
