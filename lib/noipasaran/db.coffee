@@ -27,7 +27,7 @@ module.exports = (app) ->
 		@insertServer = (data, id) ->
 			if data.is_isp is 'on'
 				data.is_isp = 1
-			else if data.is_isp is not '1'
+			else if data.is_isp
 				data.is_isp = 0
 			connection.query queryInsertServer, data, (err, result) ->
 				throw err if err

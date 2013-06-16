@@ -13,24 +13,3 @@ submitHandler = (dataToSend) ->
 $('#help-form').on "submit", (event) ->
 	event.preventDefault()
 	submitHandler($(this).serialize())
-
-
-service = new google.maps.places.AutocompleteService()
-geocoder = new google.maps.Geocoder()
-
-$('#location').typeahead(
-	source: (query, process) ->
-		service.getPlacePredictions(
-			input: query,
-			(predictions, status) ->
-				if status == google.maps.places.PlacesServiceStatus.OK
-					process(
-						$.map(
-							predictions,
-							(prediction) ->
-								# console.log prediction
-								prediction.description
-						)
-					)
-		)
-)

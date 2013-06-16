@@ -7,9 +7,7 @@ block content
 	.row
 		.span12
 			form(action="/admin/sites/clean", method="post")
-				button#clean.btn.btn-danger(type="submit")
-					i.fui-gear
-					| Clean DB
+				button#clean.btn.btn-danger(type="submit") Clean DB
 			table#sites-table.table.table-bordered.table-hover.table-condensed
 				thead
 					th ID
@@ -18,7 +16,7 @@ block content
 					th Hash
 					th 
 					th 
-					th Last modified
+					//- th Last modified
 				tbody
 					each item in sites
 						tr 
@@ -38,14 +36,12 @@ block content
 							td= item.hash
 							td
 								if item.haz_problem == 1
-									i.fui-lock
+									p LOCKED
 								else
-									i.fui-radio-unchecked
+									p 
 							td
-								button.btn.btn-danger.delete(href="#", data-site-id=item.site_id)
-									i.fui-cross
-									| Delete
-							td= item.date
+								button.btn.btn-danger.delete(href="#", data-site-id=item.site_id) Delete
+							//- td= item.date
 										
 block specific-js
 	script(src="/js/jquery.dataTables.min.js")

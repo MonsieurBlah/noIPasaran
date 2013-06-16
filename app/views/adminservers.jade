@@ -6,7 +6,7 @@ block specific-css
 block content
 		.row
 			.span12
-				table#servers-table.table.table-bordered.table-striped.table-hover.table-condensed
+				table#servers-table.table.table-bordered.table-hover.table-condensed
 					thead
 						th ID
 						th Name
@@ -27,25 +27,17 @@ block content
 								td= item.location
 								td 
 									if item.is_isp == 1
-										i.icon-ok
+										p ISP
 									else
-										i.icon-remove
-								if item.valid == 0
-									td
-										.switch.active(data-server-id=item.dns_server_id)
-											input(type="checkbox", data-toggle="switch")
-								else
-									td
-										.switch.active(data-server-id=item.dns_server_id)
-											input(type="checkbox", checked, data-toggle="switch")
+										p -
+								td 
+									.btn-group(data-toggle="buttons-radio")
+										button.btn.btn-small.off(data-server-id=item.dns_server_id, class=item.valid==0?"active btn-danger":"") OFF
+										button.btn.btn-small.on(data-server-id=item.dns_server_id, class=item.valid==1?"active btn-success":"") ON
 								td
-									button.btn.btn-warning.edit(href="#", data-server-id=item.dns_server_id)
-										i.fui-new 
-										|  Edit
+									button.btn.btn-warning.edit(href="#", data-server-id=item.dns_server_id) Edit
 								td
-									button.btn.btn-danger.delete(href="#", data-server-id=item.dns_server_id)
-										i.fui-cross
-										|  Delete
+									button.btn.btn-danger.delete(href="#", data-server-id=item.dns_server_id) Delete
 		// edit modal
 		#edit-modal.modal.hide.fade(tabindex="-1", role="dialog", aria-labelledby="editModal", aria-hidden="true")
 			.modal-header
@@ -57,8 +49,4 @@ block content
 				button.btn(data-dismiss="modal", aria-hidden="true") Cancel
 block specific-js
 	script(src="/js/jquery.dataTables.min.js")
-	script(src="/js/bootstrap-switch.js")
-	script(src="/js/flatui-checkbox.js")
 	!= js('adminservers')
-
-

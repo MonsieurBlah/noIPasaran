@@ -109,8 +109,8 @@ module.exports = (app) ->
 				forwardedIps = forwardedIpsStr.split ','
 				ipAddress = forwardedIps[0]
 			ipAddress = req.connection.remoteAddress if not ipAddress
-			#ipAddress = '81.247.34.211' #BELGIQUE - BELGACOM
-			ipAddress = '91.121.208.6' #FRANCE - KIMSUFI
+			ipAddress = '81.247.34.211' #BELGIQUE - BELGACOM
+			#ipAddress = '91.121.208.6' #FRANCE - KIMSUFI
 			ip ipAddress
 
 		# match the pattern of an IP

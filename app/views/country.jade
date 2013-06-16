@@ -16,11 +16,8 @@ block content
 							td= item.name
 							td
 								if item.valid == "fail"
-									i.fui-cross
-									|  Not valid
+									p Not valid
 								else if item.valid == "ok"
-									i.fui-check
-									|  Valid
+									p Valid
 								else
-									i.fui-time
-									|  Timeout
+									p Timeout

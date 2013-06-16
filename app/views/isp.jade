@@ -5,7 +5,7 @@ block specific-css
 
 block content
 	.row#result
-		.span8.offset2
+		.span12
 			if data.answer[0].valid == "ok"
 				h1 #{data.site.url} is not blocked by #{data.answer[0].name}
 			else if data.answer[0].valid == "fail"
