@@ -59,7 +59,7 @@ Then run the app. Nodemon will know witch file to run based on the package.json 
 	nodemon
 
 And off you go !
-The app is currently set on developpement mode and listens on the port 3000 (or up if busy)
+The app is currently set on developpement mode and listens on the port 3000
 
 
 ## Licence

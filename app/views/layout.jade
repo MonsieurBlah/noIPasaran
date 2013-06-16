@@ -16,13 +16,11 @@ html
 		.navbar.navbar-inverse
 			.navbar-inner
 				.container
-					a.btn.btn-navbar(data-toggle="collapse", data-target=".nav-collapse")
-						span.icon-bar
-						span.icon-bar
-						span.icon-bar
-					a.brand(href="/") noIPasaran
-					#main-menu.nav-collapse
+					btn.btn.btn-navbar(type="button", data-toggle="collapse", data-target=".nav-collapse")
+					#main-menu.nav-collapse.collapse
 						ul#main-menu-left.nav
+							li
+								a.brand(href="/") noIPasaran
 							li(class=title=='Home'?'active':undefined)
 								a(href="/") Home
 							li(class=title=='Help me'?'active':undefined)
@@ -44,7 +42,7 @@ html
 		.container.content
 			block content
 
-		.footer
+		footer
 			.container
 				.row
 					.span12

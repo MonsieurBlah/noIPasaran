@@ -3,7 +3,6 @@ dns = require 'dns'
 async = require 'async'
 _ = require 'underscore'
 dns_ = require 'native-dns'
-md5 = require 'MD5'
 
 module.exports = (app) ->
 	class app.ip
@@ -110,8 +109,8 @@ module.exports = (app) ->
 				forwardedIps = forwardedIpsStr.split ','
 				ipAddress = forwardedIps[0]
 			ipAddress = req.connection.remoteAddress if not ipAddress
-			ipAddress = '81.247.34.211' #BELGIQUE - BELGACOM
-			#ipAddress = '91.121.208.6' #FRANCE - KIMSUFI
+			#ipAddress = '81.247.34.211' #BELGIQUE - BELGACOM
+			ipAddress = '91.121.208.6' #FRANCE - KIMSUFI
 			ip ipAddress
 
 		# match the pattern of an IP
@@ -201,7 +200,7 @@ module.exports = (app) ->
 				req = dns_.Request({
 					question: question,
 					server: {address: server},
-					timeout: 2000
+					timeout: 500
 					})
 				req.on('timeout', () ->
 					response.timeout = true
@@ -242,10 +241,10 @@ module.exports = (app) ->
 			console.log url
 			getRawUrl url, (raw) ->
 				console.log raw
-				urltoget = "http://noiproxy.herokuapp.com/html/#{raw}"
+				urltoget = "http://noiproxy.herokuapp.com/hash/#{raw}"
 				request.get urltoget, (error, response, body) ->
 					if not error and response.statusCode is 200
-						hash md5 body
+						hash body
 
 
 		# update the hash of a site if the result is different of the existing one

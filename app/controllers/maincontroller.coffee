@@ -1,5 +1,7 @@
 marked = require 'marked'
 _ = require 'underscore'
+async = require 'async'
+
 
 module.exports = (app) ->
 	class app.maincontroller
@@ -35,25 +37,40 @@ module.exports = (app) ->
 			url = req.params.url
 			url = "http://#{url}" if url.indexOf 'http', 0 < 0
 			result = new Object()
-			app.ip.getSite url, (site) ->
-				result.site = site
-				app.dao.getServerByName isp, (servers) ->
-					result.servers = servers
-					app.ip.getLocalData site, url, servers, (data) ->
-						result.answer = data.local
-						res.render 'isp', view: 'isp', title: url, data: result
+			async.parallel [
+				(callback) ->
+					app.ip.getSite url, (site) ->
+						result.site = site
+						callback()
+				,(callback) ->
+					app.dao.getServerByName isp, (servers) ->
+						result.servers = servers
+						callback()
+			], (err) ->
+				throw err if err
+				app.ip.getLocalData result.site, url, result.servers, (data) ->
+					result.answer = data.local
+					res.render 'isp', view: 'isp', title: url, data: result
 
 		@country = (req, res) ->
 			country = req.params.country
 			url = req.params.url
 			url = "http://#{url}" if url.indexOf 'http', 0 < 0
 			result = new Object()
-			app.ip.getSite url, (site) ->
-				app.dao.getLocalServers country, (servers) ->
-					result.servers = servers
-					app.ip.getLocalData site, url, servers, (data) ->
-						result.answer = data.local
-						res.render 'country', view: 'country', title: url, data: result
+			async.parallel [
+				(callback) ->
+					app.ip.getSite url, (site) ->
+						result.site = site
+						callback()
+				,(callback) ->
+					app.dao.getLocalServers country, (servers) ->
+						result.servers = servers
+						callback()
+			], (err) ->
+				throw err if err
+				app.ip.getLocalData result.site, url, result.servers, (data) ->
+					result.answer = data.local
+					res.render 'country', view: 'country', title: url, data: result
 
 		@ip = (req, res) ->
 			# Get the ip
