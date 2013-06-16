@@ -1,13 +1,13 @@
 submitHandler = (dataToSend) ->
-	console.log dataToSend
+	if $('#checkbox').hasClass('checked')
+		dataToSend += '&is_isp=1'
 	$.post '/help', dataToSend,
 	(data) ->
-		console.log 'DATA: ' + data
 		if data
 			$('#help-form').find('input:text').val('')
 			$('#help-form').find('select').val('Global')
 			$('#help-form').find('input:checkbox').removeAttr('checked')
-			$('#btnspan').addClass('label label-success').text('Thanks !').delay(800).fadeIn(400)
+			# $('#btnspan').addClass('label label-success').text('Thanks !').delay(800).fadeIn(400)
 
 # Help form submit
 $('#help-form').on "submit", (event) ->
@@ -28,7 +28,7 @@ $('#location').typeahead(
 						$.map(
 							predictions,
 							(prediction) ->
-								console.log prediction
+								# console.log prediction
 								prediction.description
 						)
 					)
