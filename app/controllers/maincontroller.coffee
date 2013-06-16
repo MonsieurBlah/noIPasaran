@@ -24,10 +24,6 @@ module.exports = (app) ->
 						res.redirect "/404/#{queryStr}"
 
 		@url = (req, res) ->
-			# Get the url
-			url = req.params.url
-			# Add www. in front of the url
-			url = "http://#{url}" if url.indexOf 'http', 0 < 0
 			app.ip.getIspOrCountry req, (data) ->
 				if data.isIsp
 					res.redirect "/url/#{req.params.url}/isp/#{data.isp}"
