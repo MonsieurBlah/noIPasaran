@@ -5,11 +5,17 @@ block specific-css
 
 block content
 	.row
-		.span8.offset2
+		.span8.offset2#error
 			if something
 				h1 Sorry, I don't know "#{something}"
 			else
-				h1 This is an ERROR !
+				h1 This is an ERROR 404!
 				h2 You probably broke the Internet
 				h4 Or maybe the Internet broke itself
 				p Or I made a mistake (but this is unlikely)
+				br 
+				h2 Nothing else to do? Read this :
+
+	.row
+		.span8.offset2#declaration
+			include ../../private/declaration.md

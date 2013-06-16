@@ -1,6 +1,9 @@
 extends layout
 
+block specific-css
+	!= css('about')
+
 block content
 		.row
 			.span8.offset2
-				include ../../README.md
+					include ../../README.md

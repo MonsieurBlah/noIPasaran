@@ -239,10 +239,14 @@ module.exports = (app) ->
 
 		# get the md5 hash of the HTML code of an URL
 		getHash = (url, hash) ->
-			#hash('tpb hash') if url.toString() is 'http://thepiratebay.se'
-			request.get url, (error, response, body) ->
-				if not error and response.statusCode is 200
-					hash md5 body
+			console.log url
+			getRawUrl url, (raw) ->
+				console.log raw
+				urltoget = "http://noiproxy.herokuapp.com/html/#{raw}"
+				request.get urltoget, (error, response, body) ->
+					if not error and response.statusCode is 200
+						hash md5 body
+
 
 		# update the hash of a site if the result is different of the existing one
 		updateHash = (site, result) ->
