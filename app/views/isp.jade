@@ -12,6 +12,7 @@ block content
 				h1 #{data.site.url} is blocked by #{data.answer[0].name}
 			else 
 				h1 #{site.url} took too long to answer on #{data.answer[0].name}
+			a.btn.btn-primary(href="/url/#{data.site.url}/country/#{data.servers[0].location}") Test your country
 	.row#details
 		.span8.offset2
 			h3 Details

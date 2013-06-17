@@ -17,7 +17,7 @@ module.exports = (app) ->
 
 		@editServer = (req, res) ->
 			app.dao.editServer req.body, (data) ->
-				res.json data
+				res.redirect '/admin/servers'
 
 		@delServer = (req, res) ->
 			app.dao.delServer req.params.id, (data) ->

@@ -5,10 +5,10 @@ block specific-css
 
 block content
 	.row
-		.span6.offset3.title
-			h1 Insert an URL
-			h3 or an IP
-			h1 ↓
+		.span12.title
+			h3 Wanna know if the Internet is censored in your country ?
+			h1#main-title Insert an URL here
+			h2 ↓
 	.row
 		.span8.offset2.input
 			form.form-horizontal(name="form", action="/query", method="post")
@@ -16,8 +16,23 @@ block content
 					input.input-xlarge(type="text", placeholder="Go to URL or IP", name="query")
 					input.btn.btn-primary(type="submit", action="/query", method="post", value="Go")
 	.row
-		.span6.offset3.title
-			h3 Then click "Go" if you want to test it
+		.span8.offset2.ideas
+			p Suggestions  
+			ul.unstyled
+				li
+					a(href="/url/wikileaks.org") Wikileaks
+				li
+					a(href="/url/thepiratebay.se") The Pirate Bay 
+				li
+					a(href="/url/kat.ph") KickassTorrents
+				li
+					a(href="/url/fenopi.se") Fenopi
+				li
+					a(href="/url/dropbox.com") Dropbox 
+				li
+					a(href="/url/facebook.com") Facebook  
+				li
+					a(href="/url/twitter.com") Twitter 
 
 block specific-js
 	!= js('index')

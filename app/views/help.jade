@@ -5,7 +5,7 @@ block specific-css
 
 block content
 	.row
-		.span6.offset3
+		.span6.offset3.help
 			form#help-form.well.form-horizontal(action="/help", method="post")
 				fieldset
 					legend ... to get more DNS servers !
@@ -13,12 +13,11 @@ block content
 						input#primaryip.input-xlarge(name="primary_ip", type="text", placeholder="The primary IP", required)
 						input#secondaryip.input-xlarge(name="secondary_ip", type="text", placeholder="The secondary IP", required) 
 						include includes/countries
-						label(class="checkbox")
-							input#is_isp(type="checkbox") 
+						label#checkline.checkbox
+							input#is_isp(name="is_isp",type="checkbox") 
 							p Check if this is an ISP
 						button#submit-help.btn.btn-primary(type="submit",value="Submit") Submit
 						span#btnspan
 
 block specific-js
-	script(src="/js/flatui-checkbox.js")
 	!= js('help')

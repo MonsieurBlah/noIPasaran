@@ -86,9 +86,9 @@ module.exports = (app) ->
 				when prime.timeout or second.timeout then 'ok' if testPrime or testSecond
 				when testPrime and testSecond then 'ok'
 				else 'fail'
-			if testResult is 'fail'
-				checkValidWithHash hash, prime, second, (hashValid) -> 
-					testResult = hashValid
+			#if testResult is 'fail'
+			#	checkValidWithHash hash, prime, second, (hashValid) -> 
+			#		testResult = hashValid
 			valid testResult
 
 		checkValidWithHash = (hash, prime, second, valid) ->
@@ -121,8 +121,12 @@ module.exports = (app) ->
 				forwardedIps = forwardedIpsStr.split ','
 				ipAddress = forwardedIps[0]
 			ipAddress = req.connection.remoteAddress if not ipAddress
-			ipAddress = '81.247.34.211' #BELGIQUE - BELGACOM
+			#ipAddress = '81.247.34.211' #BELGIQUE - BELGACOM
+			#ipAddress = '178.50.20.52' #BELGIQUE - MOBISTAR
 			#ipAddress = '91.121.208.6' #FRANCE - KIMSUFI
+			#ipAddress = '124.14.80.121' #CHINE - HAIDIAN
+			#ipAddress = '92.50.20.52' #IRAN - SHAHRAD
+			ipAddress = '185.50.20.52' #UK - ???
 			ip ipAddress
 
 		# match the pattern of an IP
@@ -141,9 +145,11 @@ module.exports = (app) ->
 		# try to get the ISP of an IP with a reverse
 		getIpISP = (ip, isp) ->
 			dns.reverse ip, (err, domains) ->
-				throw err if err
-				segments = domains[0].split '.'
-				isp segments[segments.length-2]
+				if err
+					isp ' '
+				else
+					segments = domains[0].split '.'
+					isp segments[segments.length-2]
 
 		# resolve an URL on the global servers
 		resolveGlobalServers = (url, servers, data) ->
@@ -258,7 +264,7 @@ module.exports = (app) ->
 					if not error and response.statusCode is 200
 						hash body
 
-		# get the md5 hash of the HTML code of an URL
+		# body the md5 hash of the HTML code of an URL
 		getHashIp = (ip, hash) ->
 			urltoget = "http://noiproxy.herokuapp.com/hash/#{ip}"
 			request.get urltoget, (error, response, body) ->
