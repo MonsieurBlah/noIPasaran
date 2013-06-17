@@ -1,18 +1,16 @@
 request = require 'request'
 md5 = require 'MD5'
+bcrypt = require 'bcrypt'
 http = require 'http'
 
 module.exports = (app) ->
 	class app.testcontroller
 
 		@test = (req, res) ->
-			url = 'thepiratebay.se'
-			url1 = '194.71.107.15'
-			getHTMLproxy url, (html) ->
-				console.log url + ' ' + md5(html)
-				getHTMLproxy url1, (html) ->
-					console.log html
-					console.log url1 + ' ' + md5(html)
+			salt = bcrypt.genSaltSync 10
+			hash = bcrypt.hashSync 'test', salt
+			console.log hash
+			console.log bcrypt.compareSync 'test', hash
 
 		getHTML = (url, html) ->
 			request.get url, (error, response, body) ->

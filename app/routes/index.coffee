@@ -1,8 +1,10 @@
 express = require 'express'
+bcrypt = require 'bcrypt'
 
 module.exports = (app) ->
 
-	auth = express.basicAuth('admin', 'test')
+	auth = express.basicAuth (user, pass) ->
+		user is 'admin' and bcrypt.compareSync pass, '$2a$10$f3YwK9fjEcSQs4W143.O1el7vQpkb95jtEOL7Zim1bISK5L01ztCK'
 	# Index
 	app.get '/', app.maincontroller.index
 
@@ -26,20 +28,20 @@ module.exports = (app) ->
 	# Google
 	app.get '/google/:query', app.maincontroller.google
 
-	# Admin DON'T FORGET TO RUN AUTH LATER !!!
-	app.get '/admin/sites', app.admincontroller.adminsites
-	app.get '/admin/servers', app.admincontroller.adminservers
+	# Admin
+	app.get '/admin/sites', auth,auth, app.admincontroller.adminsites
+	app.get '/admin/servers', auth,app.admincontroller.adminservers
 
-	app.post '/admin/servers/toggle/:id', app.admincontroller.toggleServer
-	app.post '/admin/servers/edit', app.admincontroller.editServer
-	app.post '/admin/servers/delete/:id', app.admincontroller.delServer
+	app.post '/admin/servers/toggle/:id', auth,app.admincontroller.toggleServer
+	app.post '/admin/servers/edit', auth,app.admincontroller.editServer
+	app.post '/admin/servers/delete/:id', auth,app.admincontroller.delServer
 
-	app.get '/admin/servers/modal/:id', app.admincontroller.editServerModal
+	app.get '/admin/servers/modal/:id', auth, app.admincontroller.editServerModal
 
-	app.post '/admin/sites/delete/:id', app.admincontroller.delSite
-	app.post '/admin/sites/clean', app.admincontroller.cleanSites
+	app.post '/admin/sites/delete/:id', auth, app.admincontroller.delSite
+	app.post '/admin/sites/clean', auth, app.admincontroller.cleanSites
 
-	app.get '/test', app.testcontroller.test
+	app.get '/test', auth, app.testcontroller.test
 
 
 	
