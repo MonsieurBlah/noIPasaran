@@ -5,11 +5,19 @@ block specific-css
 
 block content
 	.row
-		.span6.offset3
+		.span6.offset3.title
+			h1 Insert an URL
+			h3 or an IP
+			h1 ↓
+	.row
+		.span8.offset2.input
 			form.form-horizontal(name="form", action="/query", method="post")
 				#search-input.input-append
 					input.input-xlarge(type="text", placeholder="Go to URL or IP", name="query")
 					input.btn.btn-primary(type="submit", action="/query", method="post", value="Go")
+	.row
+		.span6.offset3.title
+			h3 Then click "Go" if you want to test it
 
 block specific-js
 	!= js('index')

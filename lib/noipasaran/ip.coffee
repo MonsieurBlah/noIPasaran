@@ -14,7 +14,7 @@ module.exports = (app) ->
 			resolveLocalServers url, servers, (localAnswers) ->
 				fixed = site.haz_problem
 				# check the validity of all the answers
-				checkIfAnswerIsValid(site.ip, answer, (valid) ->
+				checkIfAnswerIsValid(site.ip, answer, site.hash, (valid) ->
 					answer.valid = valid
 					# set haz_problem if the answer is not valid and not yet fixed
 					app.dao.fixSite(site.site_id, (done) ->
@@ -68,17 +68,17 @@ module.exports = (app) ->
 			raw rawUrl
 
 		# check if the answers are valid
-		checkIfAnswerIsValid = (ips, answer, valid) ->
+		checkIfAnswerIsValid = (ips, answer, hash, valid) ->
 			ipArr = ips.split ','
 			test = ''
-			checkIfIpIsValid(ip, answer.primary_result, answer.secondary_result, (validAnswer) ->
+			checkIfIpIsValid(ip, answer.primary_result, answer.secondary_result, hash, (validAnswer) ->
 				test = validAnswer
 				valid test if 'fail'
 			) for ip in ipArr
 			valid test
 
 		# check if an IP is valid, timeout or fail
-		checkIfIpIsValid = (ip, prime, second, valid) ->
+		checkIfIpIsValid = (ip, prime, second, hash, valid) ->
 			testPrime = _.indexOf(_.toArray(prime.addresses), ip) > -1 if not prime.timeout
 			testSecond = _.indexOf(_.toArray(second.addresses), ip) > -1 if not second.timeout
 			testResult = switch
@@ -86,7 +86,19 @@ module.exports = (app) ->
 				when prime.timeout or second.timeout then 'ok' if testPrime or testSecond
 				when testPrime and testSecond then 'ok'
 				else 'fail'
+			if testResult is 'fail'
+				checkValidWithHash hash, prime, second, (hashValid) -> 
+					testResult = hashValid
 			valid testResult
+
+		checkValidWithHash = (hash, prime, second, valid) ->
+			ips = _.union prime.addresses, second.addresses
+			getHashIp(ip, (ipHash) ->
+				if hash == ipHash
+					valid 'ok'
+				else 
+					valid 'fail'
+			) for ip in ips
 
 		# get the ip of an URL and insert it in the db
 		getIpAndInsert = (url, data) ->
@@ -246,6 +258,12 @@ module.exports = (app) ->
 					if not error and response.statusCode is 200
 						hash body
 
+		# get the md5 hash of the HTML code of an URL
+		getHashIp = (ip, hash) ->
+			urltoget = "http://noiproxy.herokuapp.com/hash/#{ip}"
+			request.get urltoget, (error, response, body) ->
+				if not error and response.statusCode is 200
+					hash body
 
 		# update the hash of a site if the result is different of the existing one
 		updateHash = (site, result) ->
