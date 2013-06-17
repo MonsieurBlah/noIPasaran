@@ -50,7 +50,8 @@ module.exports = (app) ->
 				throw err if err
 				app.ip.getLocalData result.site, url, result.servers, (data) ->
 					result.answer = data.local
-					res.render 'isp', view: 'isp', title: url, data: result
+					app.ip.getRawUrl url, (raw) ->
+						res.render 'isp', view: 'isp', title: url, data: result, raw: raw 
 
 		@country = (req, res) ->
 			country = req.params.country

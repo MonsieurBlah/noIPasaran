@@ -12,6 +12,7 @@ module.exports = (app) ->
 			result = new Object()
 			# resolve the url on all the servers
 			resolveLocalServers url, servers, (localAnswers) ->
+				console.log localAnswers
 				fixed = site.haz_problem
 				# check the validity of all the answers
 				checkIfAnswerIsValid(site.ip, answer, site.hash, (valid) ->
@@ -67,9 +68,16 @@ module.exports = (app) ->
 			rawUrl = urlArr[1] if urlArr.length > 1
 			raw rawUrl
 
+		# extract the hostname from a URL as http://www.example.com -> www.example.com
+		@getRawUrl = (url, raw) ->
+			urlArr = url.split '://'
+			rawUrl = urlArr[1] if urlArr.length > 1
+			raw rawUrl
+
 		# check if the answers are valid
 		checkIfAnswerIsValid = (ips, answer, hash, valid) ->
 			ipArr = ips.split ','
+			console.log ipArr
 			test = ''
 			checkIfIpIsValid(ip, answer.primary_result, answer.secondary_result, hash, (validAnswer) ->
 				test = validAnswer
@@ -121,12 +129,11 @@ module.exports = (app) ->
 				forwardedIps = forwardedIpsStr.split ','
 				ipAddress = forwardedIps[0]
 			ipAddress = req.connection.remoteAddress if not ipAddress
-			#ipAddress = '81.247.34.211' #BELGIQUE - BELGACOM
-			#ipAddress = '178.50.20.52' #BELGIQUE - MOBISTAR
-			#ipAddress = '91.121.208.6' #FRANCE - KIMSUFI
+			ipAddress = '81.247.34.211' #BELGIQUE - BELGACOM
+			#ipAddress = '91.121.208.6' #FRANCE - OVH
 			#ipAddress = '124.14.80.121' #CHINE - HAIDIAN
 			#ipAddress = '92.50.20.52' #IRAN - SHAHRAD
-			ipAddress = '185.50.20.52' #UK - ???
+			#ipAddress = '185.50.20.52' #UK - ???
 			ip ipAddress
 
 		# match the pattern of an IP
@@ -256,18 +263,19 @@ module.exports = (app) ->
 
 		# get the md5 hash of the HTML code of an URL
 		getHash = (url, hash) ->
-			console.log url
 			getRawUrl url, (raw) ->
-				console.log raw
 				urltoget = "http://noiproxy.herokuapp.com/hash/#{raw}"
 				request.get urltoget, (error, response, body) ->
+					console.log response.statusCode
 					if not error and response.statusCode is 200
+						console.log 'hash ok'
 						hash body
 
 		# body the md5 hash of the HTML code of an URL
 		getHashIp = (ip, hash) ->
 			urltoget = "http://noiproxy.herokuapp.com/hash/#{ip}"
 			request.get urltoget, (error, response, body) ->
+				console.log response.statusCode
 				if not error and response.statusCode is 200
 					hash body
 

@@ -25,11 +25,3 @@ CREATE TABLE IF NOT EXISTS `sites` (
   PRIMARY KEY (`site_id`),
   UNIQUE KEY `site_id` (`site_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=65 ;
-
-CREATE TABLE IF NOT EXISTS `users` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(35) NOT NULL,
-  `password` varchar(35) NOT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
