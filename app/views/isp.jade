@@ -5,7 +5,7 @@ block specific-css
 
 block content
 	.row#result
-		.span12
+		.span12.text-centered
 			p.main #{data.site.url}
 			if data.answer[0].valid == "ok"
 				p.main.good is not blocked by 
@@ -15,32 +15,37 @@ block content
 				p.main took too long to answer.
 			p.main #{data.answer[0].name}
 			a.btn.btn-primary(href="/url/#{raw}/country/#{data.servers[0].location}") Test your country
-	.row#details
+	.row.text-centered
 		.span8.offset2
 			p.second Details
 			p #{data.site.url} can resolve as
 			ol.unstyled
 				each item in data.site.ip
-					li= item
+					li
+						a(href="http://#{item}", target="_blank") #{item}
 	.row
-		.span3.offset3
+		.span3.offset3.text-centered
 				if data.answer.length == 1
 					if data.answer[0].primary_result.timeout 
 						p Their primary server went timeout
 					else
-						p Their primary server #{data.answer[0].primary_ip} resolved as 
+						p Their primary server
+						p= data.answer[0].primary_ip
+						p resolved as 
 						ol.unstyled
 							each item in data.answer[0].primary_result.addresses
 								li= item
 						p in #{data.answer[0].primary_result.time} ms.
 				else
 					p MAKE ELSE
-		.span3
+		.span3.text-centered
 				if data.answer.length == 1
 					if data.answer[0].secondary_result.timeout
 						p Their secondary server went timeout
 					else
-						p Their secondary server #{data.answer[0].secondary_ip} resolved as 
+						p Their secondary server 
+						p= data.answer[0].secondary_ip
+						p resolved as 
 						ol.unstyled 
 							each item in data.answer[0].secondary_result.addresses
 								li= item
