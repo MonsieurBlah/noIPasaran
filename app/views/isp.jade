@@ -13,7 +13,7 @@ block content
 				p.main.wrong is blocked by
 			else 
 				p.main took too long to answer.
-			if data.answer[0].valid != "ok" and data.answer[0].valid != "fail" 
+			//- if (data.answer[0].valid != "ok") and (data.answer[0].valid != "fail")
 			p.main #{data.answer[0].name}
 			a.btn.btn-primary(href="/url/#{raw}/country/#{data.servers[0].location}") Test your country
 	.row.text-centered
@@ -22,8 +22,7 @@ block content
 			p #{data.site.url} can resolve as
 			ol.unstyled
 				each item in data.site.ip
-					li
-						a(href="http://#{item}", target="_blank") #{item}
+					li= item
 	.row
 		.span3.offset3.text-centered
 				if data.answer.length == 1
