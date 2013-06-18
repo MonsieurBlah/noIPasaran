@@ -6,19 +6,19 @@ block specific-css
 block content
 	.row
 		.span12.title
-			h3 Wanna know if the Internet is censored in your country ?
-			h1#main-title Insert an URL here
-			h2 ↓
+			p.second Wanna know if the Internet is censored in your country ?
+			p.main Insert an URL here
+			p.arrow ↓
 	.row
 		.span8.offset2.input
 			form.form-horizontal(name="form", action="/query", method="post")
 				#search-input.input-append
-					input.input-xlarge(type="text", placeholder="Go to URL or IP", name="query")
+					input.input-xlarge(type="text", placeholder="www.example.com", name="query")
 					input.btn.btn-primary(type="submit", action="/query", method="post", value="Go")
 	.row
 		.span8.offset2.ideas
 			p Suggestions  
-			ul.unstyled
+			ol.unstyled
 				li
 					a(href="/url/wikileaks.org") Wikileaks
 				li
