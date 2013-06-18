@@ -6,27 +6,42 @@ block specific-css
 block content
 	.row#result
 		.span12
+			p.main #{data.site.url}
 			if data.answer[0].valid == "ok"
-				h1 #{data.site.url} is not blocked by #{data.answer[0].name}
+				p.main.good is not blocked by 
 			else if data.answer[0].valid == "fail"
-				h1 #{data.site.url} is blocked by #{data.answer[0].name}
+				p.main.wrong is blocked by
 			else 
-				h1 #{site.url} took too long to answer on #{data.answer[0].name}
+				p.main took too long to answer.
+			p.main #{data.answer[0].name}
 			a.btn.btn-primary(href="/url/#{raw}/country/#{data.servers[0].location}") Test your country
 	.row#details
 		.span8.offset2
-			h3 Details
-			p #{data.site.url} should resolve as #{data.site.ip}
+			p.second Details
+			p #{data.site.url} can resolve as #{data.site.ip}
+	.row
+		.span3.offset3
 				if data.answer.length == 1
-					p Your ISP is #{data.answer[0].name}
 					if data.answer[0].primary_result.timeout 
 						p Their primary server went timeout
 					else
-						p Their primary server #{data.answer[0].primary_ip} resolved as #{data.answer[0].primary_result.addresses} in #{data.answer[0].primary_result.time} ms.
+						p Their primary server #{data.answer[0].primary_ip} resolved as 
+						ol.unstyled
+							each item in data.answer[0].primary_result.addresses
+								li= item
+						p in #{data.answer[0].primary_result.time} ms.
+				else
+					p MAKE ELSE
+		.span3
+				if data.answer.length == 1
 					if data.answer[0].secondary_result.timeout
 						p Their secondary server went timeout
 					else
-						p Their secondary server #{data.answer[0].secondary_ip} resolved as #{data.answer[0].secondary_result.addresses} in #{data.answer[0].secondary_result.time} ms.
+						p Their secondary server #{data.answer[0].secondary_ip} resolved as 
+						ol.unstyled 
+							each item in data.answer[0].secondary_result.addresses
+								li= item
+						p in #{data.answer[0].secondary_result.time} ms.
 				else
 					p MAKE ELSE
 		

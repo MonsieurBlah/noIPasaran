@@ -76,13 +76,11 @@ module.exports = (app) ->
 
 		# check if the answers are valid
 		checkIfAnswerIsValid = (ips, answer, hash, valid) ->
-			ipArr = ips.split ','
-			console.log ipArr
 			test = ''
 			checkIfIpIsValid(ip, answer.primary_result, answer.secondary_result, hash, (validAnswer) ->
 				test = validAnswer
 				valid test if 'fail'
-			) for ip in ipArr
+			) for ip in ips
 			valid test
 
 		# check if an IP is valid, timeout or fail

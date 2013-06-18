@@ -127,11 +127,13 @@ module.exports = (app) ->
 		@getSiteByUrl = (url, data) ->
 			connection.query queryGetSiteByUrl, url, (err, rows, fields) ->
 				throw err if err
+				row.ip = row.ip.split(',') for row in rows
 				data rows[0]
 
 		@getSiteByIp = (ip, data) ->
 			connection.query queryGetSiteByIp, ip, (err, rows, fields) ->
 				throw err if err
+				row.ip = row.ip.split(',') for row in rows
 				data rows[0]
 
 		@insertAndGetSite = (url, ip, hash, data) ->
@@ -144,6 +146,7 @@ module.exports = (app) ->
 				throw err if err
 				connection.query queryGetSiteById, result.insertId, (err, rows, fields) ->
 					throw err if err
+					row.ip = row.ip.split(',') for row in rows
 					data rows[0]
 
 		@fixSite = (id, data) ->

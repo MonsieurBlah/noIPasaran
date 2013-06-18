@@ -6,14 +6,13 @@ html
 		meta(name="keywors", content="noipasaran dns")
 		meta(name="authors", content="brnrd")
 		!= css('layout')
-		//- link(rel="stylesheet", type="text/css", href="/bootstrap/css/bootstrap.min.css")
 		link(rel="stylesheet", type="text/css", href="/flatly/flatly.min.css")
+		block specific-css
 		meta(name="viewport", content="width=device-width, initial-scale=1.0")
 		link(href="/bootstrap/css/bootstrap-responsive.min.css", rel="stylesheet")
-		block specific-css
 
 	body
-		.navbar
+		.navbar.navbar-fixed-top
 			.navbar-inner
 				.container
 					a.btn.btn-navbar(data-toggle="collapse", data-target=".nav-collapse")
@@ -21,7 +20,7 @@ html
 						span.icon-bar
 						span.icon-bar
 					a.brand(href="/") noIPasaran
-					#main-menu.nav-collapse
+					#main-menu.nav-collapse.collapse
 						ul#main-menu-left.nav
 							li(class=title=='Home'?'active':undefined)
 								a(href="/") Home
