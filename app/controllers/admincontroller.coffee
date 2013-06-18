@@ -5,7 +5,7 @@ module.exports = (app) ->
 		# Admin servers
 		@adminservers = (req, res) ->
 			app.dao.getServers (data) ->
-				res.render 'adminservers', view: 'adminservers', title: 'Servers', servers: data
+				res.render 'adminservers', title: 'Servers', servers: data
 
 		@toggleServer = (req, res) ->
 			app.dao.toggleServer req.params.id, (data) ->
@@ -25,12 +25,12 @@ module.exports = (app) ->
 
 		@editServerModal = (req, res) ->
 			app.dao.getServer req.params.id, (data) ->
-				res.render 'editservermodal', view: 'editservermodal', server: data[0]
+				res.render 'editservermodal', server: data[0]
 
 		# Admin sites	
 		@adminsites = (req, res) ->
 			app.dao.getSites (data) ->
-				res.render 'adminsites', view: 'adminsites', title: 'Sites', sites: data
+				res.render 'adminsites', title: 'Sites', sites: data
 
 		@delSite = (req, res) ->
 			app.dao.delSite req.params.id, (data) ->

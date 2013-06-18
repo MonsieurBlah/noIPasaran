@@ -12,7 +12,6 @@ module.exports = (app) ->
 			result = new Object()
 			# resolve the url on all the servers
 			resolveLocalServers url, servers, (localAnswers) ->
-				console.log localAnswers
 				fixed = site.haz_problem
 				# check the validity of all the answers
 				checkIfAnswerIsValid(site.ip, answer, site.hash, (valid) ->
@@ -112,12 +111,15 @@ module.exports = (app) ->
 			app.dao.getGlobalServers (globalServers) ->
 				# resolve the URL on the global servers
 				resolveGlobalServers url, globalServers, (answer) ->
-					# hash the HTML of the site
-					getHash url, (hash) ->
-						# insert those info in the db
-						app.dao.insertAndGetSite url, answer, hash, (site) ->
-							# returns the created site
-							data site
+					if _.isEmpty answer
+						data answer
+					else 
+						# hash the HTML of the site
+						getHash url, (hash) ->
+							# insert those info in the db
+							app.dao.insertAndGetSite url, answer, hash, (site) ->
+								# returns the created site
+								data site
 
 		# get the client IP
 		getClientIP = (req, ip) ->
@@ -264,16 +266,13 @@ module.exports = (app) ->
 			getRawUrl url, (raw) ->
 				urltoget = "http://noiproxy.herokuapp.com/hash/#{raw}"
 				request.get urltoget, (error, response, body) ->
-					console.log response.statusCode
 					if not error and response.statusCode is 200
-						console.log 'hash ok'
 						hash body
 
 		# body the md5 hash of the HTML code of an URL
 		getHashIp = (ip, hash) ->
 			urltoget = "http://noiproxy.herokuapp.com/hash/#{ip}"
 			request.get urltoget, (error, response, body) ->
-				console.log response.statusCode
 				if not error and response.statusCode is 200
 					hash body
 

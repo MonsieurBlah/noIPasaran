@@ -1,10 +1,11 @@
 !!!5
 html
 	head
+		meta(charset="utf-8")
 		title #{title} | noIPasaran
-		meta(http-equiv="Content-Type", content="text/html;charset=UTF-8")
-		meta(name="keywors", content="noipasaran dns")
-		meta(name="authors", content="brnrd")
+		meta(name="keywords", content="dns, server, censorship, ip, url, block")
+		meta(name="description", content="Check if the Internet is censored in your country")
+		meta(name="author", content="brnrd")
 		!= css('layout')
 		link(rel="stylesheet", type="text/css", href="/flatly/flatly.min.css")
 		block specific-css
@@ -42,7 +43,7 @@ html
 
 		.container.content
 			block content
-
+			
 		footer
 			.container
 				.row

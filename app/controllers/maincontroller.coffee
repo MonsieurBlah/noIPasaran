@@ -2,14 +2,13 @@ marked = require 'marked'
 _ = require 'underscore'
 async = require 'async'
 
-
 module.exports = (app) ->
 	class app.maincontroller
 
 	# NAVBAR CONTENT
 		# INDEX
 		@index = (req, res) ->
-			res.render 'index', view: 'index', title: 'Home'
+			res.render 'index', title: 'Home'
 			
 		@query = (req, res) ->
 			queryStr = req.body.query
@@ -40,8 +39,12 @@ module.exports = (app) ->
 			async.parallel [
 				(callback) ->
 					app.ip.getSite url, (site) ->
-						result.site = site
-						callback()
+						if _.isEmpty site
+							app.ip.getRawUrl url, (raw) ->
+								res.redirect "/404/#{raw}" if _.isEmpty site
+						else
+							result.site = site
+							callback()
 				,(callback) ->
 					app.dao.getServerByName isp, (servers) ->
 						result.servers = servers
@@ -51,7 +54,7 @@ module.exports = (app) ->
 				app.ip.getLocalData result.site, url, result.servers, (data) ->
 					result.answer = data.local
 					app.ip.getRawUrl url, (raw) ->
-						res.render 'isp', view: 'isp', title: url, data: result, raw: raw 
+						res.render 'isp', title: url, data: result, raw: raw 
 
 		@country = (req, res) ->
 			country = req.params.country
@@ -61,8 +64,12 @@ module.exports = (app) ->
 			async.parallel [
 				(callback) ->
 					app.ip.getSite url, (site) ->
-						result.site = site
-						callback()
+						if _.isEmpty site
+							app.ip.getRawUrl url, (raw) ->
+								res.redirect "/404/#{raw}" if _.isEmpty site
+						else
+							result.site = site
+							callback()
 				,(callback) ->
 					app.dao.getLocalServers country, (servers) ->
 						result.servers = servers
@@ -71,7 +78,7 @@ module.exports = (app) ->
 				throw err if err
 				app.ip.getLocalData result.site, url, result.servers, (data) ->
 					result.answer = data.local
-					res.render 'country', view: 'country', title: url, data: result
+					res.render 'country', title: url, data: result
 
 		@ip = (req, res) ->
 			# Get the ip
@@ -84,7 +91,7 @@ module.exports = (app) ->
 					app.staticmap.getMapUrl req, server[0].primary_ip, (data) ->
 						# Get the distance between client and server
 						app.distance.get data.server.latitude, data.server.longitude, data.client.latitude, data.client.longitude, (distance) ->
-							res.render 'ip', view: 'ip', title: ip, url: data.url, server: server[0], serverInfo: data.server, distance: distance
+							res.render 'ip', title: ip, url: data.url, server: server[0], serverInfo: data.server, distance: distance
 				# else redirect to 404 // EXAMINE THE POSSIBILITY TO RED TO HELP
 				else
 					app.dao.getSiteByIp ip, (site) ->
@@ -95,7 +102,7 @@ module.exports = (app) ->
 
 		# HELP
 		@help = (req, res) ->
-			res.render 'help', view: 'help', title: 'Help me'
+			res.render 'help', title: 'Help me'
 
 		@helpPost = (req, res) ->
 			app.dao.insertServer req.body, (newId) ->
@@ -103,19 +110,19 @@ module.exports = (app) ->
 
 		# ABOUT
 		@about = (req, res) ->
-			res.render 'about', view: 'about', title: 'About'
+			res.render 'about', title: 'About'
 
 		# DNS
 		@dns = (req, res) ->
 			app.dao.getServer req.params.id, (data) ->
-				res.render 'dns', view: 'dns', title: data[0].name, server: data[0]
+				res.render 'dns', title: data[0].name, server: data[0]
 
 		@google = (req, res) ->
-			res.render 'google', view: 'google', title: '!Google', query: req.params.query
+			res.render 'google', title: '!Google', query: req.params.query
 
 		@fourOfour = (req, res) ->
 			something = req.params.something
 			if something
-				res.render '404', status: 404, view: 'four-o-four', title: '404.404.404.404', something: something
+				res.render '404', status: 404, title: '404.404.404.404', something: something
 			else
-				res.render '404', status: 404, view: 'four-o-four', title: '404.404.404.404', something: null
+				res.render '404', status: 404, title: '404.404.404.404', something: null

@@ -13,6 +13,7 @@ block content
 				p.main.wrong is blocked by
 			else 
 				p.main took too long to answer.
+			if data.answer[0].valid != "ok" and data.answer[0].valid != "fail" 
 			p.main #{data.answer[0].name}
 			a.btn.btn-primary(href="/url/#{raw}/country/#{data.servers[0].location}") Test your country
 	.row.text-centered
@@ -37,7 +38,7 @@ block content
 								li= item
 						p in #{data.answer[0].primary_result.time} ms.
 				else
-					p MAKE ELSE
+					p aaa
 		.span3.text-centered
 				if data.answer.length == 1
 					if data.answer[0].secondary_result.timeout
@@ -49,7 +50,6 @@ block content
 						ol.unstyled 
 							each item in data.answer[0].secondary_result.addresses
 								li= item
-						p in #{data.answer[0].secondary_result.time} ms.
+						p in #{data.answer[0].secondary_result.time} ms
 				else
-					p MAKE ELSE
-		
+					p aaa
