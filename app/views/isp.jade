@@ -18,7 +18,10 @@ block content
 	.row#details
 		.span8.offset2
 			p.second Details
-			p #{data.site.url} can resolve as #{data.site.ip}
+			p #{data.site.url} can resolve as
+			ol.unstyled
+				each item in data.site.ip
+					li= item
 	.row
 		.span3.offset3
 				if data.answer.length == 1

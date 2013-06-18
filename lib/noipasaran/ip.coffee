@@ -233,7 +233,7 @@ module.exports = (app) ->
 					getAddress(a, (address) ->
 						addresses.push(address) if not _.isUndefined(address)
 					) for a in answer.answer
-					response.addresses = addresses
+					response.addresses = addresses.sort()
 				)
 				req.on('end', () ->
 					delta = Date.now() - start
