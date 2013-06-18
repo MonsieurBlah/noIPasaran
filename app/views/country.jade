@@ -16,8 +16,8 @@ block content
 							td= item.name
 							td
 								if item.valid == "fail"
-									p Not valid
+									p.wrong Not valid
 								else if item.valid == "ok"
-									p Valid
+									p.good Valid
 								else
 									p Timeout

@@ -5,16 +5,16 @@ block specific-css
 
 block content
 	.row
-		.span8.offset2#error
+		.span8.offset2.text-centered
 			if something
-				h1 Sorry, I don't know "#{something}"
+				p.main Sorry, I don't know "#{something}"
 			else
-				h1 This is an ERROR 404!
-				h2 You probably broke the Internet
-				h4 Or maybe the Internet broke itself
+				p.main.good This is an ERROR 404!
+				p.sub.wrong You probably broke the Internet
+				p.min Or maybe the Internet broke itself
 				p Or I made a mistake (but this is unlikely)
 				br 
-				h2 Nothing else to do? Read this :
+				p.sub Nothing else to do? Read this :
 
 	.row
 		.span8.offset2#declaration
