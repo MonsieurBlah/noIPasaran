@@ -30,6 +30,9 @@ app.configure ->
   # add connect-asset middleware
   app.use require('connect-assets')(src: "#{__dirname}/assets")
   app.use app.router
+  # add the routine check
+  app.use app.check.routine()
+
 
 app.configure 'development', ->
   app.use express.errorHandler()

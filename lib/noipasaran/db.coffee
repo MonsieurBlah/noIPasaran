@@ -100,8 +100,9 @@ module.exports = (app) ->
 		queryDeleteSite = 'DELETE FROM sites WHERE site_id = ?'
 		queryFixSite = 'UPDATE sites SET haz_problem = 1 WHERE site_id = ?'
 		queryCleanSites = 'DELETE FROM sites WHERE haz_problem = 0'
-		queryCleanSitesDate = 'DELETE FROM sites WHERE haz_problem = 0 AND date < ?'
+		queryCleanSitesDate = 'DELETE FROM sites WHERE haz_problem = 0 AND date < NOW() - INTERVAL 1 DAY'
 		queryUpdateSite = 'UPDATE sites SET hash = ? WHERE site_id = ?'
+		queryGetSitesProblem = 'SELECT * FROM sites WHERE haz_problem = 1'
 
 		@getSites = (data) ->
 			connection.query queryGetSites, (err, rows, fields) ->
@@ -159,12 +160,18 @@ module.exports = (app) ->
 				throw err if err
 				data result
 
-		@cleanSitesDate = (date, data) ->
-			connection.query queryCleanSitesDate, date, (err, result) ->
+		@cleanSitesDate = (data) ->
+			connection.query queryCleanSitesDate, (err, result) ->
 				throw err if err
-				data result
+				data result.affectedRows
 
 		@updateSite = (id, hash, data) ->
 			connection.query queryUpdateSite, [hash, id], (err, result) ->
 				throw err if err
 				data result.affectedRows
+
+		@getSitesProblem = (data) ->
+			connection.query queryGetSitesProblem, (err, rows, fields) ->
+				throw err if err 
+				row.ip = row.ip.split(',') for row in rows
+				data rows

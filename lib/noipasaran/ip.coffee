@@ -284,12 +284,4 @@ module.exports = (app) ->
 					app.dao.updateSite id, hash, (data) ->
 						result data
 
-		# clean the sites db by checking the date, the hashes and IP
-		# DO THE IP VERIFICATION !!!
-		@cleanSites = (data) ->
-			date = Date.now() - 1000 * 60 * 60 * 24
-			app.dao.cleanSitesDate date, (res) ->
-				app.dao.getSites (sites) ->
-					updateHash(site, (result)->
-					) for site in sites
-				data()			
+				

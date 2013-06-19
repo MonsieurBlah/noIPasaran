@@ -37,5 +37,5 @@ module.exports = (app) ->
 				res.json data
 
 		@cleanSites = (req, res) ->
-			app.ip.cleanSites (data) ->
+			app.check.cleanSites (data) ->
 				res.redirect '/admin/sites'
