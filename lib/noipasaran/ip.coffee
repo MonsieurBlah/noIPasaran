@@ -129,7 +129,7 @@ module.exports = (app) ->
 				forwardedIps = forwardedIpsStr.split ','
 				ipAddress = forwardedIps[0]
 			ipAddress = req.connection.remoteAddress if not ipAddress
-			ipAddress = '81.247.34.211' #BELGIQUE - BELGACOM
+			#ipAddress = '81.247.34.211' #BELGIQUE - BELGACOM
 			#ipAddress = '91.121.208.6' #FRANCE - OVH
 			#ipAddress = '124.14.80.121' #CHINE - HAIDIAN
 			#ipAddress = '92.50.20.52' #IRAN - SHAHRAD
@@ -264,14 +264,14 @@ module.exports = (app) ->
 		# get the md5 hash of the HTML code of an URL
 		getHash = (url, hash) ->
 			getRawUrl url, (raw) ->
-				urltoget = "http://noiproxy.herokuapp.com/hash/#{raw}"
+				urltoget = "http://noiproxy.ap01.aws.af.cm/hash/#{raw}"
 				request.get urltoget, (error, response, body) ->
 					if not error and response.statusCode is 200
 						hash body
 
 		# body the md5 hash of the HTML code of an URL
 		getHashIp = (ip, hash) ->
-			urltoget = "http://noiproxy.herokuapp.com/hash/#{ip}"
+			urltoget = "http://noiproxy.ap01.aws.af.cm/hash/#{ip}"
 			request.get urltoget, (error, response, body) ->
 				if not error and response.statusCode is 200
 					hash body
