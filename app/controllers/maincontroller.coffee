@@ -78,7 +78,7 @@ module.exports = (app) ->
 				throw err if err
 				app.ip.getLocalData result.site, url, result.servers, (data) ->
 					result.answer = data.local
-					res.render 'country', title: url, data: result
+					res.render 'country', title: url, data: result, country: country
 
 		@ip = (req, res) ->
 			# Get the ip

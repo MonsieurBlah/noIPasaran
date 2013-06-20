@@ -4,12 +4,15 @@ block specific-css
 	!= css('country')
 
 block content
+	.row.top
+		.span6.offset3.text-centered
+			p.main= country
 	.row
 		.span12
-			table.table.table-bordered.table-striped.table-hover.table-condensed
+			table.table.table-bordered.table-striped.table-condensed
 				thead
 					th ISP name
-					th 
+					th Result
 				tbody
 					each item in data.answer
 						tr(class=item.valid=="ok"?'success':'error')
