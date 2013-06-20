@@ -4,10 +4,10 @@ submitHandler = (dataToSend) ->
 	$.post '/help', dataToSend,
 	(data) ->
 		if data
+			# clean the form
 			$('#help-form').find('input:text').val('')
 			$('#help-form').find('select').val('Global')
 			$('#help-form').find('input:checkbox').removeAttr('checked')
-			# $('#btnspan').addClass('label label-success').text('Thanks !').delay(800).fadeIn(400)
 
 # Help form submit
 $('#help-form').on "submit", (event) ->

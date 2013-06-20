@@ -1,3 +1,4 @@
+# delete server
 $('.delete').on 'click', (event) ->
 	siteId = $(this).data("site-id")
 	button = $(this)
@@ -8,6 +9,7 @@ $('.delete').on 'click', (event) ->
 			console.log button
 			button.parent('td').parent('tr').remove()
 
+# datatable
 $(document).ready ->	
   $("#sites-table").dataTable({
   	"bPaginate" : false,

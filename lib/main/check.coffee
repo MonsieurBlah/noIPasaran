@@ -50,6 +50,3 @@ module.exports = (app) ->
 		@cleanSites = (data) ->
 			cleanSites (result) ->
 				data result
-
-		testClean = () ->
-			console.log 'Automatic test running' if not toobusy()

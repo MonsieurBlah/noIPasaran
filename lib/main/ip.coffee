@@ -129,7 +129,8 @@ module.exports = (app) ->
 				forwardedIps = forwardedIpsStr.split ','
 				ipAddress = forwardedIps[0]
 			ipAddress = req.connection.remoteAddress if not ipAddress
-			#ipAddress = '81.247.34.211' #BELGIQUE - BELGACOM
+			# UNCOMMENT THE FOLLOWING LINE TO RUN THE TESTS ON LOCAL (modify the IP and add yours)
+			# ipAddress = '81.247.34.211' #BELGIQUE - BELGACOM
 			ip ipAddress
 
 		# match the pattern of an IP

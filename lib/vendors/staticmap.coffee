@@ -7,7 +7,6 @@ module.exports = (app) ->
 
 		@getMapUrl = (clientip, serverip, data) ->
 			clientip = '81.247.98.175'
-			console.log serverip
 			app.ip.getIPInfos clientip, (clientInfos) ->
 				app.ip.getIPInfos serverip, (serverInfos) ->
 					client = "#{clientInfos.latitude},#{clientInfos.longitude}"

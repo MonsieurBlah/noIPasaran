@@ -1,7 +1,9 @@
+# call edit modal
 $('.edit').on 'click', (event) ->
 	$('#edit-modal .modal-body').load('/admin/servers/modal/' + $(this).data('server-id'))
 	$('#edit-modal').modal('show')
 
+# submit edit modal
 submitEdit = (dataToSend) ->
 	$.post '/admin/servers/edit', dataToSend, (data) ->
 		$('#edit-modal').modal('hide')
@@ -10,6 +12,7 @@ $('#editform').on "submit", (event) ->
 	event.preventDefault()
 	submitEdit($(this).serialize())
 
+# delete a server
 $('.delete').on 'click', (event) ->
 	button = $(this)
 	serverId = button.data("server-id")
@@ -17,6 +20,7 @@ $('.delete').on 'click', (event) ->
 		if data
 			button.parent('td').parent('tr').remove()
 
+# datatables
 $(document).ready ->	
   $("#servers-table").dataTable({
   	"bPaginate" : false,
@@ -24,6 +28,7 @@ $(document).ready ->
   	"bInfo": false
   	})
 
+# OFF/ON switches
 $('.off').on 'click', (event) ->
 	if not $(this).hasClass 'active'
 		serverId = $(this).data("server-id")
