@@ -86,14 +86,19 @@ module.exports = (app) ->
 		checkIfIpIsValid = (ip, prime, second, hash, valid) ->
 			testPrime = _.indexOf(_.toArray(prime.addresses), ip) > -1 if not prime.timeout
 			testSecond = _.indexOf(_.toArray(second.addresses), ip) > -1 if not second.timeout
+			testPrime = 'false' if _.isUndefined testPrime
+			testSecond = 'false' if _.isUndefined testSecond
+			console.log testPrime + ' ' + testSecond
 			testResult = switch
 				when prime.timeout and second.timeout then 'both timeout'
-				when prime.timeout or second.timeout then 'ok' if testPrime or testSecond
+				when testPrime and second.timeout then 'ok'
+				when testSecond and prime.timeout then 'ok'
 				when testPrime and testSecond then 'ok'
 				else 'fail'
 			#if testResult is 'fail'
 			#	checkValidWithHash hash, prime, second, (hashValid) -> 
 			#		testResult = hashValid
+			console.log testResult
 			valid testResult
 
 		checkValidWithHash = (hash, prime, second, valid) ->
