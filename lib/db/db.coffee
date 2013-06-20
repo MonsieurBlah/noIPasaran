@@ -9,6 +9,8 @@ module.exports = (app) ->
 			password : 'test',
 			database : 'brnrd_noipasaran'}
 
+		globalServers = null
+
 		queryInsertServer = 'INSERT INTO dns_servers SET ?'
 		queryGetServers = 'SELECT * FROM dns_servers'
 		queryGetServer = 'SELECT * FROM dns_servers WHERE dns_server_id = ?'
@@ -48,7 +50,7 @@ module.exports = (app) ->
 				throw err if err
 				data rows
 
-		@getGlobalServers = (data) ->
+		getGlobalServers = (data) ->
 			connection.query queryGetGlobalServers, (err, rows, fields) ->
 				throw err if err
 				data rows
@@ -88,6 +90,18 @@ module.exports = (app) ->
 			connection.query queryGetServerByName, name, (err, result) ->
 				throw err if err 
 				data result
+
+		# load the globals servers from the db 
+		@loadGlobalServers = () ->
+			getGlobalServers (data) ->
+				globalServers = data
+
+		@getGlobalServers = (data) ->
+			data globalServers
+
+		# refresh the globals servers every hours
+		@refreshGlobalServers = () ->
+			setInterval(app.dao.loadGlobalServers, 3600000)
 
 		#########
 		# Sites #

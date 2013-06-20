@@ -32,6 +32,10 @@ app.configure ->
   app.use app.router
   # add the routine check
   app.use app.check.routine()
+  # Load the globals servers from the DB in RAM
+  app.use app.dao.loadGlobalServers()
+  # Start the global servers for the auto-refresh of the DB in the RAM
+  app.use app.dao.refreshGlobalServers()
 
 
 app.configure 'development', ->
