@@ -12,6 +12,7 @@ module.exports = (app) ->
 			result = new Object()
 			# resolve the url on all the servers
 			resolveLocalServers url, servers, (localAnswers) ->
+				console.log localAnswers
 				fixed = site.haz_problem
 				# check the validity of all the answers
 				checkIfAnswerIsValid(site.ip, answer, site.hash, (valid) ->
@@ -132,7 +133,7 @@ module.exports = (app) ->
 			#ipAddress = '81.247.34.211' #BELGIQUE - BELGACOM
 			#ipAddress = '91.121.208.6' #FRANCE - OVH
 			#ipAddress = '124.14.80.121' #CHINE - HAIDIAN
-			#ipAddress = '92.50.20.52' #IRAN - SHAHRAD
+			ipAddress = '92.50.20.52' #IRAN - SHAHRAD
 			#ipAddress = '185.50.20.52' #UK - ???
 			ip ipAddress
 
@@ -225,7 +226,7 @@ module.exports = (app) ->
 				req = dns_.Request({
 					question: question,
 					server: {address: server},
-					timeout: 500
+					timeout: 1000
 					})
 				req.on('timeout', () ->
 					response.timeout = true

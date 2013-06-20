@@ -9,6 +9,7 @@ module.exports = (app) ->
 
 		# clean the sites db by checking the date, the hashes and IP
 		# DO THE IP VERIFICATION !!!
+		# ADD TOOBUSY
 		cleanSites = (data) ->
 			console.info 'Start cleaning sites database'
 			date = Date.now()# - 1000 * 60 * 60 * 24
